@@ -1,0 +1,11 @@
+{
+  "status": null,
+  "pushResults": [
+    {
+      "target": "1AC7656A-8760-45C9-8E77-1D47B0482E92",
+      "notificationId": "0f6dbe53-0ee6-454c-bfd7-73100beaa355",
+      "code": 0,
+      "message": "success"
+    }
+  ]
+}

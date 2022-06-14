@@ -8,6 +8,7 @@
 
 ## Requirements and Setup
 
+<!--
 The Java integration for SAP Mobile Services can simply be included as a Maven dependency:
 
 ```xml
@@ -17,6 +18,7 @@ The Java integration for SAP Mobile Services can simply be included as a Maven d
     <version>//ENTER LATEST BUILD VERSION//</version>
 </dependency>
 ```
+-->
 
 Basic initialization of a PushClient:
 

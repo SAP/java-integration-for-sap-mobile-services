@@ -1,0 +1,7 @@
+{
+  "status": {
+    "code": 400,
+    "message": "no registrations for given user names found",
+    "parameters": null
+  }
+}

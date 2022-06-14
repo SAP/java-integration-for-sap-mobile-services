@@ -1,0 +1,12 @@
+{
+  "alert": "Hello World",
+  "gcm": {
+    "title": "Hello World from GCM",
+    "body": "Sent by the CPMS Push Library"
+  },
+  "apns": {
+    "alertTitle": "Hello World from APNS",
+    "alertSubtitle": "With some subtitle",
+    "alertBody": "Sent by the CPMS Push Library"
+  }
+}

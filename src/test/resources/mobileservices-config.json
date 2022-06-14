@@ -1,0 +1,17 @@
+{
+  "server": "https://any.mobile.application.url.com",
+  "platform": "CF",
+  "applicationId": "applicationId",
+  "services": [
+    {
+      "name": "push",
+      "serviceKeys": [
+        {
+          "alias": "myAlias",
+          "url": "https://service.key.url.com/2787d5ea-17cb-4c71-85ca-a9600d4b97c9",
+          "apiKey": "apiKey"
+        }
+      ]
+    }
+  ]
+}

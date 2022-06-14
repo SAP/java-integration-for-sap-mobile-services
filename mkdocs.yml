@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: Java integration for SAP Mobile Services
+theme:
+  name: material
+  features:
+    - navigation.tabs
+nav:
+  - 'Home':
+    - 'Introduction': 'index.md'
+    - 'Getting Started': 'gettingstarted.md'
+  - 'Notification Backend API': 'push/index.md'
+markdown_extensions:
+  - meta
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

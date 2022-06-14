@@ -1,0 +1,15 @@
+{
+    "status": {
+        "code": 0,
+        "message": null,
+        "parameters": null
+    },
+    "statusDetails": {
+        "notificationId": "f05177f5-5931-4397-9654-a7563f3e9851",
+        "applicationId": null,
+        "notificationType": "ios",
+        "status": "SENT",
+        "statusInfo": null,
+        "caller": "anyone"
+    }
+}

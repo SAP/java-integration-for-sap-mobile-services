@@ -1,0 +1,17 @@
+{
+  "status": null,
+  "pushResults": [
+    {
+      "target": "352e4c46-e0d4-4c36-9b3b-bade4ffc784c",
+      "notificationId": "d050ac67-9a8b-4b68-9c39-5b7a61f0c40d",
+      "code": 0,
+      "message": "success"
+    },
+    {
+      "target": "f588b48f-2bd3-4ef0-bd9c-7e486d1b50fd",
+      "notificationId": "727ac78a-ce89-4913-aaa4-9bcb454c2d3e",
+      "code": 0,
+      "message": "success"
+    }
+  ]
+}
