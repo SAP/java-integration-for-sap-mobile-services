@@ -1,0 +1,119 @@
+{
+  "third-party-service": [
+    {
+      "label": "third-party-service",
+      "provider": null,
+      "plan": "standard",
+      "name": "third-party-service-instance",
+      "tags": [
+        "3rd-party",
+        "service"
+      ],
+      "instance_guid": "74b66616-2f5d-46f7-97c1-cb702fbea6ac",
+      "instance_name": "third-party-service-instance",
+      "binding_guid": "7435922a-9834-471e-b435-0460670db18d",
+      "binding_name": null,
+      "credentials": {
+        "key1": "val1",
+        "key2": [
+          "foo",
+          "bar"
+        ]
+      },
+      "syslog_drain_url": null,
+      "volume_mounts": []
+    }
+  ],
+  "mobile-services": [
+    {
+      "label": "mobile-services",
+      "provider": null,
+      "plan": "standard",
+      "name": "appName1",
+      "tags": [
+        "instance-service",
+        "mobileservice",
+        "application-service"
+      ],
+      "instance_guid": "8fda5e8f-a82b-44b7-99e7-89dc4e732daa",
+      "instance_name": "appName1",
+      "binding_guid": "05758d9b-50dc-4f65-afbc-a515741e88ec",
+      "binding_name": null,
+      "credentials": {
+        "url": "instanceUrl",
+        "endpoints": {
+          "mobileservices": {
+            "url": "https://anyUrl",
+            "timeout": 160000
+          }
+        },
+        "saasregistryenabled": true,
+        "sap.cloud.service": "appName1",
+        "uaa": {
+          "clientid": "clientId",
+          "clientsecret": "clientSecret",
+          "url": "uaaUrl",
+          "identityzone": "identityZone",
+          "identityzoneid": "identityZoneId",
+          "tenantid": "tenantId",
+          "tenantmode": "dedicated",
+          "sburl": "sbUrl",
+          "apiurl": "apiUrl",
+          "verificationkey": "publicKey",
+          "xsappname": "xsAppName",
+          "subaccountid": "subaccountId",
+          "uaadomain": "uaaDomain",
+          "zoneid": "zonId",
+          "credential-type": "credType"
+        }
+      },
+      "syslog_drain_url": null,
+      "volume_mounts": []
+    },
+    {
+      "label": "mobile-services",
+      "provider": null,
+      "plan": "standard",
+      "name": "appName2",
+      "tags": [
+        "instance-service",
+        "mobileservice",
+        "application-service"
+      ],
+      "instance_guid": "d22b5d73-dbec-4d18-adad-482a135ca1cd",
+      "instance_name": "appName2",
+      "binding_guid": "79e9b564-9703-44cf-9e88-937bbdbaa8f3",
+      "binding_name": null,
+      "credentials": {
+        "url": "instanceUrl",
+        "endpoints": {
+          "mobileservices": {
+            "url": "https://anyUrl",
+            "timeout": 160000
+          }
+        },
+        "saasregistryenabled": true,
+        "sap.cloud.service": "appName2",
+        "uaa": {
+          "clientid": "clientId",
+          "clientsecret": "clientSecret",
+          "url": "uaaUrl",
+          "identityzone": "identityZone",
+          "identityzoneid": "identityZoneId",
+          "tenantid": "tenantId",
+          "tenantmode": "dedicated",
+          "sburl": "sbUrl",
+          "apiurl": "apiUrl",
+          "verificationkey": "publicKey",
+          "xsappname": "xsAppName",
+          "subaccountid": "subaccountId",
+          "uaadomain": "uaaDomain",
+          "zoneid": "zonId",
+          "credential-type": "credType"
+        }
+      },
+      "syslog_drain_url": null,
+      "volume_mounts": []
+    }
+  ]
+}
