@@ -1,0 +1,33 @@
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+.classpath
+.classpath-atom
+.project
+.settings/
+.sts4-cache/
+.vscode/
+
+.factorypath
+.checkstyle
+
+hs_err_pid*
+.attach_pid*
+
+.DS_Store
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
