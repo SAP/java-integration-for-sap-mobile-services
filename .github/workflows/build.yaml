@@ -21,7 +21,7 @@ jobs:
           java-version: '11'
           cache: maven
       - run: |
-          VERSION=$( ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout )
+          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "artifactVersion=$VERSION" >> $GITHUB_ENV
       - name: Build with Maven
         run: mvn -B package --file pom.xml
