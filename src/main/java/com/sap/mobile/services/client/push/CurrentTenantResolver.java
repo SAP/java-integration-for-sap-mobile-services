@@ -7,6 +7,7 @@ import java.util.function.Supplier;
  * The CurrentTenantResolver implementation resolves the current tenant context
  * when using service binding configuration that supports multi tenancy.
  */
+@FunctionalInterface
 public interface CurrentTenantResolver extends Supplier<Optional<String>> {
 
 	/**
