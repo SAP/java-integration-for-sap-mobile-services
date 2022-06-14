@@ -27,7 +27,7 @@ jobs:
         run: mvn -B package --file pom.xml
       - uses: actions/upload-artifact@v3
         with:
-          path: target/push-client-java-${{artifactVersion}}.jar
+          path: target/push-client-java-${{ env.artifactVersion }}.jar
       - uses: actions/upload-artifact@v3
         with:
-          path: target/push-client-java-${{artifactVersion}}-javadoc.jar
+          path: target/push-client-java-${{ env.artifactVersion }}-javadoc.jar
