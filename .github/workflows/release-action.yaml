@@ -14,23 +14,6 @@ on:
         required: true
         description: The type of action (javascript, docker)
         type: string
-  workflow_dispatch:
-    inputs:
-      name:
-        required: true
-        description: The name (folder name) of the action
-        type: string
-      version:
-        required: true
-        description: The release version
-        type: string
-      type:
-        required: true
-        description: The type of action (javascript, docker)
-        type: choice
-        options:
-          - javascript
-          - docker
 jobs:
   build-action:
     runs-on: ubuntu-latest
