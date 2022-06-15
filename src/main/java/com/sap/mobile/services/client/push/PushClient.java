@@ -108,7 +108,7 @@ public interface PushClient {
 	PushResponse bulkPush(LocalizedPushPayload rootNotification, Collection<LocalizedUserNotification> userNotifications);
 
 	/**
-	 * TODO doc
+	 * Triggers notifications to devices that have been registered with a certain capability.
 	 *
 	 * @param capability                capability
 	 * @param pushToCapabilitiesPayload payload
@@ -118,8 +118,7 @@ public interface PushClient {
 			throws ClientException;
 
 	/**
-	 * Retrieve the notification status by its ID. Notification status are available
-	 * for a limited time after send.
+	 * Triggers notifications to devices that have been registered with a certain capability.
 	 *
 	 * @param capability                capability
 	 * @param pushToCapabilitiesPayload payload
@@ -129,7 +128,7 @@ public interface PushClient {
 			throws ClientException;
 
 	/**
-	 * TODO doc
+	 * Retrieve the notification status by its ID. Notification status are available for a limited time after send.
 	 *
 	 * @param notificationId notificationId
 	 * @return response
@@ -137,10 +136,10 @@ public interface PushClient {
 	NotificationStatusResponse getNotificationStatus(String notificationId);
 
 	/**
-	 * TODO doc
+	 * Retrieve the set of user locales for user ids and all registered locales, if userIds is null or empty.
 	 *
-	 * @param userIds
-	 * @return set of locales relevant for the set of user ids. All registered locales, if userIds is null or empty.
+	 * @param userIds userIds
+	 * @return set of locales
 	 */
 	Set<String> getLocalizations(Collection<String> userIds);
 }
