@@ -105,7 +105,8 @@ public interface PushClient {
 	 * @param userNotifications user notification objects
 	 * @return response
 	 */
-	PushResponse bulkPush(LocalizedPushPayload rootNotification, Collection<LocalizedUserNotification> userNotifications);
+	PushResponse bulkPush(LocalizedPushPayload rootNotification,
+			Collection<LocalizedUserNotification> userNotifications);
 
 	/**
 	 * Triggers notifications to devices that have been registered with a certain capability.
@@ -128,7 +129,7 @@ public interface PushClient {
 			throws ClientException;
 
 	/**
-	 * Retrieve the notification status by its ID. Notification status are available for a limited time after send.
+	 * Retrieve the notification status by its ID.
 	 *
 	 * @param notificationId notificationId
 	 * @return response
@@ -136,7 +137,8 @@ public interface PushClient {
 	NotificationStatusResponse getNotificationStatus(String notificationId);
 
 	/**
-	 * Retrieve the set of user locales for user ids and all registered locales, if userIds is null or empty.
+	 * Retrieve the set of locales for a set of user ids and their registered locale. If userIds is null, all registered
+	 * locales are returned.
 	 *
 	 * @param userIds userIds
 	 * @return set of locales
