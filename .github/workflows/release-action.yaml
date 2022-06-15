@@ -76,6 +76,8 @@ jobs:
           ACTIONS_TAG: actions_${{ inputs.name }}_${{ inputs.version }}
           ACTIONS_TAG_MESSAGE: 'Release build of ${{ inputs.name }} action version ${{ inputs.version }}'
         run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com" 
+          git config user.name "github-actions[bot]" 
           git add -u
           git commit -m "$ACTIONS_TAG_MESSAGE"
           git tag -a "$ACTIONS_TAG" -m "$ACTIONS_TAG_MESSAGE" -f
