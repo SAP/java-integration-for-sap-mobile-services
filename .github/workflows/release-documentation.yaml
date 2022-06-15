@@ -1,0 +1,51 @@
+name: Release Documentation
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Build Documentation
+        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
+      - uses: actions/upload-artifact@v3
+        with:
+          name: documentation-build
+          path: site/**
+  publish-documentation:
+    runs-on: ubuntu-latest
+    needs:
+      - 'build-documentation'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+          BRANCH=$( echo $GITHUB_REF | cut -d'/' -f 3 )
+          echo "branch=$BRANCH" >> $GITHUB_ENV
+      - env:
+          DOC_RELEASE_FOLDER: ${{ env.branch }}
+        run: |
+          git checkout gh-pages || git checkout --orphan gh-pages
+          mkdir -p $DOC_RELEASE_FOLDER
+          git rm -rf $DOC_RELEASE_FOLDER
+          git clean -fxd
+          mkdir $DOC_RELEASE_FOLDER
+      - uses: actions/download-artifact@v3
+        with:
+          name: actions-build
+          path: ${{ env.branch }}
+      - env:
+          DOCS_COMMIT_MESSAGE: 'Update documentation for ${{ env.branch }}'
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com" 
+          git config user.name "github-actions[bot]" 
+          git add .
+          git commit -m "$DOCS_COMMIT_MESSAGE"
+          git remote rm origin
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push origin gh-pages
