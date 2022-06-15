@@ -38,7 +38,7 @@ jobs:
           mkdir -p $DOC_RELEASE_FOLDER
       - uses: actions/download-artifact@v3
         with:
-          name: actions-build
+          name: documentation-build
           path: ${{ env.branch }}
       - env:
           DOCS_COMMIT_MESSAGE: 'Update documentation for ${{ env.branch }}'
