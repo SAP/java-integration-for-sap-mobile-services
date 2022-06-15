@@ -1,0 +1,80 @@
+name: Release Single Action
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        description: The name (folder name) of the action
+        type: string
+      version:
+        required: true
+        description: The release version
+        type: string
+      type:
+        required: true
+        description: The type of action (javascript, docker)
+        type: choice
+        options:
+          - javascript
+          - docker
+  workflow_dispatch:
+    inputs:
+      name:
+        required: true
+        description: The name (folder name) of the action
+        type: string
+      version:
+        required: true
+        description: The release version
+        type: string
+      type:
+        required: true
+        description: The type of action (javascript, docker)
+        type: choice
+        options:
+          - javascript
+          - docker
+jobs:
+  build-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        if: ${{ inputs.name == 'javascript' }}
+        with:
+          node-version: 16
+      - run: |
+          npm i
+          npx @vercel/ncc build index.js
+          mv index.js index.orig.js
+          mv dist/index.js index.js
+        if: ${{ inputs.name == 'javascript' }}
+        working-directory: .github/actions/${{ inputs.name }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: actions-build
+          path: |
+            .github/actions/${{ inputs.name }}/!(node_modules)/**
+            .github/actions/${{ inputs.name }}/!(node_modules)
+  release-action:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - env:
+          ACTIONS_BRANCH: actions_${{ inputs.name }}_${{ inputs.version }}
+        run: git checkout --orphan $ACTIONS_BRANCH || git branch -D $ACTIONS_BRANCH && git checkout --orphan $ACTIONS_BRANCH
+      - run: rm -rf **
+      - uses: actions/download-artifact@v3
+        with:
+          name: actions-build
+      - run: git add -u
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Release action"
+          create_branch: true
+          push_options: '--force'
+          branch: actions_${{ inputs.name }}_${{ inputs.version }}
