@@ -114,8 +114,7 @@ public class PushClientMockedTest {
 						.alert("Hello World")
 						.build());
 
-		//TODO: check why status = null
-		//assertThat(response.getStatus().getCode(), is(0));
+		assertThat(response.getStatus(), is(nullValue()));
 
 		assertThat(response.getResults(), hasSize(2));
 		assertThat(response.getResults().get(0).getCode(), is(0));
