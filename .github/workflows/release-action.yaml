@@ -13,10 +13,7 @@ on:
       type:
         required: true
         description: The type of action (javascript, docker)
-        type: choice
-        options:
-          - javascript
-          - docker
+        type: string
   workflow_dispatch:
     inputs:
       name:
