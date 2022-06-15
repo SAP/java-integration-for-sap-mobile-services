@@ -75,10 +75,10 @@ jobs:
       - env:
           ACTIONS_TAG: actions_${{ inputs.name }}_${{ inputs.version }}
           ACTIONS_TAG_MESSAGE: 'Release build of ${{ inputs.name }} action version ${{ inputs.version }}'
-          REMOTE_URL: 'https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git'
         run: |
           git add -u
+          git commit -m "$ACTIONS_TAG_MESSAGE"
           git tag -a "$ACTIONS_TAG" -m "$ACTIONS_TAG_MESSAGE" -f
           git remote rm origin
-          git remote add origin "$REMOTE_URL"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git push -f origin refs/tags/$ACTIONS_TAG
