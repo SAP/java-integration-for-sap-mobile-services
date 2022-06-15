@@ -34,7 +34,7 @@ jobs:
         working-directory: .github/actions/${{ inputs.name }}
       - uses: actions/upload-artifact@v3
         with:
-          name: actions-build
+          name: ${{ inputs.name }}_actions-build
           path: |
             .github/actions/${{ inputs.name }}/**
             !.github/actions/${{ inputs.name }}/node_modules
@@ -54,7 +54,7 @@ jobs:
           git clean -fxd
       - uses: actions/download-artifact@v3
         with:
-          name: actions-build
+          name: ${{ inputs.name }}_actions-build
       - env:
           ACTIONS_TAG: actions_${{ inputs.name }}_${{ inputs.version }}
           ACTIONS_TAG_MESSAGE: 'Release build of ${{ inputs.name }} action version ${{ inputs.version }}'
