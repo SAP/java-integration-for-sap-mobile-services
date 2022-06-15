@@ -32,10 +32,9 @@ jobs:
           DOC_RELEASE_FOLDER: ${{ env.branch }}
         run: |
           git checkout gh-pages || git checkout --orphan gh-pages
+          git rm -rf $DOC_RELEASE_FOLDER || true
+          git clean -fxd || true
           mkdir -p $DOC_RELEASE_FOLDER
-          git rm -rf $DOC_RELEASE_FOLDER
-          git clean -fxd
-          mkdir $DOC_RELEASE_FOLDER
       - uses: actions/download-artifact@v3
         with:
           name: actions-build
