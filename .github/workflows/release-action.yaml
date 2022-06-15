@@ -72,10 +72,13 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: actions-build
-      - run: git add -u
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Release action"
-          create_branch: true
-          push_options: '--force'
-          branch: actions_${{ inputs.name }}_${{ inputs.version }}
+      - env:
+          ACTIONS_TAG: actions_${{ inputs.name }}_${{ inputs.version }}
+          ACTIONS_TAG_MESSAGE: 'Release build of ${{ inputs.name }} action version ${{ inputs.version }}'
+          REMOTE_URL: 'https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git'
+        run: |
+          git add -u
+          git tag -a "$ACTIONS_TAG" -m "$ACTIONS_TAG_MESSAGE" -f
+          git remote rm origin
+          git remote add origin "$REMOTE_URL"
+          git push -f origin refs/tags/$ACTIONS_TAG
