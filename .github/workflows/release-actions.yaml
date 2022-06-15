@@ -25,7 +25,7 @@ jobs:
   publish-bump-version-actions:
     needs:
       - 'retrieve-version'
-    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'bump-version'
       version: ${{ needs.retrieve-version.outputs.version }}
