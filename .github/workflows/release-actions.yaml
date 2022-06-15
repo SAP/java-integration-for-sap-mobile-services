@@ -30,3 +30,11 @@ jobs:
       name: 'bump-version'
       version: ${{ needs.retrieve-version.outputs.version }}
       type: 'javascript'
+  publish-build-mkdocs-actions:
+    needs:
+      - 'retrieve-version'
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
+    with:
+      name: 'build-mkdocs'
+      version: ${{ needs.retrieve-version.outputs.version }}
+      type: 'docker'
