@@ -1,0 +1,57 @@
+name: PR Voter
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+    branches:
+      - main
+      - rel/**
+jobs:
+  rebase:
+    name: Rebase project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - env:
+          TARGET_BRANCH: ${{ github.base_ref }}
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com" 
+          git config user.name "github-actions[bot]"
+          git remote rm origin
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch origin $TARGET_BRANCH
+          git rebase origin/$TARGET_BRANCH
+      - uses: actions/upload-artifact@v3
+        with:
+          name: rebased-project
+          path: ${{ github.workspace }}/**
+  build-maven:
+    runs-on: ubuntu-latest
+    name: Build Maven Project
+    needs:
+      - rebase
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: rebased-project
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+  build-docs:
+    runs-on: ubuntu-latest
+    name: Build Documentation
+    needs:
+      - rebase
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: rebased-project
+      - name: Build Documentation
+        #        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
+        uses: ./.github/actions/build-mkdocs
