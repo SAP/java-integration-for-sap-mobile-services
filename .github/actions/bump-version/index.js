@@ -38,5 +38,5 @@ try {
 }
 
 function toBranch(version) {
-    return `${version.major}.${version.minor}.x`;
+    return `rel/${version.major}.${version.minor}.x`;
 }
