@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 
 @Getter(AccessLevel.PACKAGE)
 @SuperBuilder
-class XsuaaClientConfiguration extends ClientConfiguration {
+public class XsuaaClientConfiguration extends ClientConfiguration {
 	private String rootUri;
 	private ClientCredentialsTokenFlow xsuaaTokenFlow;
 

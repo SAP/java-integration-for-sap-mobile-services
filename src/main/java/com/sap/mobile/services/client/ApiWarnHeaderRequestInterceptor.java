@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import java.io.IOException;
 
@@ -10,8 +10,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @see <a href=
- *      "https://github.tools.sap/northstar/integration-kernel-services/blob/master/ap-iks-api-guidance/rest-api-harmonization/1.4.md">https://github.tools.sap/northstar/integration-kernel-services/blob/master/ap-iks-api-guidance/rest-api-harmonization/1.4.md</a>
+ * This interceptor does a warn logging, once the X-API-Warn header is present, which is used for deprecated APIs.
  */
 @Slf4j
 class ApiWarnHeaderRequestInterceptor implements ClientHttpRequestInterceptor {

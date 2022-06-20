@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import java.io.IOException;
 import java.io.InputStream;

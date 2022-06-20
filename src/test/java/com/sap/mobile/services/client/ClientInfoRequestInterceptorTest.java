@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,7 +9,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
 
-public class ClientVersionRequestInterceptorTest {
+public class ClientInfoRequestInterceptorTest {
 
 	private ClientInfoRequestInterceptor testee;
 

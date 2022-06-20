@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
+import com.sap.mobile.services.client.BuildProperties;
+import com.sap.mobile.services.client.XsuaaAuthorizationRequestInterceptor;
+import com.sap.mobile.services.client.XsuaaClientConfiguration;
 
 public class XsuaaClientConfigurationTest {
 

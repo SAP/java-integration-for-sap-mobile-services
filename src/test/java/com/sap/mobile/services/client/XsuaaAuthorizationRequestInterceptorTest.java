@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -28,6 +28,7 @@ import org.springframework.web.client.RestClientException;
 import com.sap.cloud.security.xsuaa.client.OAuth2TokenResponse;
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
 import com.sap.cloud.security.xsuaa.tokenflows.TokenFlowException;
+import com.sap.mobile.services.client.XsuaaAuthorizationRequestInterceptor;
 
 public class XsuaaAuthorizationRequestInterceptorTest {
 

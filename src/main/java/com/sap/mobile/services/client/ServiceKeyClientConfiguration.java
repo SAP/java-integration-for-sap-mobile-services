@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 @Getter(AccessLevel.PACKAGE)
 @SuperBuilder
-class ServiceKeyClientConfiguration extends ClientConfiguration {
+public class ServiceKeyClientConfiguration extends ClientConfiguration {
 	private MobileServicesSettings.ServiceKey serviceKey;
 
 	@Override

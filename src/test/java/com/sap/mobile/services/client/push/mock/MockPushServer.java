@@ -14,8 +14,8 @@ import org.springframework.test.web.client.RequestMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.sap.mobile.services.client.push.MobileServicesBinding;
-import com.sap.mobile.services.client.push.MobileServicesSettings;
+import com.sap.mobile.services.client.MobileServicesBinding;
+import com.sap.mobile.services.client.MobileServicesSettings;
 
 public class MockPushServer {
 

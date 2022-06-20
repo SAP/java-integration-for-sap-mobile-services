@@ -2,7 +2,6 @@ package com.sap.mobile.services.client.push;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -14,6 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.sap.mobile.services.client.ClientBuilderUtils;
+import com.sap.mobile.services.client.ClientConfiguration;
+import com.sap.mobile.services.client.ClientException;
+import com.sap.mobile.services.client.RestTemplateResponseErrorHandler;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,15 +37,8 @@ class RestTemplatePushClient implements PushClient {
 		Assert.notNull(config, "Config must not be null.");
 
 		RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-		restTemplateBuilder = Optional.ofNullable(config.getConnectTimeout())
-				.map(restTemplateBuilder::setConnectTimeout).orElse(restTemplateBuilder);
-		restTemplateBuilder = Optional.ofNullable(config.getReadTimeout()).map(restTemplateBuilder::setReadTimeout)
-				.orElse(restTemplateBuilder);
-		restTemplateBuilder = restTemplateBuilder
-				.additionalInterceptors(new ClientInfoRequestInterceptor(BuildProperties.getInstance()));
-		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(config.getAuthInterceptor());
-		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(new ApiWarnHeaderRequestInterceptor());
-		restTemplateBuilder = restTemplateBuilder.rootUri(config.getRootUri());
+		restTemplateBuilder = ClientBuilderUtils.addBasicConfiguraiton(restTemplateBuilder, config);
+		restTemplateBuilder = ClientBuilderUtils.addDefaultInterceptors(restTemplateBuilder);
 		restTemplateBuilder = restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler());
 		this.restTemplate = restTemplateBuilder.build();
 		this.config = config;
@@ -51,7 +48,7 @@ class RestTemplatePushClient implements PushClient {
 	public PushResponse pushToApplication(final PushPayload pushPayload) throws ClientException {
 		DTOPushPayload payload = new DTOPushPayload(pushPayload);
 		RequestEntity<DTOPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V1.PUSH_TO_APPLICATION_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_APPLICATION_PATH,
 								this.basicPathVariables().build())
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -63,7 +60,7 @@ class RestTemplatePushClient implements PushClient {
 	public PushResponse pushToApplication(LocalizedPushPayload pushPayload) throws ClientException {
 		DTOLocalizedPushPayload payload = new DTOLocalizedPushPayload(pushPayload);
 		RequestEntity<DTOLocalizedPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V2.PUSH_TO_APPLICATION_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_APPLICATION_PATH,
 								this.basicPathVariables().build())
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -76,7 +73,7 @@ class RestTemplatePushClient implements PushClient {
 			ClientException {
 		DTOPushPayload payload = new DTOPushPayload(pushPayload);
 		RequestEntity<DTOPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V1.PUSH_TO_USER_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_USER_PATH,
 								this.basicPathVariables().put("userId", userId).putAndBuild("deviceId", deviceId))
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -89,7 +86,7 @@ class RestTemplatePushClient implements PushClient {
 			throws ClientException {
 		DTOLocalizedPushPayload payload = new DTOLocalizedPushPayload(pushPayload);
 		RequestEntity<DTOLocalizedPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V2.PUSH_TO_USER_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_USER_PATH,
 								this.basicPathVariables().put("userId", userId).putAndBuild("deviceId", deviceId))
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -102,7 +99,7 @@ class RestTemplatePushClient implements PushClient {
 			ClientException {
 		DTOPushToUsersPayload payload = new DTOPushToUsersPayload(new ArrayList<>(userIds), pushPayload);
 		RequestEntity<DTOPushToUsersPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V1.PUSH_TO_USERS_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_USERS_PATH,
 								this.basicPathVariables().build())
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -116,7 +113,7 @@ class RestTemplatePushClient implements PushClient {
 		DTOLocalizedPushToUsersPayload payload =
 				new DTOLocalizedPushToUsersPayload(new ArrayList<>(userIds), pushPayload);
 		RequestEntity<DTOLocalizedPushToUsersPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V2.PUSH_TO_USERS_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_USERS_PATH,
 								this.basicPathVariables().build())
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -128,7 +125,7 @@ class RestTemplatePushClient implements PushClient {
 	public PushResponse pushToGroup(final String group, final PushPayload pushPayload) throws ClientException {
 		DTOPushPayload payload = new DTOPushPayload(pushPayload);
 		RequestEntity<DTOPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V1.PUSH_TO_GROUP_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_GROUP_PATH,
 								this.basicPathVariables().putAndBuild("group", group))
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -140,7 +137,7 @@ class RestTemplatePushClient implements PushClient {
 	public PushResponse pushToGroup(String group, LocalizedPushPayload pushPayload) throws ClientException {
 		DTOLocalizedPushPayload payload = new DTOLocalizedPushPayload(pushPayload);
 		RequestEntity<DTOLocalizedPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V2.PUSH_TO_GROUP_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_GROUP_PATH,
 								this.basicPathVariables().putAndBuild("group", group))
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -154,7 +151,7 @@ class RestTemplatePushClient implements PushClient {
 			ClientException {
 		DTOPushToCapabilitiesPayload payload = new DTOPushToCapabilitiesPayload(pushToCapabilitiesPayload);
 		RequestEntity<DTOPushToCapabilitiesPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V1.PUSH_TO_CAPABILITY_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_CAPABILITY_PATH,
 								this.basicPathVariables().putAndBuild("capabilityName", capability))
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -168,7 +165,7 @@ class RestTemplatePushClient implements PushClient {
 		DTOLocalizedPushToCapabilitiesPayload payload =
 				new DTOLocalizedPushToCapabilitiesPayload(pushToCapabilitiesPayload);
 		RequestEntity<DTOLocalizedPushToCapabilitiesPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V2.PUSH_TO_CAPABILITY_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_CAPABILITY_PATH,
 								this.basicPathVariables().putAndBuild("capabilityName", capability))
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -181,7 +178,7 @@ class RestTemplatePushClient implements PushClient {
 			final Collection<UserNotification> userNotifications) {
 		DTOBulkPushPayload payload = new DTOBulkPushPayload(rootNotification, userNotifications);
 		RequestEntity<DTOBulkPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V1.BULK_PUSH_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.BULK_PUSH_PATH,
 								this.basicPathVariables().build())
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -194,7 +191,7 @@ class RestTemplatePushClient implements PushClient {
 			Collection<LocalizedUserNotification> userNotifications) {
 		DTOLocalizedBulkPush payload = new DTOLocalizedBulkPush(rootNotification, userNotifications);
 		RequestEntity<DTOLocalizedBulkPush> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Paths.Backend.V1.BULK_PUSH_PATH,
+				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.BULK_PUSH_PATH,
 								this.basicPathVariables().build())
 						.headers(this.basicHeaders())
 						.body(payload);
@@ -205,7 +202,7 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public NotificationStatusResponse getNotificationStatus(final String notificationId) {
 		RequestEntity<Void> request =
-				RequestEntity.method(HttpMethod.GET, Constants.Paths.Backend.V1.GET_NOTIFICATION_STATUS,
+				RequestEntity.method(HttpMethod.GET, Constants.Backend.V1.Paths.GET_NOTIFICATION_STATUS,
 								this.basicPathVariables().putAndBuild("notificationId", notificationId))
 						.headers(this.basicHeaders())
 						.build();
@@ -217,8 +214,8 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public Set<String> getLocalizations(Collection<String> userIds) {
 		RequestEntity<Void> request = RequestEntity.method(HttpMethod.GET,
-				UriComponentsBuilder.fromPath(Constants.Paths.Backend.V2.GET_LOCALIZATIONS)
-						.queryParam(Constants.Params.Backend.V2.GET_LOCALIZATIONS_USER_PARAM, userIds)
+				UriComponentsBuilder.fromPath(Constants.Backend.V2.Paths.GET_LOCALIZATIONS)
+						.queryParam(Constants.Backend.V2.Params.GET_LOCALIZATIONS_USER_PARAM, userIds)
 						.build(this.basicPathVariables().build()).toString()).headers(this.basicHeaders()).build();
 		ParameterizedTypeReference<Set<String>> type = new ParameterizedTypeReference<Set<String>>() {
 		};

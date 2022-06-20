@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasKey;
@@ -13,6 +13,8 @@ import java.util.function.Function;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.sap.mobile.services.client.MobileServicesBinding;
 
 public class MobileServicesBindingTest {
 

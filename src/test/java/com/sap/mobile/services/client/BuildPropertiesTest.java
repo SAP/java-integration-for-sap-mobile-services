@@ -1,7 +1,9 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.sap.mobile.services.client.BuildProperties;
 
 public class BuildPropertiesTest {
 

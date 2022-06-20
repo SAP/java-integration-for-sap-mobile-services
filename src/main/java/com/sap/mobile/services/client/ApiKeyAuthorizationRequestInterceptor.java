@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import java.io.IOException;
 
@@ -7,19 +7,20 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
+import com.sap.mobile.services.client.MobileServicesSettings.ServiceKey;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ClientInfoRequestInterceptor implements ClientHttpRequestInterceptor {
+class ApiKeyAuthorizationRequestInterceptor implements ClientHttpRequestInterceptor {
 
-	private final BuildProperties props;
+	private final ServiceKey serviceKey;
 
 	@Override
 	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 			throws IOException {
-		request.getHeaders().set(Constants.Headers.CLIENT_VERSION_HEADER_NAME, this.props.getVersion());
-		request.getHeaders().set(Constants.Headers.CLIENT_LANGUAGE_HEADER_NAME, "Java");
+		request.getHeaders().set(Constants.Headers.SERVICE_KEY_AUTH_HEADER, this.serviceKey.getApiKey());
 		return execution.execute(request, body);
 	}
 }

@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -6,13 +6,12 @@ import java.util.function.Supplier;
 
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
-@Getter(AccessLevel.PACKAGE)
+@Getter
 @SuperBuilder
-abstract class ClientConfiguration {
+abstract public class ClientConfiguration {
 	private BuildProperties buildProperties;
 
 	private String applicationId;

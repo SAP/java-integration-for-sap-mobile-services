@@ -9,6 +9,15 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
+import com.sap.mobile.services.client.BuildProperties;
+import com.sap.mobile.services.client.ClientConfiguration;
+import com.sap.mobile.services.client.CustomAuthClientConfiguration;
+import com.sap.mobile.services.client.CustomAuthHeaderSupplier;
+import com.sap.mobile.services.client.MobileServicesBinding;
+import com.sap.mobile.services.client.MobileServicesSettings;
+import com.sap.mobile.services.client.ServiceKeyClientConfiguration;
+import com.sap.mobile.services.client.XsuaaClientConfiguration;
+import com.sap.mobile.services.client.XsuaaTokenFlowFactory;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 /**
  * Thrown when authorization failed. Please check and update the client configuration.

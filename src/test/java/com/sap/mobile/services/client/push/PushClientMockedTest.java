@@ -18,6 +18,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.sap.mobile.services.client.MobileServicesBinding;
+import com.sap.mobile.services.client.MobileServicesSettings;
+import com.sap.mobile.services.client.XsuaaTokenFlowFactory;
 import com.sap.mobile.services.client.push.mock.MockPushServer;
 import com.sap.cloud.security.xsuaa.client.OAuth2TokenResponse;
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;

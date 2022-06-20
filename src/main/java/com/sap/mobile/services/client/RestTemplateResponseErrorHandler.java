@@ -1,11 +1,11 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import java.io.IOException;
 
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
-class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
+public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 
 	@Override
 	public boolean hasError(ClientHttpResponse response) throws IOException {
@@ -17,8 +17,6 @@ class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 		switch (response.getStatusCode()) {
 			case UNAUTHORIZED:
 				throw new ClientUnauthorizedException();
-			case UNPROCESSABLE_ENTITY:
-				throw new NoMessageSentException();
 			case TOO_MANY_REQUESTS:
 				throw new TrialLimitExceededException();
 			// TODO more error handling

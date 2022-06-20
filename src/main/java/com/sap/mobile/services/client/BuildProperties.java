@@ -1,15 +1,15 @@
-package com.sap.mobile.services.client.push;
+package com.sap.mobile.services.client;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-final class BuildProperties {
+public final class BuildProperties {
 
 	private static final String BUILD_INFO_FILE = "META-INF/build-info.properties";
 	private static BuildProperties INSTANCE = null;
 
-	static BuildProperties getInstance() {
+	public static BuildProperties getInstance() {
 		if (BuildProperties.INSTANCE == null) {
 			BuildProperties.INSTANCE = new BuildProperties();
 		}

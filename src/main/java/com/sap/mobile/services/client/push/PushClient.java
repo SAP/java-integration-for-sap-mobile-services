@@ -3,6 +3,8 @@ package com.sap.mobile.services.client.push;
 import java.util.Collection;
 import java.util.Set;
 
+import com.sap.mobile.services.client.ClientException;
+
 /**
  * The push client is used to send the notification and retrieve the
  * notification status.
