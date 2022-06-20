@@ -6,6 +6,7 @@ on:
 jobs:
   build-documentation:
     runs-on: ubuntu-latest
+    name: Build Documentation
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -20,6 +21,7 @@ jobs:
           path: site/**
   publish-documentation:
     runs-on: ubuntu-latest
+    name: Publish Documentation to GH-Pages
     needs:
       - 'build-documentation'
     steps:

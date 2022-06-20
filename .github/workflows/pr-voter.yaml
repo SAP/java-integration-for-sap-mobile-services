@@ -7,7 +7,7 @@ on:
       - rel/**
 jobs:
   rebase:
-    name: Rebase project
+    name: (PR-Voter) Rebase project
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
           path: ${{ github.workspace }}/**
   build-maven:
     runs-on: ubuntu-latest
-    name: Build Maven Project
+    name: (PR-Voter) Build Maven Project
     needs:
       - rebase
     steps:
@@ -45,7 +45,7 @@ jobs:
         run: mvn -B package --file pom.xml
   build-docs:
     runs-on: ubuntu-latest
-    name: Build Documentation
+    name: (PR-Voter) Build Documentation
     needs:
       - rebase
     steps:
