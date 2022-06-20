@@ -1,0 +1,40 @@
+name: Release All Actions
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - 'main'
+    paths:
+      - '.github/actions/**/*'
+jobs:
+  retrieve-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - run: |
+          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+          echo "version=$VERSION" >> $GITHUB_ENV
+    outputs:
+      version: ${{ env.version }}
+  publish-bump-version-actions:
+    needs:
+      - 'retrieve-version'
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
+    with:
+      name: 'bump-version'
+      version: ${{ needs.retrieve-version.outputs.version }}
+      type: 'javascript'
+  publish-build-mkdocs-actions:
+    needs:
+      - 'retrieve-version'
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
+    with:
+      name: 'build-mkdocs'
+      version: ${{ needs.retrieve-version.outputs.version }}
+      type: 'docker'

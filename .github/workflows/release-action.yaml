@@ -1,0 +1,69 @@
+name: Release Single Action
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        description: The name (folder name) of the action
+        type: string
+      version:
+        required: true
+        description: The release version
+        type: string
+      type:
+        required: true
+        description: The type of action (javascript, docker)
+        type: string
+jobs:
+  build-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        if: ${{ inputs.type == 'javascript' }}
+        with:
+          node-version: 16
+      - run: |
+          npm i
+          npx @vercel/ncc build index.js
+          mv index.js index.orig.js
+          mv dist/index.js index.js
+        if: ${{ inputs.type == 'javascript' }}
+        working-directory: .github/actions/${{ inputs.name }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.name }}_actions-build
+          path: |
+            .github/actions/${{ inputs.name }}/**
+            !.github/actions/${{ inputs.name }}/node_modules
+  release-action:
+    runs-on: ubuntu-latest
+    needs:
+      - 'build-action'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - env:
+          ACTIONS_BRANCH: actions_${{ inputs.name }}_${{ inputs.version }}
+        run: |
+          git checkout --orphan $ACTIONS_BRANCH || git branch -D $ACTIONS_BRANCH && git checkout --orphan $ACTIONS_BRANCH
+          git rm -rf .
+          git clean -fxd
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.name }}_actions-build
+      - env:
+          ACTIONS_TAG: actions_${{ inputs.name }}_${{ inputs.version }}
+          ACTIONS_TAG_MESSAGE: 'Release build of ${{ inputs.name }} action version ${{ inputs.version }}'
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com" 
+          git config user.name "github-actions[bot]" 
+          git add .
+          git commit -m "$ACTIONS_TAG_MESSAGE"
+          git tag -a "$ACTIONS_TAG" -m "$ACTIONS_TAG_MESSAGE" -f
+          git remote rm origin
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push -f origin refs/tags/$ACTIONS_TAG
