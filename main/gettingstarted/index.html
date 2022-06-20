@@ -307,6 +307,39 @@
     Connect via SAP Mobile Services settings file
   </a>
   
+    <nav class="md-nav" aria-label="Connect via SAP Mobile Services settings file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties-of-settings-file" class="md-nav__link">
+    Properties of Settings File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-setting" class="md-nav__link">
+    Service Setting
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Setting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-keys" class="md-nav__link">
+    Service Keys
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -384,6 +417,39 @@
     Connect via SAP Mobile Services settings file
   </a>
   
+    <nav class="md-nav" aria-label="Connect via SAP Mobile Services settings file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties-of-settings-file" class="md-nav__link">
+    Properties of Settings File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-setting" class="md-nav__link">
+    Service Setting
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Setting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-keys" class="md-nav__link">
+    Service Keys
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -418,7 +484,111 @@
 </code></pre></div>
 <h2 id="connect-via-sap-mobile-services-settings-file">Connect via SAP Mobile Services settings file</h2>
 <p>To connect to SAP Mobile Services you need to provide a settings file to the client library.
-// EXPLAIN HOW TO CREATE THE FILE //</p>
+The settings file contains the service endpoints and service keys for each Mobile Service.
+See <a href="https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/security/admin/service-keys.html">SAP Mobile Service Documentation: Service Keys</a> how to manage service keys.</p>
+<p>Example of a settings file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;server&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://any.mobile.application.url.com&quot;</span><span class="p">,</span><span class="w"></span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;platform&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CF&quot;</span><span class="p">,</span><span class="w"></span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;applicationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;applicationId&quot;</span><span class="p">,</span><span class="w"></span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">&quot;services&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;push&quot;</span><span class="p">,</span><span class="w"></span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="nt">&quot;serviceKeys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">          </span><span class="nt">&quot;alias&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;myAlias&quot;</span><span class="p">,</span><span class="w"></span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">          </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://service.key.url.com/2787d5ea-17cb-4c71-85ca-a9600d4b97c9&quot;</span><span class="p">,</span><span class="w"></span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">          </span><span class="nt">&quot;apiKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;apiKey&quot;</span><span class="w"></span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">      </span><span class="p">]</span><span class="w"></span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="p">]</span><span class="w"></span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="properties-of-settings-file">Properties of Settings File</h3>
+<table>
+<thead>
+<tr>
+<th align="right">Property Name</th>
+<th>Description</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"><code>server</code></td>
+<td>This is the mobile app URL, see SAP Mobile Services Cockpit &gt; Mobile Applications &gt; Native/MDK &gt; Your Application &gt; APIs</td>
+<td><code>https://any.mobile.application.url.com</code></td>
+</tr>
+<tr>
+<td align="right"><code>platform</code></td>
+<td>Which platform runs the mobile services. As of now, only Cloud Foundry is supported</td>
+<td><code>CF</code></td>
+</tr>
+<tr>
+<td align="right"><code>applicationId</code></td>
+<td>The Mobile Application Id, see  SAP Mobile Services Cockpit &gt; Mobile Applications &gt; Native/MDK &gt; Your Application &gt; Info</td>
+<td><code>applicationId</code></td>
+</tr>
+<tr>
+<td align="right"><code>services</code></td>
+<td>List of service specific configurations</td>
+<td>see next paragraph ]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="service-setting">Service Setting</h3>
+<p>Each service setting is represented as an entry in the services list and identified by the name.</p>
+<table>
+<thead>
+<tr>
+<th align="right">Property Name</th>
+<th>Description</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"><code>name</code></td>
+<td>This specifies the service</td>
+<td><code>push</code></td>
+</tr>
+<tr>
+<td align="right"><code>serviceKeys</code></td>
+<td>You can configure a list of service keys, but the first one is used always.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="service-keys">Service Keys</h4>
+<p>The service key is managed in the SAP Mobile Services Cockpit and assigned to roles.
+The roles controls access to the service API.</p>
+<table>
+<thead>
+<tr>
+<th align="right">Property Name</th>
+<th>Description</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"><code>alias</code></td>
+<td>The service key alias name</td>
+<td><code>myAlias</code></td>
+</tr>
+<tr>
+<td align="right"><code>url</code></td>
+<td>The service key URL pointing to the service instance</td>
+<td><code>https://service.key.url.com/2787d5ea-17cb-4c71-85ca-a9600d4b97c9</code></td>
+</tr>
+<tr>
+<td align="right"><code>apiKey</code></td>
+<td>The service key API key. This key is generated by Mobile Services</td>
+<td><code>apiKey</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="connect-via-cloud-foundry-binding">Connect via Cloud Foundry Binding</h2>
 <p>If your application runs on a Cloud Foundry runtime in SAP BTP, it is easy to bind it to a SAP Mobile Services Cloud Foundry service instance.
 // EXPLAIN HOW TO CREATE BINDING //</p>
