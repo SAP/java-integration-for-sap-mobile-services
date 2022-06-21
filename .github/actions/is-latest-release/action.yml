@@ -12,4 +12,4 @@ outputs:
     description: 'The flag whether the current branch is the latest one or not'
 runs:
   using: 'node16'
-  main: 'index.compiled.js'
+  main: 'index.js'
