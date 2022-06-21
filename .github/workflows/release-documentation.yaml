@@ -2,7 +2,9 @@ name: Release Documentation
 on:
   workflow_dispatch: {}
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - rel/**
 jobs:
   build-documentation:
     runs-on: ubuntu-latest
@@ -31,8 +33,10 @@ jobs:
       - run: |
           BRANCH=$( echo $GITHUB_REF | cut -d'/' -f 3 )
           echo "branch=$BRANCH" >> $GITHUB_ENV
+          RELEASE_FOLDER=$( echo $BRANCH | sed 's/\//_/g' )
+          echo "release_folder=$RELEASE_FOLDER" >> $GITHUB_ENV
       - env:
-          DOC_RELEASE_FOLDER: ${{ env.branch }}
+          DOC_RELEASE_FOLDER: ${{ env.release_folder }}
         run: |
           git checkout gh-pages || git checkout --orphan gh-pages && git rm -rf . && git clean -fxd
           git rm -rf $DOC_RELEASE_FOLDER || true
@@ -42,6 +46,18 @@ jobs:
         with:
           name: documentation-build
           path: ${{ env.branch }}
+      - id: check-for-latest-release
+        #        uses: SAP/java-integration-for-sap-mobile-services@actions_is-latest-release_0.0.1-SNAPSHOT
+        uses: ./.github/actions/is-latest-release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.branch }}
+      - env:
+          DOC_RELEASE_FOLDER: ${{ env.release_folder }}
+        if: ${{ steps.check-for-latest-release.outputs.is-latest }} == 'true'
+        run: |
+          rm -rf current || true
+          cp -R $DOC_RELEASE_FOLDER current
       - env:
           DOCS_COMMIT_MESSAGE: 'Update documentation for ${{ env.branch }}'
         run: |
