@@ -47,7 +47,7 @@ jobs:
           name: documentation-build
           path: ${{ env.branch }}
       - id: check-for-latest-release
-        uses: SAP/java-integration-for-sap-mobile-services@actions_is-latest-release_0.0.1-SNAPSHOT
+        uses: SAP/java-integration-for-sap-mobile-services@refs/tags/actions_is-latest-release_0.0.1-SNAPSHOT
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.branch }}
