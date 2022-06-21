@@ -46,17 +46,17 @@ jobs:
         with:
           name: documentation-build
           path: ${{ env.branch }}
-      - id: check-for-latest-release
-        uses: SAP/java-integration-for-sap-mobile-services@refs/tags/actions_is-latest-release_0.0.1-SNAPSHOT
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.branch }}
-      - env:
-          DOC_RELEASE_FOLDER: ${{ env.release_folder }}
-        if: ${{ steps.check-for-latest-release.outputs.is-latest }} == 'true'
-        run: |
-          rm -rf current || true
-          cp -R $DOC_RELEASE_FOLDER current
+#      - id: check-for-latest-release
+#        uses: SAP/java-integration-for-sap-mobile-services@actions_is-latest-release_0.0.1-SNAPSHOT
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          branch: ${{ env.branch }}
+#      - env:
+#          DOC_RELEASE_FOLDER: ${{ env.release_folder }}
+#        if: ${{ steps.check-for-latest-release.outputs.is-latest }} == 'true'
+#        run: |
+#          rm -rf current || true
+#          cp -R $DOC_RELEASE_FOLDER current
       - env:
           DOCS_COMMIT_MESSAGE: 'Update documentation for ${{ env.branch }}'
         run: |
