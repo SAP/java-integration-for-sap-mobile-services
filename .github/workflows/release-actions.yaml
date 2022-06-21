@@ -22,7 +22,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_ENV
     outputs:
       version: ${{ env.version }}
-  publish-bump-version-actions:
+  publish-bump-version-action:
     needs:
       - 'retrieve-version'
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
@@ -30,7 +30,7 @@ jobs:
       name: 'bump-version'
       version: ${{ needs.retrieve-version.outputs.version }}
       type: 'javascript'
-  publish-build-mkdocs-actions:
+  publish-build-mkdocs-action:
     needs:
       - 'retrieve-version'
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
@@ -38,3 +38,11 @@ jobs:
       name: 'build-mkdocs'
       version: ${{ needs.retrieve-version.outputs.version }}
       type: 'docker'
+  publish-is-latest-release-action:
+    needs:
+      - 'retrieve-version'
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
+    with:
+      name: 'is-latest-release'
+      version: ${{ needs.retrieve-version.outputs.version }}
+      type: 'javascript'
