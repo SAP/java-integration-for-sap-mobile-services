@@ -1,0 +1,15 @@
+name: 'Is Latest Release'
+description: 'Checks whether the current branch is the latest one'
+inputs:
+  github-token:
+    description: 'The Github API token'
+    required: true
+  branch:
+    description: 'The current branch name'
+    required: true
+outputs:
+  is-latest:
+    description: 'The flag whether the current branch is the latest one or not'
+runs:
+  using: 'node16'
+  main: 'index.js'
