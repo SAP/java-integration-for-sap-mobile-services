@@ -13,4 +13,8 @@
 	<packaging>pom</packaging>
 
 	<name>Java integration for SAP Mobile Services - Samples</name>
+
+	<modules>
+		<module>cloud-foundry-binding-sample</module>
+	</modules>
 </project>
