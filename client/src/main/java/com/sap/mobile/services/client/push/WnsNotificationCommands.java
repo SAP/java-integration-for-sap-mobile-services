@@ -23,7 +23,7 @@ public interface WnsNotificationCommands {
 	 * an alarm, with appropriate
 	 * commands associated with each scenario.
 	 * 
-	 * @see <a href=
+	 * @see <a target="_top" href=
 	 *      "https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-commands">https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-commands</a>
 	 */
 

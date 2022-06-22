@@ -51,7 +51,7 @@ public interface GcmNotification {
 
 	/**
 	 * Firebase/Android specific notification parameter. See @see
-	 * <a href=
+	 * <a target="_top" href=
 	 * "https://firebase.google.com/docs/cloud-messaging/concept-options?hl=en#notifications_and_data_messages">Notifications
 	 * and data messages</a>
 	 */
@@ -80,7 +80,7 @@ public interface GcmNotification {
 		 * Collapsible messages replace old messages with the same key with new messages
 		 * with the same key. Android can store up to 100 messages without collapsing.
 		 * 
-		 * @see <a href=
+		 * @see <a target="_top" href=
 		 *      "https://firebase.google.com/docs/cloud-messaging/concept-options#collapsible_and_non-collapsible_messages">Collapsible
 		 *      and non-collapsible messages</a>
 		 */

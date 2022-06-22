@@ -23,7 +23,7 @@ public interface WnsNotificationAudio {
 	 * element also allows you to mute any
 	 * toast notification audio.
 	 * 
-	 * @see <a href=
+	 * @see <a target="_top" href=
 	 *      "https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-audio">https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-audio</a>
 	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)

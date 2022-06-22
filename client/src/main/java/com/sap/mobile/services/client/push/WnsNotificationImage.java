@@ -21,7 +21,7 @@ public interface WnsNotificationImage {
 	/**
 	 * Specifies an image used in the toast template.
 	 * 
-	 * @see <a href=
+	 * @see <a target="_top" href=
 	 *      "https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-image">https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-image</a>
 	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -66,7 +66,7 @@ public interface ApnsNotification {
 	/**
 	 * APNS specific notification properties. See
 	 * 
-	 * @see <a href=
+	 * @see <a target="_top" href=
 	 *      "https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification">
 	 *      Generating a remote notification</a>.
 	 */
@@ -142,7 +142,7 @@ public interface ApnsNotification {
 		/**
 		 * Push Type, see
 		 * 
-		 * @see <a href=
+		 * @see <a target="_top" href=
 		 *      "https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns">
 		 *      Sending notification requests</a>
 		 */

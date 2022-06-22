@@ -20,7 +20,7 @@ public interface WnsNotificationCommandsCommand {
 	 * Specifies a scenario-associated button shown. The scenario is specified in
 	 * the parent commands element.
 	 * 
-	 * @see <a href=
+	 * @see <a target="_top" href=
 	 *      "https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-command">https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-command</a>
 	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)

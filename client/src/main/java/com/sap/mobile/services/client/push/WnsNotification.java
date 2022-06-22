@@ -41,7 +41,7 @@ public interface WnsNotification {
 	/**
 	 * WNS specific notification properties.
 	 * 
-	 * @see <a href=
+	 * @see <a target="_top" href=
 	 *      "https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview">https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview</a>
 	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -117,7 +117,7 @@ public interface WnsNotification {
 		/**
 		 * The target locale of the XML payload
 		 * 
-		 * @see <a href=
+		 * @see <a target="_top" href=
 		 *      "https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-binding">https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-binding</a>
 		 */
 		public Builder lang(String lang) {
@@ -129,7 +129,7 @@ public interface WnsNotification {
 		 * A default base URI that is combined with relative URIs in image source
 		 * attributes.
 		 * 
-		 * @see <a href=
+		 * @see <a target="_top" href=
 		 *      "https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-binding">https://docs.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-binding</a>
 		 */
 		public Builder baseUri(String baseUri) {
@@ -140,7 +140,7 @@ public interface WnsNotification {
 		/**
 		 * Specifies the content template to use in a tile update.
 		 * 
-		 * @see <a href=
+		 * @see <a target="_top" href=
 		 *      "https://docs.microsoft.com/en-us/uwp/api/windows.ui.notifications.tiletemplatetype">https://docs.microsoft.com/en-us/uwp/api/windows.ui.notifications.tiletemplatetype</a>
 		 */
 		public Builder tileTemplate(String tileTemplate) {
@@ -151,7 +151,7 @@ public interface WnsNotification {
 		/**
 		 * Specifies the template to use in a toast notification.
 		 * 
-		 * @see <a href=
+		 * @see <a target="_top" href=
 		 *      "https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Notifications.ToastTemplateType">https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Notifications.ToastTemplateType</a>
 		 */
 		public Builder toastTemplate(String toastTemplate) {
@@ -162,7 +162,7 @@ public interface WnsNotification {
 		/**
 		 * The rawData element represents a certain WNS push schema (wns/raw).
 		 * 
-		 * @see <a href=
+		 * @see <a target="_top" href=
 		 *      "https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/raw-notification-overview">https://docs.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/raw-notification-overview</a>
 		 */
 		public Builder rawData(String rawData) {

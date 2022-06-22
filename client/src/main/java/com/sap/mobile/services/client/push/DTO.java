@@ -232,7 +232,7 @@ class DTOGcmNotification {
 	 *
 	 * @param duration duration to be formatted
 	 * @return formatted string or null, if param was null.
-	 * @see <a href=
+	 * @see <a target="_top" href=
 	 * "https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages/#androidconfig">https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages/#androidconfig</a>
 	 */
 	static String ttlFormat(Duration duration) {
