@@ -70,7 +70,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: javadoc-build
-          path: client/target/site/**
+          path: client/target/site/apidocs/**
   publish-documentation:
     runs-on: ubuntu-latest
     name: Publish Documentation to GH-Pages
