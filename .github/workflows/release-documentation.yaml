@@ -14,6 +14,35 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: maven
+      - run: |
+          GROUP_ID=$( mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout )
+          echo "groupId=$GROUP_ID" >> $GITHUB_ENV
+          ARTIFACT_ID=$( mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout )
+          echo "artifactId=$ARTIFACT_ID" >> $GITHUB_ENV
+          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+          echo "artifactVersion=$VERSION" >> $GITHUB_ENV
+        working-directory: client
+      - uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "//ENTER GROUP ID//"
+          replace: ${{ env.groupId }}
+          regex: false
+      - uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "//ENTER ARTIFACT ID//"
+          replace: ${{ env.artifactId }}
+          regex: false
+      - uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "//ENTER LATEST BUILD VERSION//"
+          replace: ${{ env.artifactVersion }}
+          regex: false
       - name: Build Documentation
 #        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
         uses: ./.github/actions/build-mkdocs
