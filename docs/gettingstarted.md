@@ -15,8 +15,8 @@ Builds of the library are provided as a Maven module in Maven Central. You can u
 ## Connect via SAP Mobile Services settings file
 
 To connect to SAP Mobile Services you need to provide a settings file to the client library.
-The settings file contains the service endpoints and service keys for each Mobile Service.
-See [SAP Mobile Service Documentation: Service Keys](https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/security/admin/service-keys.html) how to manage service keys.
+The settings file contains the service endpoints and service keys for each mobile application.
+See [SAP Mobile Services Documentation: Service Keys](https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/security/admin/service-keys.html) how to manage service keys.
 
 Example of a settings file:
 
@@ -71,5 +71,15 @@ The roles controls access to the service API.
 
 ## Connect via Cloud Foundry Binding
 
-If your application runs on a Cloud Foundry runtime in SAP BTP, it is easy to bind it to a SAP Mobile Services Cloud Foundry service instance.
-// EXPLAIN HOW TO CREATE BINDING //
+If your application runs on a Cloud Foundry runtime in SAP BTP, it's easy to bind it to an SAP Mobile Services Cloud Foundry service instance.
+To bind the service instance, you can use the `cf bind-service` command.
+See [Cloud Foundry CLI Reference Guide: bind-service](https://cli.cloudfoundry.org/en-US/v6/bind-service.html) how to manage service bindings.
+
+Once your application is bound to the service instance, you can retrieve it in your application:
+
+```java
+MobileServicesBinding mobileServicesBinding = MobileServicesBinding.fromVCAPVariables()
+    .orElseThrow(() -> new IllegalStateException("No mobile-services binding found"));
+```
+
+Also see [Cloud Foundry Binding Sample](./samples/cloud-foundry-binding-sample) for a sample application that uses a service binding.
