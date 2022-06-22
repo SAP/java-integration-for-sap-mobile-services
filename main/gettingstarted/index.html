@@ -477,9 +477,9 @@
 <h2 id="integrate-the-library">Integrate the library</h2>
 <p>Builds of the library are provided as a Maven module in Maven Central. You can use them the following way:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&lt;dependency&gt;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="nt">&lt;groupId&gt;</span>//ENTER GROUP ID//<span class="nt">&lt;/groupId&gt;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="nt">&lt;artifactId&gt;</span>//ENTER ARTIFACT ID//<span class="nt">&lt;/artifactId&gt;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="nt">&lt;version&gt;</span>//ENTER LATEST BUILD VERSION//<span class="nt">&lt;/version&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="nt">&lt;groupId&gt;</span>com.sap.cloud.platform.mobile.services<span class="nt">&lt;/groupId&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="nt">&lt;artifactId&gt;</span>push-client-java<span class="nt">&lt;/artifactId&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
 <h2 id="connect-via-sap-mobile-services-settings-file">Connect via SAP Mobile Services settings file</h2>
@@ -597,7 +597,7 @@ See <a href="https://cli.cloudfoundry.org/en-US/v6/bind-service.html">Cloud Foun
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">MobileServicesBinding</span><span class="w"> </span><span class="n">mobileServicesBinding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MobileServicesBinding</span><span class="p">.</span><span class="na">fromVCAPVariables</span><span class="p">()</span><span class="w"></span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;No mobile-services binding found&quot;</span><span class="p">));</span><span class="w"></span>
 </code></pre></div>
-<p>Also see <a href="./samples/cloud-foundry-binding-sample">Cloud Foundry Binding Sample</a> for a sample application that uses a service binding.</p>
+<p>Also see <a href="https://github.com/SAP/java-integration-for-sap-mobile-services/tree/main/samples/cloud-foundry-binding-sample">Cloud Foundry Binding Sample</a> for a sample application that uses a service binding.</p>
 
               
             </article>
