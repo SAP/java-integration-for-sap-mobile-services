@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.6">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.7">
     
     
       
@@ -484,8 +484,8 @@
 </code></pre></div>
 <h2 id="connect-via-sap-mobile-services-settings-file">Connect via SAP Mobile Services settings file</h2>
 <p>To connect to SAP Mobile Services you need to provide a settings file to the client library.
-The settings file contains the service endpoints and service keys for each Mobile Service.
-See <a href="https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/security/admin/service-keys.html">SAP Mobile Service Documentation: Service Keys</a> how to manage service keys.</p>
+The settings file contains the service endpoints and service keys for each mobile application.
+See <a href="https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/security/admin/service-keys.html">SAP Mobile Services Documentation: Service Keys</a> how to manage service keys.</p>
 <p>Example of a settings file:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="w"></span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;server&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://any.mobile.application.url.com&quot;</span><span class="p">,</span><span class="w"></span>
@@ -590,8 +590,14 @@ The roles controls access to the service API.</p>
 </tbody>
 </table>
 <h2 id="connect-via-cloud-foundry-binding">Connect via Cloud Foundry Binding</h2>
-<p>If your application runs on a Cloud Foundry runtime in SAP BTP, it is easy to bind it to a SAP Mobile Services Cloud Foundry service instance.
-// EXPLAIN HOW TO CREATE BINDING //</p>
+<p>If your application runs on a Cloud Foundry runtime in SAP BTP, it's easy to bind it to an SAP Mobile Services Cloud Foundry service instance.
+To bind the service instance, you can use the <code>cf bind-service</code> command.
+See <a href="https://cli.cloudfoundry.org/en-US/v6/bind-service.html">Cloud Foundry CLI Reference Guide: bind-service</a> how to manage service bindings.</p>
+<p>Once your application is bound to the service instance, you can retrieve it in your application:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">MobileServicesBinding</span><span class="w"> </span><span class="n">mobileServicesBinding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MobileServicesBinding</span><span class="p">.</span><span class="na">fromVCAPVariables</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;No mobile-services binding found&quot;</span><span class="p">));</span><span class="w"></span>
+</code></pre></div>
+<p>Also see <a href="./samples/cloud-foundry-binding-sample">Cloud Foundry Binding Sample</a> for a sample application that uses a service binding.</p>
 
               
             </article>
@@ -659,10 +665,10 @@ The roles controls access to the service API.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a877e258.min.js"></script>
+      <script src="../assets/javascripts/bundle.0238f547.min.js"></script>
       
     
   </body>
