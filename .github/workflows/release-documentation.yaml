@@ -44,17 +44,39 @@ jobs:
           replace: ${{ env.artifactVersion }}
           regex: false
       - name: Build Documentation
-#        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
+        #        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
         uses: ./.github/actions/build-mkdocs
       - uses: actions/upload-artifact@v3
         with:
           name: documentation-build
           path: site/**
+  build-javadoc:
+    runs-on: ubuntu-latest
+    name: Build JavaDoc
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: maven
+      - name: Build JavaDoc
+        run: mvn -B javadoc:javadoc --file pom.xml
+        working-directory: client
+      - uses: actions/upload-artifact@v3
+        with:
+          name: javadoc-build
+          path: client/target/site/**
   publish-documentation:
     runs-on: ubuntu-latest
     name: Publish Documentation to GH-Pages
     needs:
       - 'build-documentation'
+      - 'build-javadoc'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -75,6 +97,10 @@ jobs:
         with:
           name: documentation-build
           path: ${{ env.branch }}
+      - uses: actions/download-artifact@v3
+        with:
+          name: javadoc-build
+          path: ${{ env.branch }}/javadoc
 #      - id: check-for-latest-release
 #        uses: SAP/java-integration-for-sap-mobile-services@actions_is-latest-release_0.0.1-SNAPSHOT
 #        with:
