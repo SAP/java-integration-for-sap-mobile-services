@@ -8,3 +8,4 @@ The Mobile Services Notification Backend API allows sending notifications to mob
 
 * [Client Documentation](./push)
 * [API Documentation](https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/api/backend-api.html)
+* [JavaDoc](./javadoc)

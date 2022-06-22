@@ -27,7 +27,8 @@ MobileServicesSettings mobileServicesSettings = MobileServicesSettings.fromResou
 PushClient pushClient = new PushClientBuilder().build(mobileServicesSettings);
 ```
 
-**[Documentation](https://ideal-waddle-22e7094a.pages.github.io/main)**
+**[Documentation](https://ideal-waddle-22e7094a.pages.github.io/main)**  
+**[JavaDoc](https://ideal-waddle-22e7094a.pages.github.io/main/javadoc)**
 
 ## Support, Feedback, Contributing
 
