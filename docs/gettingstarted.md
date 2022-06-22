@@ -82,4 +82,4 @@ MobileServicesBinding mobileServicesBinding = MobileServicesBinding.fromVCAPVari
     .orElseThrow(() -> new IllegalStateException("No mobile-services binding found"));
 ```
 
-Also see [Cloud Foundry Binding Sample](./samples/cloud-foundry-binding-sample) for a sample application that uses a service binding.
+Also see [Cloud Foundry Binding Sample](https://github.com/SAP/java-integration-for-sap-mobile-services/tree/main/samples/cloud-foundry-binding-sample) for a sample application that uses a service binding.
