@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>com.sap.cloud.platform.mobile.services</groupId>
-            <artifactId>push-client-java</artifactId>
+            <artifactId>java-integration</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
