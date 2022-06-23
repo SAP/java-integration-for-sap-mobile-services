@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>push-client-java</artifactId>
+	<artifactId>java-integration</artifactId>
 	<packaging>jar</packaging>
 
 	<name>Java integration for SAP Mobile Services - Client</name>

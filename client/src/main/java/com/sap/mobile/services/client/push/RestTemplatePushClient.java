@@ -39,7 +39,7 @@ class RestTemplatePushClient implements PushClient {
 		RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
 		restTemplateBuilder = ClientBuilderUtils.addBasicConfiguraiton(restTemplateBuilder, config);
 		restTemplateBuilder = ClientBuilderUtils.addDefaultInterceptors(restTemplateBuilder);
-		restTemplateBuilder = restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler());
+		restTemplateBuilder = restTemplateBuilder.errorHandler(new PushRestTemplateResponseErrorHandler());
 		this.restTemplate = restTemplateBuilder.build();
 		this.config = config;
 	}
