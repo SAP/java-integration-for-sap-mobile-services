@@ -27,8 +27,8 @@ MobileServicesSettings mobileServicesSettings = MobileServicesSettings.fromResou
 PushClient pushClient = new PushClientBuilder().build(mobileServicesSettings);
 ```
 
-**[Documentation](https://ideal-waddle-22e7094a.pages.github.io/main)**  
-**[JavaDoc](https://ideal-waddle-22e7094a.pages.github.io/main/javadoc)**
+**[Documentation](https://sap.github.io/java-integration-for-sap-mobile-services/main)**  
+**[JavaDoc](https://sap.github.io/java-integration-for-sap-mobile-services/main/javadoc)**
 
 ## Support, Feedback, Contributing
 
