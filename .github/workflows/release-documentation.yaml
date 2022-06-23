@@ -44,8 +44,7 @@ jobs:
           replace: ${{ env.artifactVersion }}
           regex: false
       - name: Build Documentation
-        #        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
-        uses: ./.github/actions/build-mkdocs
+        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
       - uses: actions/upload-artifact@v3
         with:
           name: documentation-build
@@ -101,17 +100,17 @@ jobs:
         with:
           name: javadoc-build
           path: ${{ env.branch }}/javadoc
-#      - id: check-for-latest-release
-#        uses: SAP/java-integration-for-sap-mobile-services@actions_is-latest-release_0.0.1-SNAPSHOT
-#        with:
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          branch: ${{ env.branch }}
-#      - env:
-#          DOC_RELEASE_FOLDER: ${{ env.release_folder }}
-#        if: ${{ steps.check-for-latest-release.outputs.is-latest }} == 'true'
-#        run: |
-#          rm -rf current || true
-#          cp -R $DOC_RELEASE_FOLDER current
+      - id: check-for-latest-release
+        uses: SAP/java-integration-for-sap-mobile-services@actions_is-latest-release_0.0.1-SNAPSHOT
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.branch }}
+      - env:
+          DOC_RELEASE_FOLDER: ${{ env.release_folder }}
+        if: ${{ steps.check-for-latest-release.outputs.is-latest }} == 'true'
+        run: |
+          rm -rf current || true
+          cp -R $DOC_RELEASE_FOLDER current
       - env:
           DOCS_COMMIT_MESSAGE: 'Update documentation for ${{ env.branch }}'
         run: |
