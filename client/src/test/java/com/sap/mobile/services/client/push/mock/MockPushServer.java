@@ -56,7 +56,7 @@ public class MockPushServer {
 
 	public RequestExpectation<PushToApplicationResponseDefinition> expectPushToApplication() {
 		final String expectedUri = UriComponentsBuilder.fromUriString(baseUrl)
-				.path("/mobileservices/push/v1/backend/applications/{applicationId}/notifications")
+				.path("/mobileservices/push/v2/backend/applications/{applicationId}/notifications")
 				.buildAndExpand(applicationId).toString();
 
 		final PushToApplicationResponseDefinition responseDefinition = new PushToApplicationResponseDefinition(this);
@@ -69,7 +69,7 @@ public class MockPushServer {
 	public RequestExpectation<PushToUserResponseDefinition> expectPushToUser(final String userId,
 			final String deviceId) {
 		final String expectedUri = UriComponentsBuilder.fromUriString(baseUrl)
-				.path("/mobileservices/push/v1/backend/applications/{applicationId}/users/{userId}/devices/{deviceId}/notifications")
+				.path("/mobileservices/push/v2/backend/applications/{applicationId}/users/{userId}/devices/{deviceId}/notifications")
 				.buildAndExpand(applicationId, userId, deviceId).toString();
 
 		final PushToUserResponseDefinition responseDefinition = new PushToUserResponseDefinition(this);
@@ -81,7 +81,7 @@ public class MockPushServer {
 
 	public RequestExpectation<PushToUsersResponseDefinition> expectPushToUsers() {
 		final String expectedUri = UriComponentsBuilder.fromUriString(baseUrl)
-				.path("/mobileservices/push/v1/backend/applications/{applicationId}/notifications/users")
+				.path("/mobileservices/push/v2/backend/applications/{applicationId}/notifications/users")
 				.buildAndExpand(applicationId).toString();
 
 		final PushToUsersResponseDefinition responseDefinition = new PushToUsersResponseDefinition(this);

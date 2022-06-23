@@ -17,6 +17,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 	public void handleError(ClientHttpResponse response) throws IOException {
 		final HttpStatus status = response.getStatusCode();
 		this.handleServiceSpecificErrors(response);
+
 		switch (status) {
 			case UNAUTHORIZED:
 				throw new ClientUnauthorizedException();

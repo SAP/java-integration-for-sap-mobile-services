@@ -1,3 +1,5 @@
 {
-  "alert": "Hello World"
+  "notification": {
+    "alert": "Hello World"
+  }
 }

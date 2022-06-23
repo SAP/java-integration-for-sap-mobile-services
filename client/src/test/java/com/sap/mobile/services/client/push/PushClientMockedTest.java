@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.sap.mobile.services.client.ClientErrorException;
 import com.sap.mobile.services.client.MobileServicesBinding;
 import com.sap.mobile.services.client.MobileServicesSettings;
 import com.sap.mobile.services.client.XsuaaTokenFlowFactory;
@@ -93,18 +94,14 @@ public class PushClientMockedTest {
 		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 	}
 
-	@Test
+	@Test(expected = ClientErrorException.class)
 	public void testPushToUserNoSuchRegistration() throws Exception {
 		mockPushServer.expectPushToUser(DEFAULT_USER_ID, DEFAULT_DEVICE_ID)
 				.andRespond().withNoSuchRegistrationError();
 
-		final PushResponse response = testee.pushToDevice(DEFAULT_USER_ID, DEFAULT_DEVICE_ID, PushPayload.builder()
+		testee.pushToDevice(DEFAULT_USER_ID, DEFAULT_DEVICE_ID, PushPayload.builder()
 				.alert("Hello World")
 				.build());
-
-		assertThat(response.getStatus().getCode(), is(400));
-		assertThat(response.getStatus().getMessage(), is("no registrations for given user names found"));
-		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 	}
 
 	@Test
@@ -144,20 +141,16 @@ public class PushClientMockedTest {
 		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 	}
 
-	@Test
+	@Test(expected = ClientErrorException.class)
 	public void testPushToUsersNoSuchRegistration() throws Exception {
 		mockPushServer.expectPushToUsers()
 				.withJsonBodyFromResource("payloads/request-push-to-users-alert.json")
 				.andRespond().withNoSuchRegistrationError();
 
-		final PushResponse response = testee.pushToUsers(Arrays.asList("john.doe@example.com", "jane.doe@example.com"),
+		testee.pushToUsers(Arrays.asList("john.doe@example.com", "jane.doe@example.com"),
 				PushPayload.builder()
 						.alert("Hello World")
 						.build());
-
-		assertThat(response.getStatus().getCode(), is(400));
-		assertThat(response.getStatus().getMessage(), is("no registrations for given user names found"));
-		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 	}
 
 	@Test

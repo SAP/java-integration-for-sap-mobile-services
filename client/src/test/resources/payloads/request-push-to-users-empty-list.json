@@ -1,6 +1,8 @@
 {
   "notification": {
-    "alert": "Hello World"
+    "notification": {
+      "alert": "Hello World"
+    }
   },
   "users": [
   ]

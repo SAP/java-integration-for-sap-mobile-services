@@ -1,9 +1,11 @@
 {
-  "notification": {
-    "alert": "Hello World"
-  },
   "users": [
     "john.doe@example.com",
     "jane.doe@example.com"
-  ]
+  ],
+  "notification": {
+    "notification": {
+      "alert": "Hello World"
+    }
+  }
 }

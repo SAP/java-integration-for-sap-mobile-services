@@ -3,6 +3,7 @@ package com.sap.mobile.services.client.push;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
@@ -46,14 +47,7 @@ class RestTemplatePushClient implements PushClient {
 
 	@Override
 	public PushResponse pushToApplication(final PushPayload pushPayload) throws ClientException {
-		DTOPushPayload payload = new DTOPushPayload(pushPayload);
-		RequestEntity<DTOPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_APPLICATION_PATH,
-								this.basicPathVariables().build())
-						.headers(this.basicHeaders())
-						.body(payload);
-		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
-		return response.getBody();
+		return pushToApplication(LocalizedPushPayload.builder().notification(pushPayload).build());
 	}
 
 	@Override
@@ -71,14 +65,7 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public PushResponse pushToDevice(final String userId, final String deviceId, final PushPayload pushPayload) throws
 			ClientException {
-		DTOPushPayload payload = new DTOPushPayload(pushPayload);
-		RequestEntity<DTOPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_USER_PATH,
-								this.basicPathVariables().put("userId", userId).putAndBuild("deviceId", deviceId))
-						.headers(this.basicHeaders())
-						.body(payload);
-		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
-		return response.getBody();
+		return pushToDevice(userId, deviceId, LocalizedPushPayload.builder().notification(pushPayload).build());
 	}
 
 	@Override
@@ -97,14 +84,7 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public PushResponse pushToUsers(final Collection<String> userIds, final PushPayload pushPayload) throws
 			ClientException {
-		DTOPushToUsersPayload payload = new DTOPushToUsersPayload(new ArrayList<>(userIds), pushPayload);
-		RequestEntity<DTOPushToUsersPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_USERS_PATH,
-								this.basicPathVariables().build())
-						.headers(this.basicHeaders())
-						.body(payload);
-		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
-		return response.getBody();
+		return pushToUsers(userIds, LocalizedPushPayload.builder().notification(pushPayload).build());
 	}
 
 	@Override
@@ -123,14 +103,7 @@ class RestTemplatePushClient implements PushClient {
 
 	@Override
 	public PushResponse pushToGroup(final String group, final PushPayload pushPayload) throws ClientException {
-		DTOPushPayload payload = new DTOPushPayload(pushPayload);
-		RequestEntity<DTOPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_GROUP_PATH,
-								this.basicPathVariables().putAndBuild("group", group))
-						.headers(this.basicHeaders())
-						.body(payload);
-		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
-		return response.getBody();
+		return pushToGroup(group, LocalizedPushPayload.builder().notification(pushPayload).build());
 	}
 
 	@Override
@@ -149,14 +122,10 @@ class RestTemplatePushClient implements PushClient {
 	public PushResponse pushToCapability(final String capability,
 			final PushToCapabilitiesPayload pushToCapabilitiesPayload) throws
 			ClientException {
-		DTOPushToCapabilitiesPayload payload = new DTOPushToCapabilitiesPayload(pushToCapabilitiesPayload);
-		RequestEntity<DTOPushToCapabilitiesPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.PUSH_TO_CAPABILITY_PATH,
-								this.basicPathVariables().putAndBuild("capabilityName", capability))
-						.headers(this.basicHeaders())
-						.body(payload);
-		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
-		return response.getBody();
+		return pushToCapability(capability, LocalizedPushToCapabilitiesPayload.builder().notification(
+						LocalizedPushPayload.builder().notification(pushToCapabilitiesPayload.getNotification()).build())
+				.users(pushToCapabilitiesPayload.getCapabilityUsers())
+				.build());
 	}
 
 	@Override
@@ -176,14 +145,10 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public PushResponse bulkPush(final PushPayload rootNotification,
 			final Collection<UserNotification> userNotifications) {
-		DTOBulkPushPayload payload = new DTOBulkPushPayload(rootNotification, userNotifications);
-		RequestEntity<DTOBulkPushPayload> request =
-				RequestEntity.method(HttpMethod.POST, Constants.Backend.V1.Paths.BULK_PUSH_PATH,
-								this.basicPathVariables().build())
-						.headers(this.basicHeaders())
-						.body(payload);
-		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
-		return response.getBody();
+		return bulkPush(LocalizedPushPayload.builder().notification(rootNotification).build(),
+				userNotifications.stream().map(un -> LocalizedUserNotification.builder().user(un.getUser())
+						.notification(LocalizedPushPayload.builder().notification(un.getNotification()).build())
+						.build()).collect(Collectors.toList()));
 	}
 
 	@Override
@@ -202,7 +167,7 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public NotificationStatusResponse getNotificationStatus(final String notificationId) {
 		RequestEntity<Void> request =
-				RequestEntity.method(HttpMethod.GET, Constants.Backend.V1.Paths.GET_NOTIFICATION_STATUS,
+				RequestEntity.method(HttpMethod.GET, Constants.Backend.V2.Paths.GET_NOTIFICATION_STATUS,
 								this.basicPathVariables().putAndBuild("notificationId", notificationId))
 						.headers(this.basicHeaders())
 						.build();
