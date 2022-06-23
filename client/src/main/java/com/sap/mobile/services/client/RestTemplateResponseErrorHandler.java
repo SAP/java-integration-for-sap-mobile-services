@@ -1,39 +1,33 @@
 package com.sap.mobile.services.client;
 
-import java.io.IOException;
+import feign.Response;
+import feign.codec.ErrorDecoder;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.ResponseErrorHandler;
-
-public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
+public class RestTemplateResponseErrorHandler implements ErrorDecoder {
 
 	@Override
-	public boolean hasError(ClientHttpResponse response) throws IOException {
-		return response.getStatusCode().isError();
-	}
+	public Exception decode(String methodKey, Response response) {
+		// only gets to see 4xx and 5xx responses
+		Exception serviceSpecificException = this.handleServiceSpecificErrors(response);
+		if (serviceSpecificException != null) {
+			return serviceSpecificException;
+		}
 
-	@Override
-	public void handleError(ClientHttpResponse response) throws IOException {
-		final HttpStatus status = response.getStatusCode();
-		this.handleServiceSpecificErrors(response);
-
-		switch (status) {
-			case UNAUTHORIZED:
-				throw new ClientUnauthorizedException();
-			case TOO_MANY_REQUESTS:
-				throw new TrialLimitExceededException();
+		switch (response.status()) {
+			case 401:
+				return new ClientUnauthorizedException();
+			case 429:
+				return new TrialLimitExceededException();
 			default:
 		}
-		// Generic error handlers for undefined 4** and 5**
-		if (status.is4xxClientError()) {
-			throw new ClientErrorException(status.name());
+
+		if (response.status() >= 400 && response.status() < 500) {
+			return new ClientErrorException(methodKey);
 		}
-		if (status.is5xxServerError()) {
-			throw new ServerErrorException(status.name());
-		}
+		return new ServerErrorException(methodKey);
 	}
 
-	protected void handleServiceSpecificErrors(ClientHttpResponse response) throws IOException {
+	protected Exception handleServiceSpecificErrors(Response response) {
+		return null;
 	}
 }

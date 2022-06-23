@@ -1,7 +1,6 @@
 package com.sap.mobile.services.client;
 
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-
+import feign.RequestInterceptor;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -17,7 +16,7 @@ public class ServiceKeyClientConfiguration extends ClientConfiguration {
 	}
 
 	@Override
-	ClientHttpRequestInterceptor getAuthInterceptor() {
+	RequestInterceptor getAuthInterceptor() {
 		return new ApiKeyAuthorizationRequestInterceptor(this.serviceKey);
 	}
 
