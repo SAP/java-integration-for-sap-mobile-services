@@ -4,7 +4,8 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import feign.RequestInterceptor;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -21,5 +22,5 @@ abstract public class ClientConfiguration {
 
 	abstract String getRootUri();
 
-	abstract RequestInterceptor getAuthInterceptor();
+	abstract ClientHttpRequestInterceptor getAuthInterceptor();
 }

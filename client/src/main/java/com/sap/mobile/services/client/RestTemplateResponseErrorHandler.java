@@ -1,33 +1,39 @@
 package com.sap.mobile.services.client;
 
-import feign.Response;
-import feign.codec.ErrorDecoder;
+import java.io.IOException;
 
-public class RestTemplateResponseErrorHandler implements ErrorDecoder {
+import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.ResponseErrorHandler;
+
+public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 
 	@Override
-	public Exception decode(String methodKey, Response response) {
-		// only gets to see 4xx and 5xx responses
-		Exception serviceSpecificException = this.handleServiceSpecificErrors(response);
-		if (serviceSpecificException != null) {
-			return serviceSpecificException;
-		}
-
-		switch (response.status()) {
-			case 401:
-				return new ClientUnauthorizedException();
-			case 429:
-				return new TrialLimitExceededException();
-			default:
-		}
-
-		if (response.status() >= 400 && response.status() < 500) {
-			return new ClientErrorException(methodKey);
-		}
-		return new ServerErrorException(methodKey);
+	public boolean hasError(ClientHttpResponse response) throws IOException {
+		return response.getStatusCode().isError();
 	}
 
-	protected Exception handleServiceSpecificErrors(Response response) {
-		return null;
+	@Override
+	public void handleError(ClientHttpResponse response) throws IOException {
+		final HttpStatus status = response.getStatusCode();
+		this.handleServiceSpecificErrors(response);
+
+		switch (status) {
+			case UNAUTHORIZED:
+				throw new ClientUnauthorizedException();
+			case TOO_MANY_REQUESTS:
+				throw new TrialLimitExceededException();
+			default:
+		}
+		// Generic error handlers for undefined 4** and 5**
+		if (status.is4xxClientError()) {
+			throw new ClientErrorException(status.name());
+		}
+		if (status.is5xxServerError()) {
+			throw new ServerErrorException(status.name());
+		}
+	}
+
+	protected void handleServiceSpecificErrors(ClientHttpResponse response) throws IOException {
 	}
 }

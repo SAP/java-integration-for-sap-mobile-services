@@ -1,6 +1,7 @@
 package com.sap.mobile.services.client;
 
-import feign.RequestInterceptor;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -12,10 +13,11 @@ public class CustomAuthClientConfiguration extends ClientConfiguration {
 	private final CustomAuthHeaderSupplier authHeaderSupplier;
 
 	@Override
-	RequestInterceptor getAuthInterceptor() {
-		return (requestTemplate) -> {
+	ClientHttpRequestInterceptor getAuthInterceptor() {
+		return (request, body, execution) -> {
 			HttpHeader header = authHeaderSupplier.get();
-			requestTemplate.header(header.getName(), header.getValue());
+			request.getHeaders().set(header.getName(), header.getValue());
+			return execution.execute(request, body);
 		};
 	}
 }

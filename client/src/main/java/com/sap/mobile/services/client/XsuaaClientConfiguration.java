@@ -1,8 +1,9 @@
 package com.sap.mobile.services.client;
 
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
 
-import feign.RequestInterceptor;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -14,7 +15,7 @@ public class XsuaaClientConfiguration extends ClientConfiguration {
 	private ClientCredentialsTokenFlow xsuaaTokenFlow;
 
 	@Override
-	RequestInterceptor getAuthInterceptor() {
+	ClientHttpRequestInterceptor getAuthInterceptor() {
 		return new XsuaaAuthorizationRequestInterceptor(xsuaaTokenFlow);
 	}
 
