@@ -22,7 +22,7 @@ public interface NotificationStatus {
 		SENT,
 		/** Sending the notification failed. */
 		ERROR,
-		/** The target has received the notification. This status is not supported by all push provider. */
+		/** The mobile app has received the notification. This status relies on the app implementation. */
 		RECEIVED,
 		/** The mobile app has consumed the notification. This status relies on the app implementation. */
 		CONSUMED,
