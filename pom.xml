@@ -20,5 +20,6 @@
 	<modules>
 		<module>client</module>
 		<module>samples</module>
+		<module>validation</module>
 	</modules>
 </project>

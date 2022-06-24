@@ -1,0 +1,47 @@
+_schema-version: "3.1"
+ID: com.sap.cloud.platform.mobile.services.validation.broker
+version: 1.0.0
+
+modules:
+  - name: mobile-services-broker-for-validation
+    type: java.tomcat
+    path: target/mobile-services-broker-for-validation.jar
+    parameters:
+      buildpack: https://github.com/cloudfoundry/java-buildpack.git
+      stack: cflinuxfs3
+      memory: 1G
+      disk-quota: 768M
+      health-check-type: http
+      health-check-http-endpoint: /v3/api-docs
+    properties:
+      SPRING_PROFILES_ACTIVE: cloud
+      JBP_CONFIG_COMPONENTS: '{jres: ["JavaBuildpack::Jre::SapMachineJRE"]}'
+      JBP_CONFIG_SAPJVM: '[memory_calculator: {memory_settings: {directmemory:50M}}]'
+      JBP_CONFIG_JAVA_OPTS: '[ java_opts: ''-XX:MaxDirectMemorySize=50M'']'
+      MEMORY_CALCULATOR_V1: 'true'
+      LOGGING_LEVEL_ROOT: WARN
+    requires:
+      - name: xsuaa
+        parameters:
+          config:
+            credential-type: x509
+            x509:
+              validity: 3
+              validity-type: MONTHS
+      - name: credstore
+resources:
+  - name: xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      service-name: xsuaa-mobile-services-broker
+  - name: credstore
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: credstore
+      service-plan: free
+      service-name: credstore-mobile-services-broker
+      config:
+        authentication:
+          type: 'oauth:mtls'
