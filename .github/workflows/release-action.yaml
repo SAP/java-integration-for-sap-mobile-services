@@ -42,7 +42,7 @@ jobs:
           npx @vercel/ncc build cleanup.js
           mv cleanup.js cleanup.orig.js
           mv dist/index.js ./cleanup.js
-        if: ${{ inputs.type == 'javascript' && inputs.has-cleanup == 'true' }}
+        if: ${{ inputs.type == 'javascript' && inputs.has-cleanup == true }}
         working-directory: .github/actions/${{ inputs.name }}
       - uses: actions/upload-artifact@v3
         with:
