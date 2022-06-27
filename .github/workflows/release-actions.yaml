@@ -46,3 +46,12 @@ jobs:
       name: 'is-latest-release'
       version: ${{ needs.retrieve-version.outputs.version }}
       type: 'javascript'
+  publish-prepare-mobile-services-app-action:
+    needs:
+      - 'retrieve-version'
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
+    with:
+      name: 'prepare-mobile-services-app'
+      version: ${{ needs.retrieve-version.outputs.version }}
+      type: 'javascript'
+      has-cleanup: true
