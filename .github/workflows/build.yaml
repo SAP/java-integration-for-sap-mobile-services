@@ -30,3 +30,16 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           path: target/push-client-java-${{ env.artifactVersion }}-javadoc.jar
+      - uses: SAP/java-integration-for-sap-mobile-services@actions_prepare-mobile-services-app_0.0.1-SNAPSHOT
+        with:
+          broker-endpoint: ${{ secrets.BROKER_ENDPOINT }}
+          broker-xsuaa-client-id: ${{ secrets.BROKER_XSUAA_CLIENT_ID }}
+          broker-xsuaa-url: ${{ secrets.BROKER_XSUAA_URL }}
+          broker-xsuaa-cert: ${{ secrets.BROKER_XSUAA_CERT }}
+          broker-xsuaa-key: ${{ secrets.BROKER_XSUAA_KEY }}
+          mobile-features: 'push'
+          service-key-path: ${{ github.workspace }}/validation/system-tests/service-key.json
+      - env:
+          SERVICE_BINDING_LOCATION: ${{ github.workspace }}/validation/system-tests/service-key.json
+        run: mvn -B test --file pom.xml -DskipTests=false
+        working-directory: validation/system-tests
