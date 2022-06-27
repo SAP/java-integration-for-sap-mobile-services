@@ -26,10 +26,24 @@ jobs:
         run: mvn -B package --file pom.xml
       - uses: actions/upload-artifact@v3
         with:
-          path: target/push-client-java-${{ env.artifactVersion }}.jar
+          path: client/target/java-integration-${{ env.artifactVersion }}.jar
       - uses: actions/upload-artifact@v3
         with:
-          path: target/push-client-java-${{ env.artifactVersion }}-javadoc.jar
+          path: client/target/java-integration-${{ env.artifactVersion }}-javadoc.jar
+  system-tests:
+    name: Build Maven Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+          cache: maven
       - uses: SAP/java-integration-for-sap-mobile-services@actions_prepare-mobile-services-app_0.0.1-SNAPSHOT
         with:
           broker-endpoint: ${{ secrets.BROKER_ENDPOINT }}
@@ -41,5 +55,5 @@ jobs:
           service-key-path: ${{ github.workspace }}/validation/system-tests/service-key.json
       - env:
           SERVICE_BINDING_LOCATION: ${{ github.workspace }}/validation/system-tests/service-key.json
-        run: mvn -B test --file pom.xml -DskipTests=false
+        run: mvn -B test --file pom.xml -pl :system-tests -Psystem-tests -DskipTests=true -am
         working-directory: validation/system-tests
