@@ -31,7 +31,7 @@ jobs:
         with:
           path: client/target/java-integration-${{ env.artifactVersion }}-javadoc.jar
   system-tests:
-    name: Build Maven Project
+    name: Execute system-tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -56,4 +56,3 @@ jobs:
       - env:
           SERVICE_BINDING_LOCATION: ${{ github.workspace }}/validation/system-tests/service-key.json
         run: mvn -B test --file pom.xml -pl :system-tests -Psystem-tests -DskipTests=true -am
-        working-directory: validation/system-tests
