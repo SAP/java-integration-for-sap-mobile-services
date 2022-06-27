@@ -14,6 +14,10 @@
 
 	<name>Java integration for SAP Mobile Services - Validation</name>
 
+	<modules>
+		<module>system-tests</module>
+	</modules>
+
 	<profiles>
 		<profile>
 			<id>validation</id>
