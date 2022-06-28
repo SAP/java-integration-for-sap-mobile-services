@@ -47,7 +47,7 @@ async function compile(name) {
   const sourceFile = path.join(process.cwd(), name);
   const distFolder = path.join(process.cwd(), "dist");
   const outFile = path.join(distFolder, name);
-  const backupSourceFile = path.join(distFolder, name + ".orig");
+  const backupSourceFile = path.join(distFolder, name.replace(/\.js$/, '.orig.js'));
 
   console.log(`Compile ${sourceFile} -> ${outFile}`);
   const result = await ncc(sourceFile);

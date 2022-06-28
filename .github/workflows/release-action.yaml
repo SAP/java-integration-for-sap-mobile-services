@@ -33,9 +33,7 @@ jobs:
           ./node_modules/.bin/lerna exec --scope ${PACKAGE_NAME} -- npm run-script build
         working-directory: .github/actions
         if: ${{ inputs.type == 'javascript' }}
-      - run: |
-          mv dist/*.js ./
-          mv dist/*.orig.js ./
+      - run: mv dist/*.js ./
         if: ${{ inputs.type == 'javascript' }}
         working-directory: .github/actions/packages/${{ inputs.name }}
       - uses: actions/upload-artifact@v3
