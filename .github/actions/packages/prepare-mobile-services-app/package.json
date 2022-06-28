@@ -12,6 +12,6 @@
     "@actions/core": "^1.8.2",
     "@actions/github": "^5.0.3",
     "@sap/xssec": "^3.2.13",
-    "got": "^11.8.5"
+    "got": "^12.1.0"
   }
 }
