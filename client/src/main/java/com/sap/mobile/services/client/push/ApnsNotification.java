@@ -9,6 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The APNS specific notification request element. Use the
+ * {@link Builder} to define and build the APNS specific notification element.
+ */
 public interface ApnsNotification {
 
 	static Builder builder() {

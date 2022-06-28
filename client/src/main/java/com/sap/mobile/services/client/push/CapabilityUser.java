@@ -9,6 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The CapabilityUser entity is a filter element to select the target devices.
+ * The mandatory filter values are the username and form factor collection. Both
+ * parameters are required.
+ * Use {@link Builder} to define and build the request payload.
+ */
 public interface CapabilityUser {
 
 	static Builder builder() {

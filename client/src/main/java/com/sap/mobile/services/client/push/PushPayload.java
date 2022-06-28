@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Representation of the notification element. Use {@link Builder} to define and
+ * build the notification payload.
+ */
 public interface PushPayload {
 
 	static Builder builder() {

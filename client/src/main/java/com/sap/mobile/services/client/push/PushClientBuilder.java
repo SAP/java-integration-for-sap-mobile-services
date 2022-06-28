@@ -23,12 +23,12 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 /**
  * The PushClientBuilder is used to instantiate a push client from a
  * configuration source.
  */
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PushClientBuilder {
 
 	private Duration connectTimeout;

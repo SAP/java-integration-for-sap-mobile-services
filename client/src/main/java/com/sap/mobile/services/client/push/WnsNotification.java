@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * WNS specific notification request element. Use {@link Builder} to configure
+ * and build the request payload.
+ */
 public interface WnsNotification {
 
 	static Builder builder() {

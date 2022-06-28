@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
- * W3c-specific notification parameters.
+ * W3c-specific notification parameters. Use {@link Builder} to define and build the element.
  */
 public interface W3cNotification {
 
@@ -31,6 +31,9 @@ public interface W3cNotification {
 	 */
 	Duration getTtl();
 
+	/**
+	 * W3C specific notification element builder.
+	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	final class Builder {

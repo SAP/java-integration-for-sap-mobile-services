@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * WNS specific audio request element. Use {@link Builder} to configure and
+ * build the request payload.
+ */
 public interface WnsNotificationAudio {
 
 	static Builder builder() {

@@ -9,6 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Firebase specific notification request element. Use the {@link Builder} to
+ * define and build the Firebase specific notification element.
+ */
 public interface GcmNotification {
 
 	static Builder builder() {

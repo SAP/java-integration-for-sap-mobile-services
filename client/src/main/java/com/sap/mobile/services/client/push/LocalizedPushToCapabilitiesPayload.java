@@ -9,7 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
- * TODO doc
+ * Root payload element for push service localized
+ * push to capability, @see <a target="_top"
+ * href=
+ * "https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/api/localization.html#push-service-based-localization">Push
+ * Service Based Localization</a>. Use the {@link Builder} to define and build
+ * the request.
  */
 public interface LocalizedPushToCapabilitiesPayload {
 	static Builder builder() {
@@ -20,6 +25,12 @@ public interface LocalizedPushToCapabilitiesPayload {
 
 	LocalizedPushPayload getNotification();
 
+	/**
+	 * Helper to define and create the localized push to capability request. @see
+	 * <a target="_top" href=
+	 * "https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/api/localization.html#push-service-based-localization">Push
+	 * Service Based Localization</a>.
+	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	final class Builder {
