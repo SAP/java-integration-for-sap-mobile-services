@@ -16,6 +16,18 @@ async function build() {
     const main = actionsDescriptor.runs.main;
     const post = actionsDescriptor.runs.post;
 
+    const distFolder = path.join(process.cwd(), "dist");
+    try {
+      await fs.rm(distFolder, {
+        recursive: true,
+        force: true,
+      });
+    } catch (e) {
+      //ignore
+    }
+
+    await fs.mkdir(distFolder);
+
     if (main) {
       await compile(main);
     }
@@ -37,19 +49,8 @@ async function compile(name) {
   const outFile = path.join(distFolder, name);
   const backupSourceFile = path.join(distFolder, name + ".orig");
 
-  console.log(`Compile ${sourceFile}`);
+  console.log(`Compile ${sourceFile} -> ${outFile}`);
   const result = await ncc(sourceFile);
-
-  try {
-    await fs.rm(distFolder, {
-      recursive: true,
-      force: true,
-    });
-  } catch (e) {
-    //ignore
-  }
-
-  await fs.mkdir(distFolder);
 
   await fs.copyFile(sourceFile, backupSourceFile);
   await fs.writeFile(outFile, result.code, {
