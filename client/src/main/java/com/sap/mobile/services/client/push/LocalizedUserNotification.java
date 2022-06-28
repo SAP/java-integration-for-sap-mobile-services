@@ -7,7 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
- * User specific payload element for server localized bulk push
+ * User specific bulk push payload element for server localized bulk push @see
+ * <a target="_top" href=
+ * "https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/api/localization.html#push-service-based-localization">Push
+ * Service Based Localization</a>. Use the {@link Builder} to define and build
+ * the request.
  */
 public interface LocalizedUserNotification {
 
@@ -19,6 +23,9 @@ public interface LocalizedUserNotification {
 
 	LocalizedPushPayload getNotification();
 
+	/**
+	 * Helper for user specific bulk push payload creation.
+	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	final class Builder {

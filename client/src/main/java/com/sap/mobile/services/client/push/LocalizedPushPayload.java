@@ -13,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 /**
  * Root payload element for push service localized
  * push, @see <a target="_top"
- * href="https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/api/localization.html#push-service-based-localization">Push
- * Service Based Localization</a>
+ * href=
+ * "https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/api/localization.html#push-service-based-localization">Push
+ * Service Based Localization</a>. Use the {@link Builder} to define and build
+ * the element.
  */
 public interface LocalizedPushPayload {
 

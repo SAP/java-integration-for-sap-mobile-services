@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Representation of the push to capability request. Use {@link Builder} to
+ * define and build the push to capability request.
+ */
 public interface PushToCapabilitiesPayload {
 
 	static Builder builder() {

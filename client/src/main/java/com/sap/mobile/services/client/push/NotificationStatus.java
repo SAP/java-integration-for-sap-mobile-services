@@ -3,10 +3,12 @@ package com.sap.mobile.services.client.push;
 import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-
+/**
+ * Notification status detail response element of {@link NotificationStatusResponse}
+ */
 public interface NotificationStatus {
 
-	/**  Notification status. */
+	/** Notification status. */
 	Status getStatus();
 
 	/** The notification producer. */
@@ -15,6 +17,12 @@ public interface NotificationStatus {
 	/** The target type, like ios, android ... */
 	String getNotificationType();
 
+	/**
+	 * The current notification status.
+	 * <p>
+	 * Please note: Some status relies on the mobile app implementing callbacks and
+	 * may not be available.
+	 */
 	public enum Status {
 		/** The notification is queued and send later. */
 		QUEUED,
@@ -22,11 +30,20 @@ public interface NotificationStatus {
 		SENT,
 		/** Sending the notification failed. */
 		ERROR,
-		/** The mobile app has received the notification. This status relies on the app implementation. */
+		/**
+		 * The mobile app has received the notification. This status relies on the app
+		 * implementation.
+		 */
 		RECEIVED,
-		/** The mobile app has consumed the notification. This status relies on the app implementation. */
+		/**
+		 * The mobile app has consumed the notification. This status relies on the app
+		 * implementation.
+		 */
 		CONSUMED,
-		/** The mobile app has confirmed the notification. This status relies on the app implementation. */
+		/**
+		 * The mobile app has confirmed the notification. This status relies on the app
+		 * implementation.
+		 */
 		CONFIRMED;
 
 		@JsonCreator

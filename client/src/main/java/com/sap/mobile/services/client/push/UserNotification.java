@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Representation of the bulk push user request element. Use {@link Builder} to
+ * define and build the bulk push user request element.
+ */
 public interface UserNotification {
 
 	static Builder builder() {

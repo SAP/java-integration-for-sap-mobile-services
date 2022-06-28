@@ -6,6 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * ApnsCustomSound class represents the new APNS notification sound
+ * element. Compared to the legacy sound property in
+ * {@link ApnsNotification#getSound()} it allows to define critical notifications
+ * and the volume of critical sounds, Use the {@link Builder} to configure the
+ * custom sound. Use {@link Builder} to configure and build the sound request
+ * element.
+ */
 public interface ApnsCustomSound {
 
 	static Builder builder() {
