@@ -19,15 +19,18 @@ public final class ClientBuilderUtils {
 				.map(restTemplateBuilder::setConnectTimeout).orElse(restTemplateBuilder);
 		restTemplateBuilder = Optional.ofNullable(config.getReadTimeout()).map(restTemplateBuilder::setReadTimeout)
 				.orElse(restTemplateBuilder);
-		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(config.getAuthInterceptor());
 		restTemplateBuilder = restTemplateBuilder.rootUri(config.getRootUri());
 		return restTemplateBuilder;
 	}
 
-	public static RestTemplateBuilder addDefaultInterceptors(RestTemplateBuilder restTemplateBuilder) {
+	public static RestTemplateBuilder addDefaultInterceptors(RestTemplateBuilder restTemplateBuilder, ClientConfiguration config) {
 		restTemplateBuilder = restTemplateBuilder
 				.additionalInterceptors(new ClientInfoRequestInterceptor(BuildProperties.getInstance()));
 		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(new ApiWarnHeaderRequestInterceptor());
+		// tenant header interceptor has to go before auth interceptor
+		// TODO check if there is a way to improve this situation
+		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(new TenantHeaderRequestInterceptor(config.getTenantResolver()));
+		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(config.getAuthInterceptor());
 		return restTemplateBuilder;
 	}
 

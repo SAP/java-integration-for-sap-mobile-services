@@ -48,11 +48,6 @@ interface Constants {
 		}
 	}
 
-	interface Headers {
-		// TODO remove from this package
-		String TENANT_ID_HEADER = "x-tenant-id";
-	}
-
 	interface Binding {
 		// TODO remove from this package
 		String MOBILE_SERVICES_ENDPOINT_NAME = "mobileservices";

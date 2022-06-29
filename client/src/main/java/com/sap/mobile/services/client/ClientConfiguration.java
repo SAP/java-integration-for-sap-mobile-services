@@ -18,7 +18,7 @@ abstract public class ClientConfiguration {
 
 	private Duration connectTimeout;
 	private Duration readTimeout;
-	private Supplier<Optional<String>> tenantResolver;
+	private TenantSupplier tenantResolver;
 
 	abstract String getRootUri();
 

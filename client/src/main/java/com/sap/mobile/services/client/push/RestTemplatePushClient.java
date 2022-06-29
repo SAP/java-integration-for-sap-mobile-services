@@ -39,7 +39,7 @@ class RestTemplatePushClient implements PushClient {
 
 		RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
 		restTemplateBuilder = ClientBuilderUtils.addBasicConfiguraiton(restTemplateBuilder, config);
-		restTemplateBuilder = ClientBuilderUtils.addDefaultInterceptors(restTemplateBuilder);
+		restTemplateBuilder = ClientBuilderUtils.addDefaultInterceptors(restTemplateBuilder, config);
 		restTemplateBuilder = restTemplateBuilder.errorHandler(new PushRestTemplateResponseErrorHandler());
 		this.restTemplate = restTemplateBuilder.build();
 		this.config = config;
@@ -56,7 +56,6 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushPayload> request =
 				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_APPLICATION_PATH,
 								this.basicPathVariables().build())
-						.headers(this.basicHeaders())
 						.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -75,7 +74,6 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushPayload> request =
 				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_USER_PATH,
 								this.basicPathVariables().put("userId", userId).putAndBuild("deviceId", deviceId))
-						.headers(this.basicHeaders())
 						.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -95,7 +93,6 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushToUsersPayload> request =
 				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_USERS_PATH,
 								this.basicPathVariables().build())
-						.headers(this.basicHeaders())
 						.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -112,7 +109,6 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushPayload> request =
 				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_GROUP_PATH,
 								this.basicPathVariables().putAndBuild("group", group))
-						.headers(this.basicHeaders())
 						.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -136,7 +132,6 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushToCapabilitiesPayload> request =
 				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_CAPABILITY_PATH,
 								this.basicPathVariables().putAndBuild("capabilityName", capability))
-						.headers(this.basicHeaders())
 						.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -158,7 +153,6 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedBulkPush> request =
 				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.BULK_PUSH_PATH,
 								this.basicPathVariables().build())
-						.headers(this.basicHeaders())
 						.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -169,7 +163,6 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<Void> request =
 				RequestEntity.method(HttpMethod.GET, Constants.Backend.V2.Paths.GET_NOTIFICATION_STATUS,
 								this.basicPathVariables().putAndBuild("notificationId", notificationId))
-						.headers(this.basicHeaders())
 						.build();
 		ResponseEntity<DTONotificationStatusResponse> response =
 				this.restTemplate.exchange(request, DTONotificationStatusResponse.class);
@@ -181,7 +174,7 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<Void> request = RequestEntity.method(HttpMethod.GET,
 				UriComponentsBuilder.fromPath(Constants.Backend.V2.Paths.GET_LOCALIZATIONS)
 						.queryParam(Constants.Backend.V2.Params.GET_LOCALIZATIONS_USER_PARAM, userIds)
-						.build(this.basicPathVariables().build()).toString()).headers(this.basicHeaders()).build();
+						.build(this.basicPathVariables().build()).toString()).build();
 		ParameterizedTypeReference<Set<String>> type = new ParameterizedTypeReference<Set<String>>() {
 		};
 		ResponseEntity<Set<String>> response = this.restTemplate.exchange(request, type);
@@ -190,13 +183,5 @@ class RestTemplatePushClient implements PushClient {
 
 	private MapBuilder<String> basicPathVariables() {
 		return MapBuilder.newInstance(String.class).put("applicationId", this.config.getApplicationId());
-	}
-
-	private HttpHeaders basicHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		this.config.getTenantResolver().get().ifPresent(tenantId -> {
-			headers.add(Constants.Headers.TENANT_ID_HEADER, tenantId);
-		});
-		return headers;
 	}
 }
