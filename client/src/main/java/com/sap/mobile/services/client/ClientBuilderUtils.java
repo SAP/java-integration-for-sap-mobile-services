@@ -24,10 +24,11 @@ public final class ClientBuilderUtils {
 		return restTemplateBuilder;
 	}
 
-	public static RestTemplateBuilder addDefaultInterceptors(RestTemplateBuilder restTemplateBuilder) {
+	public static RestTemplateBuilder addDefaultInterceptors(RestTemplateBuilder restTemplateBuilder, ClientConfiguration config) {
 		restTemplateBuilder = restTemplateBuilder
 				.additionalInterceptors(new ClientInfoRequestInterceptor(BuildProperties.getInstance()));
 		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(new ApiWarnHeaderRequestInterceptor());
+		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(new TenantHeaderRequestInterceptor(config.getTenantResolver()));
 		return restTemplateBuilder;
 	}
 

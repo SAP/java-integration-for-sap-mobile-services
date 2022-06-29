@@ -16,6 +16,7 @@ import com.sap.mobile.services.client.CustomAuthHeaderSupplier;
 import com.sap.mobile.services.client.MobileServicesBinding;
 import com.sap.mobile.services.client.MobileServicesSettings;
 import com.sap.mobile.services.client.ServiceKeyClientConfiguration;
+import com.sap.mobile.services.client.TenantSupplier;
 import com.sap.mobile.services.client.XsuaaClientConfiguration;
 import com.sap.mobile.services.client.XsuaaTokenFlowFactory;
 
@@ -34,7 +35,7 @@ public final class PushClientBuilder {
 	private Duration connectTimeout;
 	private Duration readTimeout;
 	private XsuaaTokenFlowFactory tokenFlowFactory = new XsuaaTokenFlowFactory();
-	private Supplier<Optional<String>> tenantResolver = Optional::empty;
+	private TenantSupplier tenantResolver = Optional::empty;
 
 	/**
 	 * Instantiate the push client from a mobile service setting source, using the
@@ -124,9 +125,9 @@ public final class PushClientBuilder {
 	 * Instantiate the push client with custom authorization mechanisms.
 	 * This is meant to be a fallback if any other method will not work for the use case.
 	 *
-	 * @param applicationId
-	 * @param rootUri
-	 * @param authHeaderSupplier
+	 * @param applicationId ID of the mobile application
+	 * @param rootUri Root URI of the mobile application
+	 * @param authHeaderSupplier Supplier for a custom authentication header
 	 */
 	public PushClient build(String applicationId, String rootUri, CustomAuthHeaderSupplier authHeaderSupplier) {
 		Assert.notNull(applicationId, "applicationId must not be null.");
@@ -167,7 +168,7 @@ public final class PushClientBuilder {
 	 * @param tenantResolver tenant resolver
 	 * @return new instance of client builder
 	 */
-	public PushClientBuilder withTenantResolver(Supplier<Optional<String>> tenantResolver) {
+	public PushClientBuilder withTenantResolver(TenantSupplier tenantResolver) {
 		return new PushClientBuilder(this.connectTimeout, this.readTimeout, this.tokenFlowFactory, tenantResolver);
 	}
 
