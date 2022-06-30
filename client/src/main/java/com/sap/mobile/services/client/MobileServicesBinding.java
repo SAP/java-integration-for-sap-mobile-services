@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,6 +32,12 @@ public final class MobileServicesBinding {
 
 	private static final String VCAP_SERVICES_NAME = "VCAP_SERVICES";
 	private static final String MOBILE_SERVICES_TAG_PREFIX = "mobileservice";
+	@JsonProperty("endpoints")
+	private Map<String, Endpoint> endpoints = new HashMap<>();
+	@JsonProperty("sap.cloud.service")
+	private String appName;
+	@JsonProperty("uaa")
+	private UaaConfig clientConfiguration;
 
 	public static MobileServicesBinding fromResource(String resource) throws IOException {
 		try (InputStream is = MobileServicesBinding.class.getClassLoader().getResourceAsStream(resource)) {
@@ -46,7 +53,8 @@ public final class MobileServicesBinding {
 		return fromVCAPVariables(System::getenv);
 	}
 
-	static Optional<MobileServicesBinding> fromVCAPVariables(final Function<String, String> environmentAccessor) throws IOException {
+	static Optional<MobileServicesBinding> fromVCAPVariables(final Function<String, String> environmentAccessor)
+			throws IOException {
 		final String vcapServices = environmentAccessor.apply(VCAP_SERVICES_NAME);
 		if (vcapServices == null) {
 			log.debug("No '{}' environment variable found", VCAP_SERVICES_NAME);
@@ -66,7 +74,8 @@ public final class MobileServicesBinding {
 			log.info("No Mobile Services binding found");
 			return Optional.empty();
 		} else if (serviceInstances.size() > 1) {
-			final String foundServiceNames = serviceInstances.stream().map(VcapService::getName).collect(Collectors.joining(", "));
+			final String foundServiceNames =
+					serviceInstances.stream().map(VcapService::getName).collect(Collectors.joining(", "));
 			log.warn("Found multiple service bindings: {}", foundServiceNames);
 			return Optional.empty();
 		}
@@ -75,12 +84,13 @@ public final class MobileServicesBinding {
 		return Optional.of(objectMapper.convertValue(service.getCredentials(), MobileServicesBinding.class));
 	}
 
-	@JsonProperty("endpoints")
-	private Map<String, Endpoint> endpoints = new HashMap<>();
-	@JsonProperty("sap.cloud.service")
-	private String appName;
-	@JsonProperty("uaa")
-	private UaaConfig clientConfiguration;
+	@JsonIgnore
+	public MobileServicesBinding.Endpoint getMobileServicesEndpoint() {
+		return Optional
+				.ofNullable(this.endpoints.get(Constants.Binding.MOBILE_SERVICES_ENDPOINT_NAME))
+				.orElseThrow(() -> new IllegalArgumentException(
+						"Missing endpoint in mobile services binding."));
+	}
 
 	@Getter
 	@Setter
