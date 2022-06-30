@@ -1,0 +1,15 @@
+{
+  "name": "copy-to-release-branch",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "author": "SAP SE",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "node $LERNA_ROOT_PATH/scripts/build.js"
+  },
+  "dependencies": {
+    "@actions/core": "^1.8.2",
+    "@actions/github": "^5.0.3"
+  }
+}

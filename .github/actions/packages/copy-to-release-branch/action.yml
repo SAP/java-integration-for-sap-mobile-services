@@ -1,0 +1,18 @@
+name: 'Copy to Release Branch'
+description: 'Creates a new release-branch or creates a PR into an existing one'
+inputs:
+  github-token:
+    description: 'The Github API token'
+    required: true
+  release-branch:
+    description: 'The target release branch name'
+    required: true
+  current-branch:
+    description: 'The current, temporary branch name'
+    required: true
+  release-version:
+    description: 'The target release version'
+    required: false
+runs:
+  using: 'node16'
+  main: 'index.js'

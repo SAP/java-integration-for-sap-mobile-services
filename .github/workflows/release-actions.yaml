@@ -27,3 +27,8 @@ jobs:
     with:
       name: 'prepare-mobile-services-app'
       type: 'javascript'
+  publish-copy-to-release-branch-action:
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
+    with:
+      name: 'copy-to-release-branch'
+      type: 'javascript'
