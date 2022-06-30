@@ -7,50 +7,23 @@ on:
     paths:
       - '.github/actions/**/*'
 jobs:
-  retrieve-version:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '8'
-      - run: |
-          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
-          echo "version=$VERSION" >> $GITHUB_ENV
-    outputs:
-      version: ${{ env.version }}
   publish-bump-version-action:
-    needs:
-      - 'retrieve-version'
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'bump-version'
-      version: ${{ needs.retrieve-version.outputs.version }}
       type: 'javascript'
   publish-build-mkdocs-action:
-    needs:
-      - 'retrieve-version'
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'build-mkdocs'
-      version: ${{ needs.retrieve-version.outputs.version }}
       type: 'docker'
   publish-is-latest-release-action:
-    needs:
-      - 'retrieve-version'
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'is-latest-release'
-      version: ${{ needs.retrieve-version.outputs.version }}
       type: 'javascript'
   publish-prepare-mobile-services-app-action:
-    needs:
-      - 'retrieve-version'
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'prepare-mobile-services-app'
-      version: ${{ needs.retrieve-version.outputs.version }}
       type: 'javascript'

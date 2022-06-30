@@ -6,10 +6,6 @@ on:
         required: true
         description: The name (folder name) of the action
         type: string
-      version:
-        required: true
-        description: The release version
-        type: string
       type:
         required: true
         description: The type of action (javascript, docker)
@@ -51,7 +47,7 @@ jobs:
         with:
           fetch-depth: 0
       - env:
-          ACTIONS_BRANCH: actions_${{ inputs.name }}_${{ inputs.version }}
+          ACTIONS_BRANCH: actions_${{ inputs.name }}
         run: |
           git checkout --orphan $ACTIONS_BRANCH || git branch -D $ACTIONS_BRANCH && git checkout --orphan $ACTIONS_BRANCH
           git rm -rf .
@@ -60,8 +56,8 @@ jobs:
         with:
           name: ${{ inputs.name }}_actions-build
       - env:
-          ACTIONS_TAG: actions_${{ inputs.name }}_${{ inputs.version }}
-          ACTIONS_TAG_MESSAGE: 'Release build of ${{ inputs.name }} action version ${{ inputs.version }}'
+          ACTIONS_TAG: actions_${{ inputs.name }}
+          ACTIONS_TAG_MESSAGE: 'Release build of ${{ inputs.name }} action'
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com" 
           git config user.name "github-actions[bot]" 
