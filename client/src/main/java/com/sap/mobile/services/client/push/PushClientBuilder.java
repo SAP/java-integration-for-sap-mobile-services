@@ -100,10 +100,7 @@ public final class PushClientBuilder {
 		final String applicationId = binding.getAppName();
 		final ClientCredentialsTokenFlow tokenFlow = tokenFlowFactory.createClientCredentialsTokenFlow(binding);
 
-		final MobileServicesBinding.Endpoint endpoint = Optional
-				.ofNullable(binding.getEndpoints().get(Constants.Binding.MOBILE_SERVICES_ENDPOINT_NAME))
-				.orElseThrow(() -> new IllegalArgumentException(
-						"Missing endpoint in mobile services binding."));
+		final MobileServicesBinding.Endpoint endpoint = binding.getMobileServicesEndpoint();
 
 		final Duration endpointReadTimeout = endpoint.getTimeout() > 0 ? Duration.ofMillis(endpoint.getTimeout())
 				: null;

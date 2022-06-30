@@ -47,9 +47,4 @@ interface Constants {
 			}
 		}
 	}
-
-	interface Binding {
-		// TODO remove from this package
-		String MOBILE_SERVICES_ENDPOINT_NAME = "mobileservices";
-	}
 }
