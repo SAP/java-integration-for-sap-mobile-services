@@ -44,7 +44,7 @@ jobs:
           distribution: 'temurin'
           java-version: '8'
           cache: maven
-      - uses: SAP/java-integration-for-sap-mobile-services@actions_prepare-mobile-services-app_0.0.1-SNAPSHOT
+      - uses: SAP/java-integration-for-sap-mobile-services@actions_prepare-mobile-services-app
         with:
           broker-endpoint: ${{ secrets.BROKER_ENDPOINT }}
           broker-xsuaa-client-id: ${{ secrets.BROKER_XSUAA_CLIENT_ID }}

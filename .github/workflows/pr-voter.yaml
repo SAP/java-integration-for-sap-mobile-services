@@ -53,4 +53,4 @@ jobs:
         with:
           name: rebased-project
       - name: Build Documentation
-        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs_0.0.1-SNAPSHOT
+        uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs
