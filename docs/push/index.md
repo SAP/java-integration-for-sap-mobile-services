@@ -48,6 +48,34 @@ underlying client.
 builder.withReadTimeout(Duration.ofSeconds(2))
 ```
 
+### Tenant ID
+
+You may configure a static tenant id. The id must be associated with a subscriber of your Mobile Services application.
+If not configured, defaults to the provider tenant.
+
+```java
+builder.withTenantId("19f52077-c4fc-43b8-a8eb-4995779e1fa1")
+```
+
+Note, this option is incompatible with the [Tenant Resolver](#tenant-resolver) configuration.
+
+### Tenant Resolver
+
+You may configure a dynamic tenant resolver. The resolver function is called for each request to determine the subscriber.
+The function can return the tenant id wrapped in an `Optional` or an empty `Optional` to use the provider tenant.
+
+The tenant id of a subscriber can be obtained during the `onSubscription` call of the [SaaS Provisioning Service](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/3971151ba22e4faa9b245943feecea54.html) or in the [Subscription Management Dashboard](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/434be695f9e946ccb4c28911dd1e16d0.html).
+
+```java
+builder.withTenantResolver(() -> {
+    // TODO: retrieve tenantId (e.g. from request context)
+    String tenantId = "19f52077-c4fc-43b8-a8eb-4995779e1fa1";
+    return Optional.of(tenantId);
+})
+```
+
+Note, this option is incompatible with the [Tenant ID](#tenant-id) configuration.  
+
 ## PushClient Methods
 
 ### pushToApplication
@@ -99,7 +127,7 @@ PushPayload builder:
 ```java
 ApnsNotification apnsNotification=ApnsNotification.builder()
 		.alertTitle("alert_title").alertBody("alert_body").build();
-		PushPayload pushPayload=PushPayload.builder().apns(apnsNotification).build();
+PushPayload pushPayload=PushPayload.builder().apns(apnsNotification).build();
 ```
 
 ### Common Message Properties
