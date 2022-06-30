@@ -3,7 +3,6 @@ package com.sap.mobile.services.client.push;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -84,7 +83,7 @@ public final class PushClientBuilder {
 		ClientConfiguration clientConfiguration = ServiceKeyClientConfiguration.builder()
 				.buildProperties(BuildProperties.getInstance())
 				.connectTimeout(this.connectTimeout).readTimeout(this.readTimeout).applicationId(applicationId)
-				.tenantResolver(this.tenantResolver).serviceKey(serviceKey).build();
+				.tenantSupplier(this.tenantResolver).serviceKey(serviceKey).build();
 
 		return new RestTemplatePushClient(clientConfiguration);
 	}
@@ -113,7 +112,7 @@ public final class PushClientBuilder {
 				.connectTimeout(this.connectTimeout)
 				.readTimeout(Optional.ofNullable(this.readTimeout).orElse(endpointReadTimeout))
 				.applicationId(applicationId)
-				.tenantResolver(this.tenantResolver)
+				.tenantSupplier(this.tenantResolver)
 				.rootUri(endpoint.getUrl())
 				.xsuaaTokenFlow(tokenFlow)
 				.build();
@@ -137,7 +136,7 @@ public final class PushClientBuilder {
 		ClientConfiguration clientConfiguration = CustomAuthClientConfiguration.builder()
 				.buildProperties(BuildProperties.getInstance())
 				.connectTimeout(this.connectTimeout).readTimeout(this.readTimeout).applicationId(applicationId)
-				.tenantResolver(this.tenantResolver).rootUri(rootUri).authHeaderSupplier(authHeaderSupplier).build();
+				.tenantSupplier(this.tenantResolver).rootUri(rootUri).authHeaderSupplier(authHeaderSupplier).build();
 
 		return new RestTemplatePushClient(clientConfiguration);
 	}

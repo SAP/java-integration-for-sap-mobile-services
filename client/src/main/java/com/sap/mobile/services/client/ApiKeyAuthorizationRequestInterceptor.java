@@ -16,11 +16,14 @@ import lombok.RequiredArgsConstructor;
 class ApiKeyAuthorizationRequestInterceptor implements ClientHttpRequestInterceptor {
 
 	private final ServiceKey serviceKey;
+	private final TenantSupplier tenantSupplier;
 
 	@Override
 	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 			throws IOException {
 		request.getHeaders().set(Constants.Headers.SERVICE_KEY_AUTH_HEADER, this.serviceKey.getApiKey());
+		this.tenantSupplier.get()
+				.ifPresent(tenantId -> request.getHeaders().set(Constants.Headers.TENANT_ID_HEADER, tenantId));
 		return execution.execute(request, body);
 	}
 }

@@ -16,7 +16,7 @@ public class XsuaaClientConfiguration extends ClientConfiguration {
 
 	@Override
 	ClientHttpRequestInterceptor getAuthInterceptor() {
-		return new XsuaaAuthorizationRequestInterceptor(xsuaaTokenFlow);
+		return new XsuaaAuthorizationRequestInterceptor(xsuaaTokenFlow, this.getTenantSupplier());
 	}
 
 }
