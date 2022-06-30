@@ -59,15 +59,15 @@ builder.withTenantId("19f52077-c4fc-43b8-a8eb-4995779e1fa1")
 
 Note, this option is incompatible with the [Tenant Resolver](#tenant-resolver) configuration.
 
-### Tenant Resolver
+### Tenant Supplier
 
-You may configure a dynamic tenant resolver. The resolver function is called for each request to determine the subscriber.
+You may configure a dynamic tenant supplier. The `get()` function is called for each request to determine the subscriber.
 The function can return the tenant id wrapped in an `Optional` or an empty `Optional` to use the provider tenant.
 
 The tenant id of a subscriber can be obtained during the `onSubscription` call of the [SaaS Provisioning Service](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/3971151ba22e4faa9b245943feecea54.html) or in the [Subscription Management Dashboard](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/434be695f9e946ccb4c28911dd1e16d0.html).
 
 ```java
-builder.withTenantResolver(() -> {
+builder.withTenantSupplier(() -> {
     // TODO: retrieve tenantId (e.g. from request context)
     String tenantId = "19f52077-c4fc-43b8-a8eb-4995779e1fa1";
     return Optional.of(tenantId);

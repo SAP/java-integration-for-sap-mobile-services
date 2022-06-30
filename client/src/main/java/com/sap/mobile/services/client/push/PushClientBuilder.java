@@ -34,7 +34,7 @@ public final class PushClientBuilder {
 	private Duration connectTimeout;
 	private Duration readTimeout;
 	private XsuaaTokenFlowFactory tokenFlowFactory = new XsuaaTokenFlowFactory();
-	private TenantSupplier tenantResolver = Optional::empty;
+	private TenantSupplier tenantSupplier = Optional::empty;
 
 	/**
 	 * Instantiate the push client from a mobile service setting source, using the
@@ -83,7 +83,7 @@ public final class PushClientBuilder {
 		ClientConfiguration clientConfiguration = ServiceKeyClientConfiguration.builder()
 				.buildProperties(BuildProperties.getInstance())
 				.connectTimeout(this.connectTimeout).readTimeout(this.readTimeout).applicationId(applicationId)
-				.tenantSupplier(this.tenantResolver).serviceKey(serviceKey).build();
+				.tenantSupplier(this.tenantSupplier).serviceKey(serviceKey).build();
 
 		return new RestTemplatePushClient(clientConfiguration);
 	}
@@ -109,7 +109,7 @@ public final class PushClientBuilder {
 				.connectTimeout(this.connectTimeout)
 				.readTimeout(Optional.ofNullable(this.readTimeout).orElse(endpointReadTimeout))
 				.applicationId(applicationId)
-				.tenantSupplier(this.tenantResolver)
+				.tenantSupplier(this.tenantSupplier)
 				.rootUri(endpoint.getUrl())
 				.xsuaaTokenFlow(tokenFlow)
 				.build();
@@ -133,7 +133,7 @@ public final class PushClientBuilder {
 		ClientConfiguration clientConfiguration = CustomAuthClientConfiguration.builder()
 				.buildProperties(BuildProperties.getInstance())
 				.connectTimeout(this.connectTimeout).readTimeout(this.readTimeout).applicationId(applicationId)
-				.tenantSupplier(this.tenantResolver).rootUri(rootUri).authHeaderSupplier(authHeaderSupplier).build();
+				.tenantSupplier(this.tenantSupplier).rootUri(rootUri).authHeaderSupplier(authHeaderSupplier).build();
 
 		return new RestTemplatePushClient(clientConfiguration);
 	}
@@ -145,7 +145,7 @@ public final class PushClientBuilder {
 	 * @return new instance of client builder
 	 */
 	public PushClientBuilder withConnectTimeout(Duration connectTimeout) {
-		return new PushClientBuilder(connectTimeout, this.readTimeout, this.tokenFlowFactory, this.tenantResolver);
+		return new PushClientBuilder(connectTimeout, this.readTimeout, this.tokenFlowFactory, this.tenantSupplier);
 	}
 
 	/**
@@ -155,17 +155,17 @@ public final class PushClientBuilder {
 	 * @return new instance of client builder
 	 */
 	public PushClientBuilder withReadTimeout(Duration readTimeout) {
-		return new PushClientBuilder(this.connectTimeout, readTimeout, this.tokenFlowFactory, this.tenantResolver);
+		return new PushClientBuilder(this.connectTimeout, readTimeout, this.tokenFlowFactory, this.tenantSupplier);
 	}
 
 	/**
 	 * Configure the client's tenant resolver.
 	 *
-	 * @param tenantResolver tenant resolver
+	 * @param tenantSupplier tenant supplier
 	 * @return new instance of client builder
 	 */
-	public PushClientBuilder withTenantResolver(TenantSupplier tenantResolver) {
-		return new PushClientBuilder(this.connectTimeout, this.readTimeout, this.tokenFlowFactory, tenantResolver);
+	public PushClientBuilder withTenantSupplier(TenantSupplier tenantSupplier) {
+		return new PushClientBuilder(this.connectTimeout, this.readTimeout, this.tokenFlowFactory, tenantSupplier);
 	}
 
 	/**
@@ -175,7 +175,7 @@ public final class PushClientBuilder {
 	 * @return new instance of client builder
 	 */
 	public PushClientBuilder withTenantId(String tenantId) {
-		return withTenantResolver(() -> Optional.of(tenantId));
+		return withTenantSupplier(() -> Optional.of(tenantId));
 	}
 
 	/**
@@ -187,7 +187,7 @@ public final class PushClientBuilder {
 	 */
 	PushClientBuilder withTokenFlowFactory(final XsuaaTokenFlowFactory tokenFlowFactory) {
 		Assert.notNull(tokenFlowFactory, "XsuaaTokenFlowFactory must not be null.");
-		return new PushClientBuilder(this.connectTimeout, this.readTimeout, tokenFlowFactory, this.tenantResolver);
+		return new PushClientBuilder(this.connectTimeout, this.readTimeout, tokenFlowFactory, this.tenantSupplier);
 	}
 
 	public static final class PushClientBuilderException extends RuntimeException {

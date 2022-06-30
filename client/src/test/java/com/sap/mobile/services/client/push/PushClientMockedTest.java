@@ -183,7 +183,7 @@ public class PushClientMockedTest {
 		final String tenantZoneId = UUID.randomUUID().toString();
 		final MobileServicesSettings settings = MobileServicesSettings.fromResource("mobileservices-config.json");
 		this.testee = (RestTemplatePushClient) new PushClientBuilder()
-				.withTenantResolver(() -> Optional.of(tenantZoneId))
+				.withTenantSupplier(() -> Optional.of(tenantZoneId))
 				.build(settings);
 		this.mockPushServer = new MockPushServer(testee.getRestTemplate(), settings);
 
@@ -207,7 +207,7 @@ public class PushClientMockedTest {
 		Mockito.when(factory.createClientCredentialsTokenFlow(binding)).thenReturn(flow);
 		this.testee = (RestTemplatePushClient) new PushClientBuilder()
 				.withTokenFlowFactory(factory)
-				.withTenantResolver(() -> Optional.of("49ed9cfd-1e52-431e-8a9a-5dbe880ab9fb"))
+				.withTenantSupplier(() -> Optional.of("49ed9cfd-1e52-431e-8a9a-5dbe880ab9fb"))
 				.build(binding);
 		this.mockPushServer = new MockPushServer(testee.getRestTemplate(), binding);
 		mockPushServer.expectPushToApplication()
