@@ -57,7 +57,7 @@ If not configured, defaults to the provider tenant.
 builder.withTenantId("19f52077-c4fc-43b8-a8eb-4995779e1fa1")
 ```
 
-Note, this option is incompatible with the [Tenant Resolver](#tenant-resolver) configuration.
+Note, this option is incompatible with the [Tenant Supplier](#tenant-supplier) configuration.
 
 ### Tenant Supplier
 
