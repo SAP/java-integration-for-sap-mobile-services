@@ -1,8 +1,6 @@
 package com.sap.mobile.services.client;
 
 import java.time.Duration;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
@@ -18,7 +16,7 @@ abstract public class ClientConfiguration {
 
 	private Duration connectTimeout;
 	private Duration readTimeout;
-	private TenantSupplier tenantResolver;
+	private TenantSupplier tenantSupplier;
 
 	abstract String getRootUri();
 

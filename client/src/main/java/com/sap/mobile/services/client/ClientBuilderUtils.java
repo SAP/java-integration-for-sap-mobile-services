@@ -27,9 +27,6 @@ public final class ClientBuilderUtils {
 		restTemplateBuilder = restTemplateBuilder
 				.additionalInterceptors(new ClientInfoRequestInterceptor(BuildProperties.getInstance()));
 		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(new ApiWarnHeaderRequestInterceptor());
-		// tenant header interceptor has to go before auth interceptor
-		// TODO check if there is a way to improve this situation
-		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(new TenantHeaderRequestInterceptor(config.getTenantResolver()));
 		restTemplateBuilder = restTemplateBuilder.additionalInterceptors(config.getAuthInterceptor());
 		return restTemplateBuilder;
 	}

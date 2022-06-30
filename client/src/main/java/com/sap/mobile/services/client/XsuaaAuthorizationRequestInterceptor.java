@@ -24,16 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestInterceptor {
 
 	private final ClientCredentialsTokenFlow tokenFlow;
+	private final TenantSupplier tenantSupplier;
 
 	@Override
 	public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
 			final ClientHttpRequestExecution execution)
 			throws IOException {
 		final OAuth2TokenResponse tokenResponse;
-		final String tenantId = request.getHeaders().getFirst(Constants.Headers.TENANT_ID_HEADER);
+		final String tenantId = this.tenantSupplier.get().orElse(null);
 		try {
 			if (tenantId != null) {
-				request.getHeaders().remove(Constants.Headers.TENANT_ID_HEADER);
 				tokenResponse = tokenFlow.zoneId(tenantId).execute();
 			} else {
 				tokenResponse = tokenFlow.execute();

@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -35,6 +36,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	private MockClientHttpRequest initialRequest;
 	private MockClientHttpResponse expectedResponse;
 	private OAuth2TokenResponse oAuth2TokenResponse;
+	private TenantSupplier tenantSupplier;
 
 	private ClientCredentialsTokenFlow tokenFlow;
 	private XsuaaAuthorizationRequestInterceptor testee;
@@ -42,13 +44,14 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	@Before
 	public void prepare() {
 		tokenFlow = Mockito.mock(ClientCredentialsTokenFlow.class);
+		tenantSupplier = Mockito.mock(TenantSupplier.class);
 
 		initialRequest = new MockClientHttpRequest(HttpMethod.GET, URI.create("https://service.tld/path"));
 		initialRequest.getHeaders().add("x-dummy-header", "x-dummy-value");
 		expectedResponse = new MockClientHttpResponse("Hello World".getBytes(StandardCharsets.UTF_8), HttpStatus.OK);
 		oAuth2TokenResponse = new OAuth2TokenResponse("my-secret-jwt", 60, "refresh-me");
 
-		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow);
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier);
 	}
 
 	@Test
@@ -67,6 +70,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 			return expectedResponse;
 		});
 
+		Mockito.when(tenantSupplier.get()).thenReturn(Optional.empty());
 		Mockito.when(tokenFlow.execute()).thenReturn(oAuth2TokenResponse);
 
 		final ClientHttpResponse response = testee.intercept(initialRequest, new byte[0], execution);
@@ -86,16 +90,15 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 			assertThat(request.getMethod(), is(initialRequest.getMethod()));
 			assertThat(request.getURI(), is(initialRequest.getURI()));
 			assertThat(request.getHeaders().getFirst("x-dummy-header"), is("x-dummy-value"));
-			assertThat(request.getHeaders().keySet(), not(hasItem("x-tenant-id")));
 			assertThat(request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION), is("bearer my-secret-jwt"));
 
 			return expectedResponse;
 		});
 
+		Mockito.when(tenantSupplier.get()).thenReturn(Optional.of(tenantZoneId));
 		Mockito.when(tokenFlow.zoneId(tenantZoneId)).thenReturn(tokenFlow);
 		Mockito.when(tokenFlow.execute()).thenReturn(oAuth2TokenResponse);
 
-		initialRequest.getHeaders().add("x-tenant-id", tenantZoneId);
 		final ClientHttpResponse response = testee.intercept(initialRequest, new byte[0], execution);
 		assertThat(response, is(expectedResponse));
 		Mockito.verify(tokenFlow).zoneId(tenantZoneId);
@@ -109,6 +112,7 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 			return null;
 		};
 
+		Mockito.when(tenantSupplier.get()).thenReturn(Optional.empty());
 		Mockito.when(tokenFlow.execute())
 				.thenThrow(new TokenFlowException("Error retrieving JWT token. " +
 						"Received status code 401 UNAUTHORIZED. Call to XSUAA was not successful"))

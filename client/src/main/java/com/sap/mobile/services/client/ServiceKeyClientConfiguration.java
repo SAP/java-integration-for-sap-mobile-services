@@ -18,7 +18,7 @@ public class ServiceKeyClientConfiguration extends ClientConfiguration {
 
 	@Override
 	ClientHttpRequestInterceptor getAuthInterceptor() {
-		return new ApiKeyAuthorizationRequestInterceptor(this.serviceKey);
+		return new ApiKeyAuthorizationRequestInterceptor(this.serviceKey, this.getTenantSupplier());
 	}
 
 }
