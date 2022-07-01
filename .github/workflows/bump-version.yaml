@@ -56,6 +56,11 @@ jobs:
           commit-message: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
           committer: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
           author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
+          title: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
+          body: |
+            Bump project version to ${{ steps.bump-version.outputs.target-version }} in main branch for the next release
+          tags: |
+            automation
           base: ${{ env.branch }}
           branch-suffix: short-commit-hash
           delete-branch: true
@@ -65,4 +70,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.create-pr.outputs.pull-request-number }}
           merge-method: rebase
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v1.1.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.create-pr.outputs.pull-request-number }}
 
