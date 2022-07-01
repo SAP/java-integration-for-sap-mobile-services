@@ -56,7 +56,8 @@ jobs:
           commit-message: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
           committer: 'github-actions[bot]'
           author: 'github-actions[bot]@users.noreply.github.com'
-          branch: ${{ env.branch }}
+          base: ${{ env.branch }}
+          branch-suffix: short-commit-hash
           delete-branch: true
       - name: Enable Automerge
         uses: peter-evans/enable-pull-request-automerge@v2

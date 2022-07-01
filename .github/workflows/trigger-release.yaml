@@ -35,7 +35,7 @@ jobs:
       - name: Create release tag
         env:
           BUMP_COMMIT_MESSAGE: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
-          TAG_NAME: ${{ steps.bump-version.outputs.target-branch }}
+          TAG_NAME: ${{ steps.bump-version.outputs.target-tag }}
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com" 
           git config user.name "github-actions[bot]" 
