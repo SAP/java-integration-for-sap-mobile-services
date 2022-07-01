@@ -20,12 +20,19 @@ jobs:
       - run: |
           VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "artifactVersion=$VERSION" >> $GITHUB_ENV
+      - name: Bump Version
+        id: bump-version
+        uses: SAP/java-integration-for-sap-mobile-services@actions_bump-version
+        with:
+          current-version: ${{ env.artifactVersion }}
+          type: current
+          is-dev: false
       - name: Update Version
         env:
           RELEASE_VERSION: ${{ steps.bump-version.outputs.target-version }}
         run: |
           mvn -B --file pom.xml -DnewVersion="${RELEASE_VERSION}" -DgroupId=\* -DartifactId=\* -DoldVersion=\* -DgenerateBackupPoms=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn org.codehaus.mojo:versions-maven-plugin:2.7:set
-      - name: Creat release tag
+      - name: Create release tag
         env:
           BUMP_COMMIT_MESSAGE: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
           TAG_NAME: ${{ steps.bump-version.outputs.target-branch }}
