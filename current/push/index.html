@@ -361,8 +361,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenant-resolver" class="md-nav__link">
-    Tenant Resolver
+  <a href="#tenant-supplier" class="md-nav__link">
+    Tenant Supplier
   </a>
   
 </li>
@@ -548,8 +548,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenant-resolver" class="md-nav__link">
-    Tenant Resolver
+  <a href="#tenant-supplier" class="md-nav__link">
+    Tenant Supplier
   </a>
   
 </li>
@@ -704,12 +704,12 @@ underlying client.</p>
 If not configured, defaults to the provider tenant.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">builder</span><span class="p">.</span><span class="na">withTenantId</span><span class="p">(</span><span class="s">&quot;19f52077-c4fc-43b8-a8eb-4995779e1fa1&quot;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
-<p>Note, this option is incompatible with the <a href="#tenant-resolver">Tenant Resolver</a> configuration.</p>
-<h3 id="tenant-resolver">Tenant Resolver</h3>
-<p>You may configure a dynamic tenant resolver. The resolver function is called for each request to determine the subscriber.
+<p>Note, this option is incompatible with the <a href="#tenant-supplier">Tenant Supplier</a> configuration.</p>
+<h3 id="tenant-supplier">Tenant Supplier</h3>
+<p>You may configure a dynamic tenant supplier. The <code>get()</code> function is called for each request to determine the subscriber.
 The function can return the tenant id wrapped in an <code>Optional</code> or an empty <code>Optional</code> to use the provider tenant.</p>
 <p>The tenant id of a subscriber can be obtained during the <code>onSubscription</code> call of the <a href="https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/3971151ba22e4faa9b245943feecea54.html">SaaS Provisioning Service</a> or in the <a href="https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/434be695f9e946ccb4c28911dd1e16d0.html">Subscription Management Dashboard</a>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">builder</span><span class="p">.</span><span class="na">withTenantResolver</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">builder</span><span class="p">.</span><span class="na">withTenantSupplier</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="c1">// TODO: retrieve tenantId (e.g. from request context)</span><span class="w"></span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">tenantId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;19f52077-c4fc-43b8-a8eb-4995779e1fa1&quot;</span><span class="p">;</span><span class="w"></span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">tenantId</span><span class="p">);</span><span class="w"></span>
