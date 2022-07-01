@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-      - rel/**
+  workflow_call:
+    {}
 jobs:
   build-documentation:
     runs-on: ubuntu-latest

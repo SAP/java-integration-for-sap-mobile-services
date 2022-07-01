@@ -1,0 +1,51 @@
+name: Perform release
+on:
+  workflow_dispatch:
+    {}
+jobs:
+  create-release-tag:
+    name: Create a Release Tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+          cache: maven
+      - run: |
+          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+          echo "artifactVersion=$VERSION" >> $GITHUB_ENV
+      - name: Update Version
+        env:
+          RELEASE_VERSION: ${{ steps.bump-version.outputs.target-version }}
+        run: |
+          mvn -B --file pom.xml -DnewVersion="${RELEASE_VERSION}" -DgroupId=\* -DartifactId=\* -DoldVersion=\* -DgenerateBackupPoms=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn org.codehaus.mojo:versions-maven-plugin:2.7:set
+      - name: Creat release tag
+        env:
+          BUMP_COMMIT_MESSAGE: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
+          TAG_NAME: ${{ steps.bump-version.outputs.target-branch }}
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com" 
+          git config user.name "github-actions[bot]" 
+          git add .
+          git commit -m "$BUMP_COMMIT_MESSAGE"
+          git tag $TAG_NAME
+          git remote rm origin
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push origin $TAG_NAME
+    outputs:
+      tag-name: ${{ steps.bump-version.outputs.target-branch }}
+      tag-ref: refs/tags/${{ steps.bump-version.outputs.target-branch }}
+  bump-version:
+    needs:
+      - create-release-tag
+    if: ${{ $GITHUB_REF == 'refs/head/main' }}
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/bump-version.yaml@main
+    with:
+      type: minor
+

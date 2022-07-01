@@ -1,0 +1,10 @@
+name: Perform release
+on:
+  push:
+    tags:  [ "v**" ]
+jobs:
+  release-client:
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/build@main
+    # TODO: perform release to maven central after build + system-tests pass
+  release-docs:
+    uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-documentation@main

@@ -1,5 +1,11 @@
 name: Bump Version for next Release
 on:
+  workflow_call:
+    inputs:
+      type:
+        description: The type of bump (major, minor, patch)
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       type:
@@ -36,35 +42,26 @@ jobs:
         with:
           current-version: ${{ env.artifactVersion }}
           type: ${{ inputs.type }}
+          is-dev: true
       - name: Update Version
         env:
           NEXT_VERSION: ${{ steps.bump-version.outputs.target-version }}
         run: |
           mvn -B --file pom.xml -DnewVersion="${NEXT_VERSION}" -DgroupId=\* -DartifactId=\* -DoldVersion=\* -DgenerateBackupPoms=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn org.codehaus.mojo:versions-maven-plugin:2.7:set
-      - name: Commit Changes
-        env:
-          BUMP_COMMIT_MESSAGE: 'Set version to ${{ steps.bump-version.outputs.target-version }}'
-        run: |
-          git config user.email "github-actions[bot]@users.noreply.github.com" 
-          git config user.name "github-actions[bot]" 
-          git add .
-          git commit -m "$BUMP_COMMIT_MESSAGE"
-          git remote rm origin
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-      - name: Push Changes to Temporary Release Branch
-        env:
-          TMP_BRANCH: release-preparation/${{ steps.bump-version.outputs.target-version }}
-        run: |        
-          git checkout -b ${TMP_BRANCH}
-          git push origin ${TMP_BRANCH}
-      - name: Push Changes to Main Branch
-        if: ${{ env.branch == 'main' }}
-        run: |
-          git push origin main
-      - name: Copy to Release Branch
-        uses: SAP/java-integration-for-sap-mobile-services@actions_copy-to-release-branch
+      - name: Create Pull Request
+        id: create-pr
+        uses: peter-evans/create-pull-request@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          release-branch: ${{ steps.bump-version.outputs.target-branch }}
-          current-branch: release-preparation/${{ steps.bump-version.outputs.target-version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
+          committer: 'github-actions[bot]'
+          author: 'github-actions[bot]@users.noreply.github.com'
+          branch: ${{ env.branch }}
+          delete-branch: true
+      - name: Enable Automerge
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create-pr.outputs.pull-request-number }}
+          merge-method: rebase
 
