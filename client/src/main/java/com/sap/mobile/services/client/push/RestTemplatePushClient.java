@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.sap.mobile.services.client.ClientBuilderUtils;
 import com.sap.mobile.services.client.ClientConfiguration;
 import com.sap.mobile.services.client.ClientException;
-import com.sap.mobile.services.client.RestTemplateResponseErrorHandler;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -133,6 +131,19 @@ class RestTemplatePushClient implements PushClient {
 				RequestEntity.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_CAPABILITY_PATH,
 								this.basicPathVariables().putAndBuild("capabilityName", capability))
 						.body(payload);
+		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
+		return response.getBody();
+	}
+
+	@Override
+	public PushResponse pushToTopic(Collection<String> userIds, Collection<String> topics,
+			LocalizedPushPayload pushPayload) {
+		DTOLocalizedPushToTopicPayload payload = new DTOLocalizedPushToTopicPayload(new ArrayList<>(userIds),
+				new ArrayList<>(topics), pushPayload);
+		RequestEntity<DTOLocalizedPushToTopicPayload> request = RequestEntity
+				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_TOPIC_PATH,
+						this.basicPathVariables().build())
+				.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
 	}

@@ -519,6 +519,20 @@ class DTOLocalizedPushToUsersPayload {
 	}
 }
 
+@Getter @JsonInclude(Include.NON_NULL)
+class DTOLocalizedPushToTopicPayload {
+		private final List<String> users;
+		private final List<String> topics;
+		private final DTOLocalizedPushPayload notification;
+
+	DTOLocalizedPushToTopicPayload(List<String> users, List<String> topics,LocalizedPushPayload notification ) {
+		this.users = users;
+		this.topics = topics;
+		this.notification = new DTOLocalizedPushPayload(notification);
+    }
+}
+
+
 @Getter
 @JsonInclude(Include.NON_NULL)
 class DTOLocalizedBulkPush {
