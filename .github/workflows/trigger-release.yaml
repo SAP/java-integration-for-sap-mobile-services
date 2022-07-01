@@ -25,7 +25,7 @@ jobs:
         uses: SAP/java-integration-for-sap-mobile-services@actions_bump-version
         with:
           current-version: ${{ env.artifactVersion }}
-          type: current
+          type: release
           is-dev: false
       - name: Update Version
         env:
