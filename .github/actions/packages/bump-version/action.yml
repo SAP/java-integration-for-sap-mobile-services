@@ -5,11 +5,15 @@ inputs:
     description: 'The current version'
     required: true
   type:
-    description: 'The type of bump (major, minor, patch, run)'
+    description: 'The type of bump (major, minor, patch, run, release)'
     required: true
   commit-id:
     description: 'The commit id used for the run type'
     required: false
+  is-dev:
+    description: 'Whether the target version is a dev version or not (true, false)'
+    required: false
+    default: 'false'
 outputs:
   current-version:
     description: 'The current version'
@@ -19,6 +23,8 @@ outputs:
     description: 'The generated version'
   target-branch:
     description: 'The target release branch'
+  target-tag:
+    description: 'The target release tag'
 runs:
   using: 'node16'
   main: 'index.js'
