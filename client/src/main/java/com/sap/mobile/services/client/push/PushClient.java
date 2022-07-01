@@ -131,6 +131,17 @@ public interface PushClient {
 			throws ClientException;
 
 	/**
+	 * Triggers notifications to devices that have an active subscription for a
+	 * topic
+	 * 
+	 * @param userIds     optional filter on userIds
+	 * @param topics      List of topics
+	 * @param pushPayload payload
+	 * @return
+	 */
+	PushResponse pushToTopic(Collection<String> userIds, Collection<String> topics, LocalizedPushPayload pushPayload);
+
+	/**
 	 * Retrieve the notification status by its ID.
 	 *
 	 * @param notificationId notificationId

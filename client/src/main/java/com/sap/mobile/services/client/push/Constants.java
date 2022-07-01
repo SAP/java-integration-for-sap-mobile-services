@@ -33,6 +33,9 @@ interface Constants {
 				String BULK_PUSH_PATH = Constants.Backend.V2.Paths.ROOT_PATH
 						+ "/applications/{applicationId}/notifications/bulk";
 
+				String PUSH_TO_TOPIC_PATH = Constants.Backend.V2.Paths.ROOT_PATH
+						+ "/applications/{applicationId}/topics/notifications";
+
 				String PUSH_TO_CAPABILITY_PATH = Constants.Backend.V2.Paths.ROOT_PATH
 						+ "/capabilities/{capabilityName}/notifications";
 
