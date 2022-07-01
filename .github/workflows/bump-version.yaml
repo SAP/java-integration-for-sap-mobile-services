@@ -59,7 +59,7 @@ jobs:
           title: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
           body: |
             Bump project version to ${{ steps.bump-version.outputs.target-version }} in main branch for the next release
-          tags: |
+          labels: |
             automation
           base: ${{ env.branch }}
           branch-suffix: short-commit-hash
