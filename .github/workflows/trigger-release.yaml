@@ -1,4 +1,4 @@
-name: Perform release
+name: Trigger release procedure
 on:
   workflow_dispatch:
     {}
@@ -44,7 +44,7 @@ jobs:
   bump-version:
     needs:
       - create-release-tag
-    if: ${{ $GITHUB_REF == 'refs/head/main' }}
+    if: ${{ env.GITHUB_REF == 'refs/head/main' }}
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/bump-version.yaml@main
     with:
       type: minor
