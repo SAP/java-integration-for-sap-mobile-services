@@ -1,0 +1,910 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Notification Backend API - Java integration for SAP Mobile Services</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mobile-services-notification-backend-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Java integration for SAP Mobile Services" class="md-header__button md-logo" aria-label="Java integration for SAP Mobile Services" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Java integration for SAP Mobile Services
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Notification Backend API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      Notification Backend API
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Java integration for SAP Mobile Services" class="md-nav__button md-logo" aria-label="Java integration for SAP Mobile Services" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Java integration for SAP Mobile Services
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gettingstarted/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Notification Backend API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Notification Backend API
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#useful-links" class="md-nav__link">
+    Useful Links
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-example" class="md-nav__link">
+    Basic Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-configuration-options" class="md-nav__link">
+    Available Configuration Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Configuration Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-timeout" class="md-nav__link">
+    Connect Timeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-timeout" class="md-nav__link">
+    Read Timeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenant-id" class="md-nav__link">
+    Tenant ID
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenant-supplier" class="md-nav__link">
+    Tenant Supplier
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pushclient-methods" class="md-nav__link">
+    PushClient Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="PushClient Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pushtoapplication" class="md-nav__link">
+    pushToApplication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtodevice" class="md-nav__link">
+    pushToDevice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtousers" class="md-nav__link">
+    pushToUsers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtogroup" class="md-nav__link">
+    pushToGroup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bulkpush" class="md-nav__link">
+    bulkPush
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtocapability" class="md-nav__link">
+    pushToCapability
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getnotificationstatus" class="md-nav__link">
+    getNotificationStatus
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-a-pushpayload" class="md-nav__link">
+    Building a PushPayload
+  </a>
+  
+    <nav class="md-nav" aria-label="Building a PushPayload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-message-properties" class="md-nav__link">
+    Common Message Properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-delivery-options" class="md-nav__link">
+    Common Delivery Options
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error Handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#useful-links" class="md-nav__link">
+    Useful Links
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-example" class="md-nav__link">
+    Basic Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-configuration-options" class="md-nav__link">
+    Available Configuration Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Configuration Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-timeout" class="md-nav__link">
+    Connect Timeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-timeout" class="md-nav__link">
+    Read Timeout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenant-id" class="md-nav__link">
+    Tenant ID
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenant-supplier" class="md-nav__link">
+    Tenant Supplier
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pushclient-methods" class="md-nav__link">
+    PushClient Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="PushClient Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pushtoapplication" class="md-nav__link">
+    pushToApplication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtodevice" class="md-nav__link">
+    pushToDevice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtousers" class="md-nav__link">
+    pushToUsers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtogroup" class="md-nav__link">
+    pushToGroup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bulkpush" class="md-nav__link">
+    bulkPush
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pushtocapability" class="md-nav__link">
+    pushToCapability
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getnotificationstatus" class="md-nav__link">
+    getNotificationStatus
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-a-pushpayload" class="md-nav__link">
+    Building a PushPayload
+  </a>
+  
+    <nav class="md-nav" aria-label="Building a PushPayload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-message-properties" class="md-nav__link">
+    Common Message Properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-delivery-options" class="md-nav__link">
+    Common Delivery Options
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error Handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="mobile-services-notification-backend-api">Mobile Services Notification Backend API</h1>
+<h2 id="useful-links">Useful Links</h2>
+<ul>
+<li><a href="https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/admin/config.html">SAP Help: Administration</a></li>
+<li><a href="https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/api/backend-api.html">SAP Help: API Documentation</a></li>
+<li><a href="https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/push/native-providers.html">SAP Help: Native Provider Notification Handling</a></li>
+</ul>
+<h2 id="basic-example">Basic Example</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">MobileServicesSettings</span><span class="w"> </span><span class="n">mobileServicesSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MobileServicesSettings</span><span class="w"></span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">.</span><span class="na">fromResource</span><span class="p">(</span><span class="s">&quot;mobileservices.json&quot;</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">PushClient</span><span class="w"> </span><span class="n">pushClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PushClientBuilder</span><span class="p">().</span><span class="na">build</span><span class="p">(</span><span class="n">mobileServicesSettings</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">ApnsNotification</span><span class="w"> </span><span class="n">apnsNotification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ApnsNotification</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">.</span><span class="na">alertTitle</span><span class="p">(</span><span class="s">&quot;alert_title&quot;</span><span class="p">).</span><span class="na">alertBody</span><span class="p">(</span><span class="s">&quot;alert_body&quot;</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">PushPayload</span><span class="w"> </span><span class="n">pushPayload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PushPayload</span><span class="p">.</span><span class="na">builder</span><span class="p">().</span><span class="na">alert</span><span class="p">(</span><span class="s">&quot;alert&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">.</span><span class="na">apns</span><span class="p">(</span><span class="n">apnsNotification</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">PushResponse</span><span class="w"> </span><span class="n">pushResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pushClient</span><span class="p">.</span><span class="na">pushToUser</span><span class="p">(</span><span class="s">&quot;userId&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pushPayload</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<h2 id="available-configuration-options">Available Configuration Options</h2>
+<h3 id="connect-timeout">Connect Timeout</h3>
+<p>You may configure the connection timeout of the underlying HTTP client. If not configured, defaults to the default of
+the underlying client.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">builder</span><span class="p">.</span><span class="na">withConnectTimeout</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">ofMillis</span><span class="p">(</span><span class="mi">200</span><span class="p">))</span><span class="w"></span>
+</code></pre></div>
+<h3 id="read-timeout">Read Timeout</h3>
+<p>You may configure the read timeout of the underlying HTTP client. If not configured, defaults to the default of the
+underlying client.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">builder</span><span class="p">.</span><span class="na">withReadTimeout</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"></span>
+</code></pre></div>
+<h3 id="tenant-id">Tenant ID</h3>
+<p>You may configure a static tenant id. The id must be associated with a subscriber of your Mobile Services application.
+If not configured, defaults to the provider tenant.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">builder</span><span class="p">.</span><span class="na">withTenantId</span><span class="p">(</span><span class="s">&quot;19f52077-c4fc-43b8-a8eb-4995779e1fa1&quot;</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<p>Note, this option is incompatible with the <a href="#tenant-supplier">Tenant Supplier</a> configuration.</p>
+<h3 id="tenant-supplier">Tenant Supplier</h3>
+<p>You may configure a dynamic tenant supplier. The <code>get()</code> function is called for each request to determine the subscriber.
+The function can return the tenant id wrapped in an <code>Optional</code> or an empty <code>Optional</code> to use the provider tenant.</p>
+<p>The tenant id of a subscriber can be obtained during the <code>onSubscription</code> call of the <a href="https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/3971151ba22e4faa9b245943feecea54.html">SaaS Provisioning Service</a> or in the <a href="https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/434be695f9e946ccb4c28911dd1e16d0.html">Subscription Management Dashboard</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">builder</span><span class="p">.</span><span class="na">withTenantSupplier</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="c1">// TODO: retrieve tenantId (e.g. from request context)</span><span class="w"></span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">tenantId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;19f52077-c4fc-43b8-a8eb-4995779e1fa1&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">tenantId</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">})</span><span class="w"></span>
+</code></pre></div>
+<p>Note, this option is incompatible with the <a href="#tenant-id">Tenant ID</a> configuration.  </p>
+<h2 id="pushclient-methods">PushClient Methods</h2>
+<h3 id="pushtoapplication">pushToApplication</h3>
+<p>This method allows to send a notification to all registered devices of a Mobile Application. It only requires the push
+payload as a parameter.</p>
+<h3 id="pushtodevice">pushToDevice</h3>
+<p>This method sends a notification to a single registered device. You will need the user id and the device id to identify
+the device.</p>
+<h3 id="pushtousers">pushToUsers</h3>
+<p>This will send the same notification to a list of users. If a user has multiple devices registered, all of them will
+receive the notification.</p>
+<h3 id="pushtogroup">pushToGroup</h3>
+<p>This will send the same notification to a specific group. The group membership of a user / device is controlled via the
+device registration.</p>
+<h3 id="bulkpush">bulkPush</h3>
+<p>Bulk push allows sending individual notifications to a list of users. The root notification is the "default" payload, if
+there is no specific notification for a user configured.</p>
+<h3 id="pushtocapability">pushToCapability</h3>
+<p>Devices can register capabilities, by which they can be selected for notifications. This method will send the same
+notification to all given users and their matching devices.</p>
+<h3 id="getnotificationstatus">getNotificationStatus</h3>
+<p>Allows your system to monitor sent notifications for success or failure. Your app may also confirm reception of the
+message.</p>
+<h2 id="building-a-pushpayload">Building a PushPayload</h2>
+<p>Building push payloads is supported by the builder pattern. You may create a basic push payload as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">PushPayload</span><span class="w"> </span><span class="n">pushPayload</span><span class="o">=</span><span class="n">PushPayload</span><span class="p">.</span><span class="na">builder</span><span class="p">().</span><span class="na">alert</span><span class="p">(</span><span class="s">&quot;My Alert&quot;</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>Creating the specific APNS and FCM/GCM (and all other) payload objects follows the same structure and can be used in the
+PushPayload builder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">ApnsNotification</span><span class="w"> </span><span class="n">apnsNotification</span><span class="o">=</span><span class="n">ApnsNotification</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w"></span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">        </span><span class="p">.</span><span class="na">alertTitle</span><span class="p">(</span><span class="s">&quot;alert_title&quot;</span><span class="p">).</span><span class="na">alertBody</span><span class="p">(</span><span class="s">&quot;alert_body&quot;</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">PushPayload</span><span class="w"> </span><span class="n">pushPayload</span><span class="o">=</span><span class="n">PushPayload</span><span class="p">.</span><span class="na">builder</span><span class="p">().</span><span class="na">apns</span><span class="p">(</span><span class="n">apnsNotification</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<h3 id="common-message-properties">Common Message Properties</h3>
+<p>The current REST API defines several common message properties, but mixes delivery options with message fields.</p>
+<p><strong>Note</strong>:The property <code>sound</code> will have different values for APNs and FCM.</p>
+<table>
+<thead>
+<tr>
+<th align="center">Property</th>
+<th>Description</th>
+<th>APNs Mapping/Notes</th>
+<th>FCM Mapping/Notes</th>
+<th>Others</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><code>alert</code></td>
+<td>Single message shown on the device</td>
+<td><code>alert.title</code></td>
+<td><code>alert</code></td>
+<td>Supported by W3C and WNS</td>
+</tr>
+<tr>
+<td align="center"><code>badge</code></td>
+<td>Number shown at the app icon on the device screen</td>
+<td>Directly set by the notification manager when app is idle or inactive</td>
+<td>Handled by notification callback</td>
+<td>not supported by W3C</td>
+</tr>
+<tr>
+<td align="center"><code>sound</code></td>
+<td>Sound played back when notification is shown</td>
+<td>References sound file in '/Library/Sounds'</td>
+<td>References sound file in app resource folder <code>res/raw</code></td>
+<td>not supported by W3C</td>
+</tr>
+<tr>
+<td align="center"><code>data</code></td>
+<td>Dictionary (key/value map)</td>
+<td>Handed over to notification callback, implemented by device</td>
+<td>Handled by notification callback</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-delivery-options">Common Delivery Options</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Property</th>
+<th>Description</th>
+<th>APNs Mapping/Notes</th>
+<th>FCM Mapping/Notes</th>
+<th>Others</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><code>priority</code></td>
+<td>Notification delivery priority <code>high</code> or <code>normal</code></td>
+<td>Translated to integer value</td>
+<td>Used directly</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="error-handling">Error Handling</h2>
+<p>The client will throw a list of RuntimeExceptions in case of any unexpected response from the backend.</p>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>Description</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ClientException</code></td>
+<td>Common root exception for all errors in the client.</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>ClientUnauthorizedException</code></td>
+<td>The authorization to SAP Mobile Services failed.</td>
+<td>Check your Mobile Services configuration. For example the configuration of service key scopes might be wrong.</td>
+</tr>
+<tr>
+<td><code>NoMessageSentException</code></td>
+<td>No message has been sent. There may have been an error in the payload or the identifiers of recipients.</td>
+<td>Check the response for more details on what went wrong.</td>
+</tr>
+<tr>
+<td><code>TrialLimitExceededException</code></td>
+<td>You are using a trial plan and exceeded the request limits for it.</td>
+<td>Wait until you can send requests again.</td>
+</tr>
+</tbody>
+</table>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../gettingstarted/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting Started" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Getting Started
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
