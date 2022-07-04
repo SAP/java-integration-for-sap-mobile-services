@@ -49,7 +49,7 @@ jobs:
       - env:
           ACTIONS_BRANCH: actions_${{ inputs.name }}
         run: |
-          git checkout --orphan $ACTIONS_BRANCH || git branch -D $ACTIONS_BRANCH && git checkout --orphan $ACTIONS_BRANCH
+          git checkout --orphan $ACTIONS_BRANCH || (git branch -D $ACTIONS_BRANCH && git checkout --orphan $ACTIONS_BRANCH)
           git rm -rf .
           git clean -fxd
       - uses: actions/download-artifact@v3

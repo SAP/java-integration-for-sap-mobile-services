@@ -82,30 +82,30 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          BRANCH=$( echo $GITHUB_REF | cut -d'/' -f 3 )
-          echo "branch=$BRANCH" >> $GITHUB_ENV
-          RELEASE_FOLDER=$( echo $BRANCH | sed 's/\//_/g' )
+          TAG=$( echo $GITHUB_REF | cut -d'/' -f 3 )
+          echo "tag=$TAG" >> $GITHUB_ENV
+          RELEASE_FOLDER=$( echo $TAG | sed 's/\//_/g' )
           echo "release_folder=$RELEASE_FOLDER" >> $GITHUB_ENV
       - env:
           DOC_RELEASE_FOLDER: ${{ env.release_folder }}
         run: |
-          git checkout gh-pages || git checkout --orphan gh-pages && git rm -rf . && git clean -fxd
+          git checkout gh-pages || (git checkout --orphan gh-pages && git rm -rf . && git clean -fxd)
           git rm -rf $DOC_RELEASE_FOLDER || true
           git clean -fxd || true
           mkdir -p $DOC_RELEASE_FOLDER
       - uses: actions/download-artifact@v3
         with:
           name: documentation-build
-          path: ${{ env.branch }}
+          path: ${{ env.tag }}
       - uses: actions/download-artifact@v3
         with:
           name: javadoc-build
-          path: ${{ env.branch }}/javadoc
+          path: ${{ env.tag }}/javadoc
       - id: check-for-latest-release
         uses: SAP/java-integration-for-sap-mobile-services@actions_is-latest-release
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.branch }}
+          ref: ${{ github.ref }}
       - env:
           DOC_RELEASE_FOLDER: ${{ env.release_folder }}
         if: ${{ steps.check-for-latest-release.outputs.is-latest }} == 'true'
@@ -113,7 +113,7 @@ jobs:
           rm -rf current || true
           cp -R $DOC_RELEASE_FOLDER current
       - env:
-          DOCS_COMMIT_MESSAGE: 'Update documentation for ${{ env.branch }}'
+          DOCS_COMMIT_MESSAGE: 'Update documentation for ${{ env.tag }}'
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com" 
           git config user.name "github-actions[bot]" 
