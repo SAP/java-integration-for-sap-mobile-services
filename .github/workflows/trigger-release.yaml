@@ -54,4 +54,5 @@ jobs:
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/bump-version.yaml@main
     with:
       type: minor
+    secrets: inherit
 

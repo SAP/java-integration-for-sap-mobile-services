@@ -5,6 +5,8 @@ on:
 jobs:
   release-client:
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/build.yaml@main
+    secrets: inherit
     # TODO: perform release to maven central after build + system-tests pass
   release-docs:
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-documentation.yaml@main
+    secrets: inherit
