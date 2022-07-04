@@ -12,6 +12,7 @@ jobs:
         with:
           fetch-depth: 0
           ssh-key: ${{ secrets.GIT_SSH_KEY }}
+          path: 'rel-branch'
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -21,6 +22,7 @@ jobs:
       - run: |
           VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "artifactVersion=$VERSION" >> $GITHUB_ENV
+        working-directory: 'rel-branch'
       - name: Bump Version
         id: bump-version
         uses: SAP/java-integration-for-sap-mobile-services@actions_bump-version
@@ -33,14 +35,28 @@ jobs:
           NEXT_VERSION: ${{ steps.bump-version.outputs.target-version }}
         run: |
           mvn -B --file pom.xml -DnewVersion="${NEXT_VERSION}" -DgroupId=\* -DartifactId=\* -DoldVersion=\* -DgenerateBackupPoms=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn org.codehaus.mojo:versions-maven-plugin:2.7:set
+        working-directory: 'rel-branch'
+      - name: Checkout Main
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ssh-key: ${{ secrets.GIT_SSH_KEY }}
+          path: 'main'
+          ref: 'main'
       - name: Commit Changes
         env:
           BUMP_COMMIT_MESSAGE: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
+          UPGRADE_WORKFLOW_COMMIT_MESSAGE: 'Update workflows from main branch'
           BRANCH_NAME: ${{ steps.bump-version.outputs.target-branch }}
         run: |
-          git config user.email "github-actions[bot]@users.noreply.github.com" 
-          git config user.name "github-actions[bot]" 
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          rm -rf .github/workflows
+          cp -R ../main/.github/workflows .github/workflows
+          git add .github/workflows
+          git commit -m "$UPGRADE_WORKFLOW_COMMIT_MESSAGE"
           git add .
           git commit -m "$BUMP_COMMIT_MESSAGE"
           git checkout -b $BRANCH_NAME
           git push origin $BRANCH_NAME
+        working-directory: 'rel-branch'
