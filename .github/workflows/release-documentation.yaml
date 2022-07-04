@@ -121,4 +121,5 @@ jobs:
           git commit -m "$DOCS_COMMIT_MESSAGE"
           git remote rm origin
           git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git pull origin gh-pages --rebase
           git push origin gh-pages
