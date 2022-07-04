@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
       - run: |
           echo "base=main" >> $GITHUB_ENV
-      - if: !startsWith(github.ref, 'refs/heads/create-pull-request/')
+      - if: !startsWith('${{ github.ref }}', 'refs/heads/create-pull-request/')
         run: |
           echo "base=${{ inputs.base }}" >> $GITHUB_ENV
       - env:
