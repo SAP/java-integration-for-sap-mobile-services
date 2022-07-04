@@ -49,6 +49,10 @@ jobs:
           NEXT_VERSION: ${{ steps.bump-version.outputs.target-version }}
         run: |
           mvn -B --file pom.xml -DnewVersion="${NEXT_VERSION}" -DgroupId=\* -DartifactId=\* -DoldVersion=\* -DgenerateBackupPoms=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn org.codehaus.mojo:versions-maven-plugin:2.7:set
+      - env:
+          NEXT_VERSION: ${{ steps.bump-version.outputs.target-version }}
+        run: |
+          echo "pr_branch=create-pull-request/bump-$NEXT_VERSION" >> $GITHUB_ENV
       - name: Create Pull Request
         id: create-pr
         uses: peter-evans/create-pull-request@v4
@@ -62,7 +66,7 @@ jobs:
           labels: |
             automation
           base: ${{ env.branch }}
-          branch-suffix: short-commit-hash
+          branch: ${{ env.pr_branch }}
           delete-branch: true
       - name: Enable Automerge
         uses: peter-evans/enable-pull-request-automerge@v2
@@ -70,3 +74,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.create-pr.outputs.pull-request-number }}
           merge-method: rebase
+      - name: Update PR to trigger actions
+        env:
+          BUMP_COMMIT_MESSAGE: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
+          BRANCH_NAME: ${{ env.pr_branch }}
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com" 
+          git config user.name "github-actions[bot]"
+          git reset --hard HEAD~1
+          git add -u
+          git commit -m "$BUMP_COMMIT_MESSAGE"
+          git push -f origin $BRANCH_NAME
