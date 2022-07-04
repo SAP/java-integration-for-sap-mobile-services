@@ -13,7 +13,7 @@
 
     <groupId>com.sap.cloud.platform.mobile.services</groupId>
     <artifactId>mobile-services-broker-for-validation</artifactId>
-    <version>0.1.1-dev</version>
+    <version>0.1.0-dev</version>
     <name>Java integration for SAP Mobile Services - Mobile Services Broker for Validation</name>
 
     <properties>
