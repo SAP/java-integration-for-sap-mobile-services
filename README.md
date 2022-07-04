@@ -27,8 +27,8 @@ MobileServicesSettings mobileServicesSettings = MobileServicesSettings.fromResou
 PushClient pushClient = new PushClientBuilder().build(mobileServicesSettings);
 ```
 
-**[Documentation](https://sap.github.io/java-integration-for-sap-mobile-services/main)**  
-**[JavaDoc](https://sap.github.io/java-integration-for-sap-mobile-services/main/javadoc)**
+**Documentation: [latest release](https://sap.github.io/java-integration-for-sap-mobile-services/current) - [dev](https://sap.github.io/java-integration-for-sap-mobile-services/main)**  
+**JavaDoc: [latest release](https://sap.github.io/java-integration-for-sap-mobile-services/current/javadoc) - [dev](https://sap.github.io/java-integration-for-sap-mobile-services/main/javadoc)**
 
 ## Support, Feedback, Contributing
 
