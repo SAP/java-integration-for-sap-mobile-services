@@ -81,7 +81,7 @@ jobs:
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com" 
           git config user.name "github-actions[bot]"
-          git reset --hard HEAD~1
+          git reset HEAD~1
           git add -u
           git commit -m "$BUMP_COMMIT_MESSAGE"
           git push -f origin $BRANCH_NAME
