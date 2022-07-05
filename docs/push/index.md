@@ -108,6 +108,10 @@ there is no specific notification for a user configured.
 Devices can register capabilities, by which they can be selected for notifications. This method will send the same
 notification to all given users and their matching devices.
 
+### pushToTopics
+
+Devices can subscribe to topics to receive notifications based on that. This method sends the notification to all subscribers to any of the given topics.
+
 ### getNotificationStatus
 
 Allows your system to monitor sent notifications for success or failure. Your app may also confirm reception of the
