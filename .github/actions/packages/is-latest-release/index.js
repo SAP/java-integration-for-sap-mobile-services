@@ -13,18 +13,29 @@ async function run() {
 
     let refVersion = null;
     if (refName.startsWith(REF_TAG_PREFIX)) {
+      console.log(`ref ${refName} is as tag, parse it`);
       refVersion = tryParseSemVer(refName.substring(REF_TAG_PREFIX.length));
+      console.log(`parsed version of ref is ${refVersion}`);
     }
 
+    console.log('retrieve latest release version from GH tags');
     const octoKit = github.getOctokit(token);
     const latestTagVersion = await getLatestTagVersion(octoKit);
-    
+    console.log(`latest release version is ${latestTagVersion}`);
+
     if (latestTagVersion) {
       const isLatest = refVersion !== null && semver.compare(refVersion, latestTagVersion, true) >= 0;
+      if (isLatest) {
+        console.log('provided ref is latest version');
+      } else {
+        console.log('provided ref is not version');
+      }
       core.setOutput('is-latest', isLatest);
     } else if (refName === REF_MAIN_BRANCH) {
+      console.log('no existing release - main branch is considered as latest');
       core.setOutput('is-latest', true);
     } else {
+      console.log('provided ref does not contain any version data');
       core.setOutput('is-latest', false);
     }
   } catch (error) {
