@@ -136,7 +136,7 @@ class RestTemplatePushClient implements PushClient {
 	}
 
 	@Override
-	public PushResponse pushToTopic(Collection<String> userIds, Collection<String> topics,
+	public PushResponse pushToTopics(Collection<String> userIds, Collection<String> topics,
 			LocalizedPushPayload pushPayload) {
 		DTOLocalizedPushToTopicPayload payload = new DTOLocalizedPushToTopicPayload(new ArrayList<>(userIds),
 				new ArrayList<>(topics), pushPayload);
