@@ -22,4 +22,16 @@
 		<module>samples</module>
 		<module>validation</module>
 	</modules>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>${maven.multiModuleProjectDirectory}</directory>
+				<includes>
+					<include>LICENSE</include>
+				</includes>
+				<targetPath>META-INF</targetPath>
+			</resource>
+		</resources>
+	</build>
 </project>
