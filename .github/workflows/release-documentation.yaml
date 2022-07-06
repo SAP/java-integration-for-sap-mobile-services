@@ -108,7 +108,7 @@ jobs:
           ref: ${{ github.ref }}
       - env:
           DOC_RELEASE_FOLDER: ${{ env.release_folder }}
-        if: ${{ steps.check-for-latest-release.outputs.is-latest }} == 'true'
+        if: ${{ steps.check-for-latest-release.outputs.is-latest == 'true' }}
         run: |
           rm -rf current || true
           cp -R $DOC_RELEASE_FOLDER current
