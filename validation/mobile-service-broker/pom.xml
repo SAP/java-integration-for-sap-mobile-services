@@ -33,11 +33,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.sap.cloud.lm.sl</groupId>
-            <artifactId>cloudfoundry-client-facade</artifactId>
-            <version>2.17.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.4</version>
@@ -51,6 +46,16 @@
             <groupId>io.projectreactor.netty</groupId>
             <artifactId>reactor-netty</artifactId>
             <version>1.0.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.cloudfoundry</groupId>
+            <artifactId>cloudfoundry-client-reactor</artifactId>
+            <version>5.7.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.cloudfoundry</groupId>
+            <artifactId>cloudfoundry-operations</artifactId>
+            <version>5.7.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.awaitility</groupId>

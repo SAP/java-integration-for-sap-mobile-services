@@ -40,6 +40,23 @@ Reason is to reduce the scope of the platform user to the testing pipelines, by 
 | BROKER_NAME                        | the name of the Mobile Services service broker - optional: only required if service name and plan name are ambiguous |                                         |
 | BROKER_MOBILE_APPLICATION_LIFETIME | the lifetime of the created mobile applications after which they get deleted automatically                           | `PT20M` (20 minutes)                    |
 
+### Templates
+
+Common app configurations can be registered as templates.  
+The broker will hold a certain number of mobile applications for each template. When a new application is requested, the broker tries to serve it from the template instances to reduce response times.
+
+Example:
+
+```yaml
+broker:
+  templates:
+    - keepNumber: 2
+      features:
+        - push
+```
+
+Keep two templates with push assigned in case it is required.
+
 ## API
 
 OpenAPI document can be retrieved with `GET /v3/api-docs`

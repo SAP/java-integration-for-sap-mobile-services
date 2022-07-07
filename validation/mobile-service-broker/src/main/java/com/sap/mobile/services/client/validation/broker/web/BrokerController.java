@@ -20,7 +20,7 @@ import com.sap.mobile.services.client.validation.broker.exception.InstanceCreati
 import com.sap.mobile.services.client.validation.broker.exception.MaxConcurrentInstancesReachedException;
 import com.sap.mobile.services.client.validation.broker.exception.NoSuchServiceInstanceException;
 import com.sap.mobile.services.client.validation.broker.model.ServiceKey;
-import com.sap.mobile.services.client.validation.broker.service.BrokerService;
+import com.sap.mobile.services.client.validation.broker.service.api.BrokerService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
