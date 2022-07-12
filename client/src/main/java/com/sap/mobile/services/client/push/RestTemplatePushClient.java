@@ -36,7 +36,7 @@ class RestTemplatePushClient implements PushClient {
 		Assert.notNull(config, "Config must not be null.");
 
 		RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-		restTemplateBuilder = ClientBuilderUtils.addBasicConfiguraiton(restTemplateBuilder, config);
+		restTemplateBuilder = ClientBuilderUtils.addBasicConfiguration(restTemplateBuilder, config);
 		restTemplateBuilder = ClientBuilderUtils.addDefaultInterceptors(restTemplateBuilder, config);
 		restTemplateBuilder = restTemplateBuilder.errorHandler(new PushRestTemplateResponseErrorHandler());
 		this.restTemplate = restTemplateBuilder.build();
