@@ -39,7 +39,23 @@ Only for patch releases of previous versions, a temporary release branch is used
 
     ![Check release progress](img/check-release-progress.jpg)
 
-5. *Only for releases from the `main` branch:* Bump the version on the `main` branch for the next release:
+    - After some time, you'll receive a message asking you to review the release.  
+        If you don't receive it, you can also check the progress of the release as described earlier.
+
+    ![Review Deployment Message](img/review-deployment-mail.jpg)
+
+    - Open the link and follow the instructions to approve the deployment to maven central.
+
+    ![Approve Deployment](img/approve-release.jpg)
+
+5. Promote the artifacts
+
+    By default, the artifacts are only uploaded to a staging repository.  
+    From there, they need to be promoted to the release repository to make them accessible.
+
+    Open the [nexus repository manager](https://oss.sonatype.org/#welcome) and follow [this guide](https://central.sonatype.org/publish/release/#close-and-drop-or-release-your-staging-repository) to finish the release procedure.
+
+6. *Only for releases from the `main` branch:* Bump the version on the `main` branch for the next release:
 
     - Navigate to the `Pull requests` tab
     - A pull-request has been created automatically to bump the version in the `main` branch, open it.
