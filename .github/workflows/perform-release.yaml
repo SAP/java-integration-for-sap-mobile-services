@@ -41,4 +41,4 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: mvn -B deploy --file pom.xml '-Possrh,!default' -Dgpg.passphrase="{GPG_PASSPHRASE}"
+        run: mvn -B deploy --file pom.xml '-Possrh,!default' -Dgpg.passphrase="${GPG_PASSPHRASE}"
