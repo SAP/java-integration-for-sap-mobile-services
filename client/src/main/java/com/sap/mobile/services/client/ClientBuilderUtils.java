@@ -14,7 +14,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 
 public final class ClientBuilderUtils {
 
-	public static RestTemplateBuilder addBasicConfiguraiton(RestTemplateBuilder restTemplateBuilder, ClientConfiguration config) {
+	public static RestTemplateBuilder addBasicConfiguration(RestTemplateBuilder restTemplateBuilder, ClientConfiguration config) {
 		restTemplateBuilder = Optional.ofNullable(config.getConnectTimeout())
 				.map(restTemplateBuilder::setConnectTimeout).orElse(restTemplateBuilder);
 		restTemplateBuilder = Optional.ofNullable(config.getReadTimeout()).map(restTemplateBuilder::setReadTimeout)
