@@ -17,7 +17,7 @@ jobs:
     environment: 'release'
     needs:
       - build-client
-      - release-doc
+      - release-docs
     steps:
       - name: Checkout
         uses: actions/checkout@v3
