@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.sap.cloud.platform.mobile.services</groupId>
 		<artifactId>java-integration-parent</artifactId>
-		<version>0.1.0-dev</version>
+		<version>0.2.0-dev</version>
 	</parent>
 
 	<artifactId>java-integration-validation</artifactId>
