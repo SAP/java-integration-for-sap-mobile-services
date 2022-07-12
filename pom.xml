@@ -10,12 +10,30 @@
 
 	<name>Java integration for SAP Mobile Services</name>
 
+	<url>https://github.com/SAP/java-integration-for-sap-mobile-services</url>
+	<scm>
+		<connection>scm:git:git://github.com/SAP/java-integration-for-sap-mobile-services.git</connection>
+		<developerConnection>scm:git:ssh://github.com:SAP/java-integration-for-sap-mobile-services.git</developerConnection>
+		<url>https://github.com/SAP/java-integration-for-sap-mobile-services/tree/master</url>
+	</scm>
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+
+	<description>Java library that integrates to SAP Mobile Services Backend APIs. As a start this will only provide the Notification Backend API to send notifications to mobile devices. Further APIs may be included in the future.</description>
+
+	<developers>
+		<developer>
+			<name>SAP Mobile Services</name>
+			<email>java-integration-for-sap-mobile-services@sap.com</email>
+			<organization>SAP SE</organization>
+			<organizationUrl>https://www.sap.com</organizationUrl>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
