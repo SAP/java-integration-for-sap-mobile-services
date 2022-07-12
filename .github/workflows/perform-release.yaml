@@ -2,8 +2,6 @@ name: Perform release
 on:
   push:
     tags:  [ "v*" ]
-  workflow_dispatch:
-    {}
 jobs:
   build-client:
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/build.yaml@main
