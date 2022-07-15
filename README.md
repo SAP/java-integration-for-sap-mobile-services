@@ -1,6 +1,7 @@
 # Java integration for SAP Mobile Services
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/java-integration-for-sap-mobile-services)](https://api.reuse.software/info/github.com/SAP/java-integration-for-sap-mobile-services)
+[![Maven Central](https://img.shields.io/maven-central/v/com.sap.cloud.platform.mobile.services/java-integration?color=green)](https://search.maven.org/artifact/com.sap.cloud.platform.mobile.services/java-integration)
 
 ## About this project
 
