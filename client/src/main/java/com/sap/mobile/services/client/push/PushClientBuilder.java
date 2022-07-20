@@ -1,6 +1,7 @@
 package com.sap.mobile.services.client.push;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +80,15 @@ public final class PushClientBuilder {
 							String.format("Service key with name %s not found in configuration file.",
 									serviceKeyAlias)));
 		}
+		if (serviceKey.getUaa() != null) {
+			MobileServicesBinding binding = new MobileServicesBinding();
+			binding.setAppName(settings.getApplicationId());
+			binding.setClientConfiguration(serviceKey.getUaa());
+			MobileServicesBinding.Endpoint endpoint = new MobileServicesBinding.Endpoint();
+			endpoint.setUrl(serviceKey.getUrl());
+			binding.setEndpoints(Collections.singletonMap("mobileservices", endpoint));
+			return build(binding);
+		}
 
 		ClientConfiguration clientConfiguration = ServiceKeyClientConfiguration.builder()
 				.buildProperties(BuildProperties.getInstance())
@@ -119,10 +129,11 @@ public final class PushClientBuilder {
 
 	/**
 	 * Instantiate the push client with custom authorization mechanisms.
-	 * This is meant to be a fallback if any other method will not work for the use case.
+	 * This is meant to be a fallback if any other method will not work for the use
+	 * case.
 	 *
-	 * @param applicationId ID of the mobile application
-	 * @param rootUri Root URI of the mobile application
+	 * @param applicationId      ID of the mobile application
+	 * @param rootUri            Root URI of the mobile application
 	 * @param authHeaderSupplier Supplier for a custom authentication header
 	 */
 	public PushClient build(String applicationId, String rootUri, CustomAuthHeaderSupplier authHeaderSupplier) {
