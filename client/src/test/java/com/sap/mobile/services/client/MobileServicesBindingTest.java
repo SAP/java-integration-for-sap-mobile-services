@@ -14,8 +14,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sap.mobile.services.client.MobileServicesBinding;
-
 public class MobileServicesBindingTest {
 
 	private Map<String, String> envVariables;

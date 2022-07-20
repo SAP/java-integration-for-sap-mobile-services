@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sap.mobile.services.client.MobileServicesBinding.UaaConfig;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -54,5 +55,6 @@ public final class MobileServicesSettings {
 		private String alias;
 		private String url;
 		private String apiKey;
+		private UaaConfig uaa;
 	}
 }
