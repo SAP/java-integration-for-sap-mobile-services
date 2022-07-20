@@ -74,8 +74,8 @@ public final class MobileServicesBinding {
 			log.info("No Mobile Services binding found");
 			return Optional.empty();
 		} else if (serviceInstances.size() > 1) {
-			final String foundServiceNames =
-					serviceInstances.stream().map(VcapService::getName).collect(Collectors.joining(", "));
+			final String foundServiceNames = serviceInstances.stream().map(VcapService::getName)
+					.collect(Collectors.joining(", "));
 			log.warn("Found multiple service bindings: {}", foundServiceNames);
 			return Optional.empty();
 		}
@@ -107,7 +107,6 @@ public final class MobileServicesBinding {
 	@Setter
 	@NoArgsConstructor
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	// TODO: check if X509 support is already in place
 	public static class UaaConfig {
 		@JsonProperty("clientid")
 		private String clientId;
@@ -117,6 +116,17 @@ public final class MobileServicesBinding {
 		private String url;
 		@JsonProperty("identityzone")
 		private String identityZone;
+		@JsonProperty("credential-type")
+		private String credentialType;
+		@JsonProperty("certurl")
+		private String certUrl;
+		@JsonProperty("certificate")
+		private String certificate;
+		@JsonProperty("key")
+		private String privateKey;
+		@JsonProperty("verificationkey")
+		private String verificationKey;
+
 	}
 
 	@JsonIgnoreProperties(ignoreUnknown = true)

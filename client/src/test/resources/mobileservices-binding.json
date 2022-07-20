@@ -18,7 +18,6 @@
     "tenantmode": "dedicated",
     "sburl": "sbUrl",
     "apiurl": "apiUrl",
-    "verificationkey": "publicKey",
     "xsappname": "xsAppName",
     "subaccountid": "subaccountId",
     "uaadomain": "uaaDomain",
