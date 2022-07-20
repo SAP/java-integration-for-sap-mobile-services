@@ -86,7 +86,7 @@ MobileServicesBinding mobileServicesBinding = MobileServicesBinding.fromVCAPVari
 
 Also see [Cloud Foundry Binding Sample](https://github.com/SAP/java-integration-for-sap-mobile-services/tree/main/samples/cloud-foundry-binding-sample) for a sample application that uses a service binding.
 
-### Using X509 Service Key
+### Using X509 Binding
 
 SAP Mobile Services also provide X509 service keys [SAP Mobile Services Documentation: Service Keys](https://help.sap.com/doc/f53c64b93e5140918d676b927a3cd65b/Cloud/en-US/docs-en/guides/features/security/admin/service-keys.html)
 You can use these in bindings too.

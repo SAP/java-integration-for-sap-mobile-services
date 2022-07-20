@@ -11,10 +11,12 @@ import com.sap.cloud.security.xsuaa.tokenflows.XsuaaTokenFlows;
 
 public class XsuaaTokenFlowFactory {
 
+	private static final String CREDENTIAL_TYPE_X509 = "x509";
+
 	public ClientCredentialsTokenFlow createClientCredentialsTokenFlow(final MobileServicesBinding binding) {
 
 		final ClientIdentity clientIdentity;
-		if ("x509".equals(binding.getClientConfiguration().getCredentialType())) {
+		if (CREDENTIAL_TYPE_X509.equals(binding.getClientConfiguration().getCredentialType())) {
 			clientIdentity = new ClientCertificate(binding.getClientConfiguration().getCertificate(),
 					binding.getClientConfiguration().getPrivateKey(), binding.getClientConfiguration().getClientId());
 		} else {
