@@ -117,6 +117,22 @@ Devices can subscribe to topics to receive notifications based on that. This met
 Allows your system to monitor sent notifications for success or failure. Your app may also confirm reception of the
 message.
 
+### getRegistration
+
+Retrieve a single push registration by its ID.
+
+### getRegistrations
+
+Retrieve a list of registrations. Either (parameterless) get all registrations for a single mobile applications, or (optional username and group parameters) get a filtered list.
+
+### getRegistrationsByUsername
+
+Shortcut for [getRegistrations](#getregistrations) with a username filter.
+
+### getRegistrationsByGroup
+
+Shortcut for [getRegistrations](#getregistrations) with a group filter.
+
 ## Building a PushPayload
 
 Building push payloads is supported by the builder pattern. You may create a basic push payload as follows:

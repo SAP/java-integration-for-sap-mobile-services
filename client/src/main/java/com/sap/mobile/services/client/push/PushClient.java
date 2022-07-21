@@ -1,6 +1,8 @@
 package com.sap.mobile.services.client.push;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.sap.mobile.services.client.ClientException;
@@ -157,4 +159,50 @@ public interface PushClient {
 	 * @return set of locales
 	 */
 	Set<String> getLocalizations(Collection<String> userIds);
+
+	/**
+	 * Get a device registration by it's ID.
+	 *
+	 * @param registrationId ID of the registration
+	 * @return Optional, which is empty, if no registration was found for the given ID.
+	 */
+	Optional<PushRegistration> getRegistration(String registrationId);
+
+	/**
+	 * Get all registrations for a mobile application.
+	 *
+	 * @return List of registrations.
+	 */
+	default List<? extends PushRegistration> getRegistrations() {
+		return this.getRegistrations(Optional.empty(), Optional.empty());
+	}
+
+	/**
+	 * Get registrations by a username.
+	 *
+	 * @param username username to search registrations for.
+	 * @return List of registrations.
+	 */
+	default List<? extends PushRegistration> getRegistrationsByUsername(String username) {
+		return this.getRegistrations(Optional.of(username), Optional.empty());
+	}
+
+	/**
+	 * Get registrations by a group.
+	 *
+	 * @param group group to search registrations for.
+	 * @return List of registrations.
+	 */
+	default List<? extends PushRegistration> getRegistrationsByGroup(String group) {
+		return this.getRegistrations(Optional.empty(), Optional.of(group));
+	}
+
+	/**
+	 * Get registrations by optional username and/or optional group.
+	 *
+	 * @param usernameOpt optional username
+	 * @param groupOpt    otpional group
+	 * @return List of registrations.
+	 */
+	List<? extends PushRegistration> getRegistrations(Optional<String> usernameOpt, Optional<String> groupOpt);
 }

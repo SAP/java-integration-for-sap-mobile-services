@@ -570,3 +570,37 @@ class DTOLocalizedUserNotification {
 		this.notification = Utils.safeMap(userNotification.getNotification(), DTOLocalizedPushPayload::new);
 	}
 }
+
+@Getter
+@Setter
+@NoArgsConstructor
+class DTOPushRegistration implements PushRegistration {
+	private String id;
+	private String device;
+	private String deviceModel;
+	private FormFactor formFactor;
+	private String pushGroup;
+	private Provider pushProvider;
+	private String userLocale;
+	private String username;
+
+	@Override
+	public String getDeviceId() {
+		return this.getDevice();
+	}
+
+	@Override
+	public String getGroup() {
+		return this.getPushGroup();
+	}
+
+	@Override
+	public Provider getProvider() {
+		return this.getPushProvider();
+	}
+
+	@Override
+	public String getLocale() {
+		return this.getLocale();
+	}
+}

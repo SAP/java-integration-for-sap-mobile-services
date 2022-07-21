@@ -2,12 +2,15 @@ package com.sap.mobile.services.client.push;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -190,6 +193,42 @@ class RestTemplatePushClient implements PushClient {
 		};
 		ResponseEntity<Set<String>> response = this.restTemplate.exchange(request, type);
 		return response.getBody();
+	}
+
+	@Override
+	public List<? extends PushRegistration> getRegistrations(Optional<String> usernameOpt, Optional<String> groupOpt) {
+		UriComponentsBuilder uriComponentsBuilder =
+				UriComponentsBuilder.fromPath(Constants.Backend.V2.Paths.GET_REGISTRATIONS);
+		if (usernameOpt.isPresent()) {
+			uriComponentsBuilder =
+					uriComponentsBuilder.queryParam(Constants.Backend.V2.Params.GET_REGISTRATIONS_USERNAME_PARAM,
+							usernameOpt.get());
+		}
+		if (groupOpt.isPresent()) {
+			uriComponentsBuilder =
+					uriComponentsBuilder.queryParam(Constants.Backend.V2.Params.GET_REGISTRATIONS_GROUP_PARAM,
+							groupOpt.get());
+		}
+
+		RequestEntity<Void> request = RequestEntity.method(HttpMethod.GET,
+				uriComponentsBuilder.build(this.basicPathVariables().build()).toString()).build();
+		ParameterizedTypeReference<List<DTOPushRegistration>> type =
+				new ParameterizedTypeReference<List<DTOPushRegistration>>() {
+				};
+		ResponseEntity<List<DTOPushRegistration>> response = this.restTemplate.exchange(request, type);
+		return response.getBody();
+	}
+
+	@Override
+	public Optional<PushRegistration> getRegistration(String registrationId) {
+		RequestEntity<Void> request = RequestEntity.method(HttpMethod.GET,
+				UriComponentsBuilder.fromPath(Constants.Backend.V2.Paths.GET_REGISTRATION)
+						.build(this.basicPathVariables().putAndBuild("registrationId", registrationId))).build();
+		ResponseEntity<DTOPushRegistration> response = this.restTemplate.exchange(request, DTOPushRegistration.class);
+		if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+			return Optional.empty();
+		}
+		return Optional.ofNullable(response.getBody());
 	}
 
 	private MapBuilder<String> basicPathVariables() {
