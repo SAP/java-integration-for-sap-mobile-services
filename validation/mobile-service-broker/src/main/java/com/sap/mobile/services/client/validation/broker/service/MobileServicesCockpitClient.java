@@ -1,7 +1,11 @@
 package com.sap.mobile.services.client.validation.broker.service;
 
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceResource;
 import org.cloudfoundry.reactor.ConnectionContext;
 import org.cloudfoundry.reactor.tokenprovider.PasswordGrantTokenProvider;
@@ -11,6 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sap.mobile.services.client.validation.broker.model.ServiceKeyRequest;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Service
 public class MobileServicesCockpitClient {
@@ -42,6 +53,22 @@ public class MobileServicesCockpitClient {
 		restTemplate.delete(deletionUri);
 	}
 
+	public Map<?, ?> createServiceKey(final ServiceInstanceResource instance, final ServiceKeyRequest serviceKeyRequest) {
+		final URI cockpitUri = getCockpitApiUrl(instance);
+		final URI serviceKeyUri = UriComponentsBuilder.fromUri(cockpitUri)
+				.path("/app/{appId}/service/{service}/key")
+				.build(instance.getName(), serviceKeyRequest.getServiceName());
+
+		final CockpitServiceKeyCreationRequest requestBody = CockpitServiceKeyCreationRequest.builder()
+				.alias(RandomStringUtils.randomAlphabetic(27))
+				.credentialType(serviceKeyRequest.isX509() ? "x509" : null)
+				.scopes(serviceKeyRequest.getScopes())
+				.x509Config(serviceKeyRequest.isX509() ? CockpitX509Config.DEFAULT : null)
+				.build();
+
+		return restTemplate.postForEntity(serviceKeyUri, requestBody, Map.class).getBody();
+	}
+
 	public URI getCockpitApiUrl(final ServiceInstanceResource instance) {
 		final UriComponents dashboardUrl = UriComponentsBuilder.fromUriString(instance.getDashboardUrl()).build();
 		return UriComponentsBuilder.fromUriString(instance.getDashboardUrl())
@@ -51,4 +78,39 @@ public class MobileServicesCockpitClient {
 				.build().toUri();
 	}
 
+	@Data
+	@Builder
+	private static class CockpitServiceKeyCreationRequest {
+		@JsonProperty("alias")
+		private String alias;
+
+		@JsonProperty("credential-type")
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		private String credentialType;
+
+		@JsonProperty("scopes")
+		@Builder.Default
+		private Set<String> scopes = new HashSet<>();
+
+		@JsonProperty("x509")
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		private CockpitX509Config x509Config;
+	}
+
+	@Data
+	@Builder
+	private static class CockpitX509Config {
+
+		static final CockpitX509Config DEFAULT = CockpitX509Config.builder()
+				.keyLength(2048).validity(1).validityType("DAYS").build();
+
+		@JsonProperty("key-length")
+		private int keyLength;
+
+		@JsonProperty("validity")
+		private int validity;
+
+		@JsonProperty("validity-type")
+		private String validityType;
+	}
 }

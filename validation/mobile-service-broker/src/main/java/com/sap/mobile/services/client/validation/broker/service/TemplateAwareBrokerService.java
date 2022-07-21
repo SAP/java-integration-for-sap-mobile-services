@@ -25,6 +25,8 @@ import com.sap.mobile.services.client.validation.broker.exception.InstanceCreati
 import com.sap.mobile.services.client.validation.broker.exception.InstanceCreationTimeoutException;
 import com.sap.mobile.services.client.validation.broker.exception.MaxConcurrentInstancesReachedException;
 import com.sap.mobile.services.client.validation.broker.exception.NoSuchServiceInstanceException;
+import com.sap.mobile.services.client.validation.broker.model.AppConfig;
+import com.sap.mobile.services.client.validation.broker.model.ServiceKeyRequest;
 import com.sap.mobile.services.client.validation.broker.service.api.BrokerService;
 
 import lombok.RequiredArgsConstructor;
@@ -61,6 +63,11 @@ public class TemplateAwareBrokerService implements BrokerService {
 	@Override
 	public Map<String, ?> getMobileApplicationKey(final String appId) throws NoSuchServiceInstanceException {
 		return delegate.getMobileApplicationKey(appId);
+	}
+
+	@Override
+	public AppConfig createMobileServicesSettingsConfig(final String appId, final ServiceKeyRequest serviceKeyRequest) throws NoSuchServiceInstanceException {
+		return delegate.createMobileServicesSettingsConfig(appId, serviceKeyRequest);
 	}
 
 	private Map<String, ?> createMobileApplication(final BrokerTemplateConfig templateConfig) throws MaxConcurrentInstancesReachedException, InstanceCreationFailedException, InstanceCreationTimeoutException {

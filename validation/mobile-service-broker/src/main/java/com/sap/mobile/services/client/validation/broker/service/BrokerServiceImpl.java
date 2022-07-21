@@ -1,20 +1,25 @@
 package com.sap.mobile.services.client.validation.broker.service;
 
+import java.net.URI;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.compress.utils.Sets;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionTimeoutException;
 import org.cloudfoundry.client.CloudFoundryClient;
+import org.cloudfoundry.client.v2.routes.ListRoutesRequest;
+import org.cloudfoundry.client.v2.routes.RouteResource;
 import org.cloudfoundry.client.v2.serviceinstances.CreateServiceInstanceRequest;
 import org.cloudfoundry.client.v2.serviceinstances.CreateServiceInstanceResponse;
 import org.cloudfoundry.client.v2.servicekeys.CreateServiceKeyRequest;
@@ -24,6 +29,7 @@ import org.cloudfoundry.client.v2.servicekeys.ListServiceKeysResponse;
 import org.cloudfoundry.client.v2.servicekeys.ServiceKeyEntity;
 import org.cloudfoundry.client.v2.servicekeys.ServiceKeyResource;
 import org.cloudfoundry.client.v3.Metadata;
+import org.cloudfoundry.client.v3.domains.GetDomainRequest;
 import org.cloudfoundry.client.v3.serviceinstances.ListServiceInstancesRequest;
 import org.cloudfoundry.client.v3.serviceinstances.ListServiceInstancesResponse;
 import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceResource;
@@ -32,6 +38,7 @@ import org.cloudfoundry.client.v3.serviceplans.ServicePlanResource;
 import org.cloudfoundry.client.v3.spaces.SpaceResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +47,9 @@ import com.sap.mobile.services.client.validation.broker.exception.InstanceCreati
 import com.sap.mobile.services.client.validation.broker.exception.InstanceCreationTimeoutException;
 import com.sap.mobile.services.client.validation.broker.exception.MaxConcurrentInstancesReachedException;
 import com.sap.mobile.services.client.validation.broker.exception.NoSuchServiceInstanceException;
+import com.sap.mobile.services.client.validation.broker.model.AppConfig;
 import com.sap.mobile.services.client.validation.broker.model.ServiceInstanceParams;
+import com.sap.mobile.services.client.validation.broker.model.ServiceKeyRequest;
 import com.sap.mobile.services.client.validation.broker.service.api.BrokerService;
 
 import lombok.RequiredArgsConstructor;
@@ -121,14 +130,7 @@ public class BrokerServiceImpl implements BrokerService {
 
 	@Override
 	public Map<String, ?> getMobileApplicationKey(final String appId) throws NoSuchServiceInstanceException {
-		final ServiceInstanceResource instance = cfClient.serviceInstancesV3().list(ListServiceInstancesRequest.builder()
-						.spaceId(spaceResource.getId())
-						.serviceInstanceName(appId)
-						.build()
-				).map(ListServiceInstancesResponse::getResources)
-				.flatMap(instances -> instances.size() > 0 ? Mono.just(instances.get(0)) : Mono.empty())
-				.blockOptional()
-				.orElseThrow(() -> new NoSuchServiceInstanceException(appId));
+		final ServiceInstanceResource instance = getMobileApplication(appId);
 
 		return cfClient.serviceKeys().list(ListServiceKeysRequest.builder()
 						.name("integration-tests")
@@ -149,16 +151,29 @@ public class BrokerServiceImpl implements BrokerService {
 	}
 
 	@Override
-	public void deleteMobileApplication(final String appId) throws NoSuchServiceInstanceException {
-		final ServiceInstanceResource instance = cfClient.serviceInstancesV3().list(ListServiceInstancesRequest.builder()
-						.spaceId(spaceResource.getId())
-						.serviceInstanceName(appId)
-						.build()
-				).map(ListServiceInstancesResponse::getResources)
-				.flatMap(instances -> instances.size() > 0 ? Mono.just(instances.get(0)) : Mono.empty())
-				.blockOptional()
-				.orElseThrow(() -> new NoSuchServiceInstanceException(appId));
+	public AppConfig createMobileServicesSettingsConfig(final String appId, final ServiceKeyRequest serviceKeyRequest) throws NoSuchServiceInstanceException {
+		final ServiceInstanceResource instance = getMobileApplication(appId);
+		final Map<?, ?> serviceKey = cockpitClient.createServiceKey(instance, serviceKeyRequest);
+		final URI serverUrl = getMobileAppUrl(instance).orElseGet(() -> {
+			log.warn("App instance {} has no route service bound", appId);
+			return null;
+		});
 
+		return AppConfig.builder()
+				.applicationId(appId)
+				.platform("CF")
+				.server(serverUrl)
+				.services(Collections.singletonList(
+						AppConfig.AppService.builder()
+								.name(serviceKeyRequest.getServiceName())
+								.serviceKeys(Collections.singletonList(serviceKey))
+								.build()))
+				.build();
+	}
+
+	@Override
+	public void deleteMobileApplication(final String appId) throws NoSuchServiceInstanceException {
+		final ServiceInstanceResource instance = getMobileApplication(appId);
 		deleteServiceInstanceWithDependencies(instance);
 	}
 
@@ -217,5 +232,37 @@ public class BrokerServiceImpl implements BrokerService {
 		} catch (ConditionTimeoutException e) {
 			throw new InstanceCreationTimeoutException();
 		}
+	}
+
+	private ServiceInstanceResource getMobileApplication(final String appId) throws NoSuchServiceInstanceException {
+		return cfClient.serviceInstancesV3().list(ListServiceInstancesRequest.builder()
+						.spaceId(spaceResource.getId())
+						.serviceInstanceName(appId)
+						.build()
+				).map(ListServiceInstancesResponse::getResources)
+				.flatMap(instances -> instances.size() > 0 ? Mono.just(instances.get(0)) : Mono.empty())
+				.blockOptional()
+				.orElseThrow(() -> new NoSuchServiceInstanceException(appId));
+	}
+
+	private Optional<URI> getMobileAppUrl(final ServiceInstanceResource appInstance) throws NoSuchServiceInstanceException {
+		return Optional.ofNullable(PaginationUtils.paginateV2(page -> {
+					return ListRoutesRequest.builder().organizationId(spaceResource.getRelationships().getOrganization().getData().getId())
+							.page(page).build();
+				}, cfClient.routes()::list)
+				.map(RouteResource::getEntity)
+				.filter(r -> StringUtils.equals(r.getServiceInstanceId(), appInstance.getId()))
+				.collectList()
+				.map(l -> l.stream().findFirst())
+				.flatMap(optionalRoute -> {
+					return optionalRoute.map(r -> {
+						return cfClient.domainsV3().get(GetDomainRequest.builder()
+								.domainId(r.getDomainId())
+								.build()).map(domain -> {
+							final String hostname = r.getHost() + "." + domain.getName();
+							return UriComponentsBuilder.newInstance().scheme("https").host(hostname).path(r.getPath()).build().toUri();
+						});
+					}).orElseGet(Mono::empty);
+				}).block());
 	}
 }

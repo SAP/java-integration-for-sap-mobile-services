@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ServiceKey {
+public class ServiceKeyOpenApiModel {
 
 	@JsonProperty("url")
 	private URI url;
@@ -42,6 +42,9 @@ public class ServiceKey {
 
 		@JsonProperty("url")
 		private URI url;
+
+		@JsonProperty("certurl")
+		private URI certUrl;
 
 		@JsonProperty("identityzone")
 		private String identityZone;
@@ -78,5 +81,8 @@ public class ServiceKey {
 
 		@JsonProperty("credential-type")
 		private String credentialType;
+
+		@JsonProperty("certificate")
+		private String certificate;
 	}
 }

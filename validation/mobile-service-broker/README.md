@@ -67,6 +67,24 @@ OpenAPI document can be retrieved with `GET /v3/api-docs`
 
 As response, you'll get the CF service-key.
 
+### Create new Settings File for existing App
+
+```
+POST /api/broker/v1/app/{appId}/configurations
+Content-Type: application/json
+
+{
+    "serviceName": "push",
+    "x509": false,
+    "scopes": [
+      "push_all",
+      "push_single"
+    ]
+}
+```
+to create a new settings file with a `push` service-key for `push_all` and `push_single` scope.  
+See [OpenAPI](#api) for a detailed specification.
+
 ### Delete a Mobile Application
 
 `DELETE /api/broker/v1/apps/{appName}` where `appName` is the application name from the `sap.cloud.service` property.
