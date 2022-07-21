@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.sap.cloud.platform.mobile.services.validation.config.MobileServicesClientConfiguration;
-import com.sap.mobile.services.client.push.PushClient;
 import com.sap.mobile.services.client.push.PushPayload;
 import com.sap.mobile.services.client.push.PushResponse;
 
@@ -19,12 +18,32 @@ import com.sap.mobile.services.client.push.PushResponse;
 public class PushClientTest {
 
 	@Autowired
-	private PushClient pushClient;
+	private PushClientProvider pushClientProvider;
 
 	@Test
-	@DisplayName("Send push notification to application")
-	void pushToApplication() {
-		PushResponse response = pushClient.pushToApplication(PushPayload.builder()
+	@DisplayName("Send push notification to application with CF Binding")
+	void pushToApplicationCFBinding() {
+		PushResponse response = pushClientProvider.getCfBindingClient().pushToApplication(PushPayload.builder()
+				.alert("Simple push message")
+				.build());
+
+		assertThat(response.getStatus().getCode(), is(0));
+	}
+
+	@Test
+	@DisplayName("Send push notification to application with API-Key settings file")
+	void pushToApplicationApiKeySettings() {
+		PushResponse response = pushClientProvider.getApiKeyClient().pushToApplication(PushPayload.builder()
+				.alert("Simple push message")
+				.build());
+
+		assertThat(response.getStatus().getCode(), is(0));
+	}
+
+	@Test
+	@DisplayName("Send push notification to application with x509 settings file")
+	void pushToApplicationX509Settings() {
+		PushResponse response = pushClientProvider.getX509Client().pushToApplication(PushPayload.builder()
 				.alert("Simple push message")
 				.build());
 
