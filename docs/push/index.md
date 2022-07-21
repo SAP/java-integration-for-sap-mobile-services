@@ -119,7 +119,7 @@ message.
 
 ### getRegistration
 
-Retrieve a single push registration by it's ID.
+Retrieve a single push registration by its ID.
 
 ### getRegistrations
 
