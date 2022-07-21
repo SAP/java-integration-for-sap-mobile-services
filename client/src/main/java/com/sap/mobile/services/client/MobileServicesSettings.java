@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sap.mobile.services.client.MobileServicesBinding.UaaConfig;
 
@@ -51,6 +52,7 @@ public final class MobileServicesSettings {
 	@NoArgsConstructor
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	@Builder(access = AccessLevel.PACKAGE)
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class ServiceKey {
 		private String alias;
 		private String url;
