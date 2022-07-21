@@ -22,6 +22,10 @@ inputs:
   service-key-path:
     description: 'The path to write the service-key to'
     required: false
+  configurations:
+    description: 'Additional mobile services configuration files. Example {"serviceName": "push", "x509": true, "scopes": ["push_all"], "configPath": "./config.json"}'
+    required: false
+    default: '[]'
 outputs:
   service-key:
     description: 'The service-key document as JSON'
