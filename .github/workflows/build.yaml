@@ -55,6 +55,28 @@ jobs:
           broker-xsuaa-key: ${{ secrets.BROKER_XSUAA_KEY }}
           mobile-features: 'push'
           service-key-path: ${{ github.workspace }}/validation/system-tests/service-key.json
+          configurations: |
+            [
+              {
+                "serviceName": "push",
+                "x509": false,
+                "scopes": [
+                  "push_all",
+                  "push_single"
+                ],
+                "configPath": "${{ github.workspace }}/validation/system-tests/service-config-api-key.json"
+              }, {
+                "serviceName": "push",
+                "x509": true,
+                "scopes": [
+                  "push_all",
+                  "push_single"
+                ],
+                "configPath": "${{ github.workspace }}/validation/system-tests/service-config-x509.json"
+              }
+            ]
       - env:
           SERVICE_BINDING_LOCATION: ${{ github.workspace }}/validation/system-tests/service-key.json
+          SETTINGS_APIKEY_LOCATION: ${{ github.workspace }}/validation/system-tests/service-config-api-key.json
+          SETTINGS_X509_LOCATION: ${{ github.workspace }}/validation/system-tests/service-config-x509.json
         run: mvn -B test --file pom.xml -pl :system-tests -Psystem-tests -DskipTests=true -am
