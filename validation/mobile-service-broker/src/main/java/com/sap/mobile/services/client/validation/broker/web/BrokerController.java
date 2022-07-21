@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,10 @@ import com.sap.mobile.services.client.validation.broker.exception.InstanceCreati
 import com.sap.mobile.services.client.validation.broker.exception.InstanceCreationTimeoutException;
 import com.sap.mobile.services.client.validation.broker.exception.MaxConcurrentInstancesReachedException;
 import com.sap.mobile.services.client.validation.broker.exception.NoSuchServiceInstanceException;
-import com.sap.mobile.services.client.validation.broker.model.ServiceKey;
+import com.sap.mobile.services.client.validation.broker.model.AppConfig;
+import com.sap.mobile.services.client.validation.broker.model.AppConfigOpenApiModel;
+import com.sap.mobile.services.client.validation.broker.model.ServiceKeyOpenApiModel;
+import com.sap.mobile.services.client.validation.broker.model.ServiceKeyRequest;
 import com.sap.mobile.services.client.validation.broker.service.api.BrokerService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,7 +45,7 @@ public class BrokerController {
 	@Operation(summary = "Create a new Mobile Services application")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Mobile Application created", content = {
-					@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ServiceKey.class))
+					@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ServiceKeyOpenApiModel.class))
 			}),
 			@ApiResponse(responseCode = "500", description = "Mobile Application creation failed", content = {
 					@Content(mediaType = MediaType.TEXT_PLAIN_VALUE)
@@ -62,10 +66,36 @@ public class BrokerController {
 		}
 	}
 
+	@Operation(summary = "Create a new Mobile Services configuration for an existing app")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", description = "Configuration created", content = {
+					@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AppConfigOpenApiModel.class))
+			}),
+			@ApiResponse(responseCode = "404", description = "Mobile Application not found", content = {
+					@Content(mediaType = MediaType.TEXT_PLAIN_VALUE)
+			}),
+			@ApiResponse(responseCode = "500", description = "Configuration creation failed", content = {
+					@Content(mediaType = MediaType.TEXT_PLAIN_VALUE)
+			})
+	})
+	@PostMapping("/{appId}/configurations")
+	public ResponseEntity<?> createConfigurationFile(@PathVariable("appId") final String appId, @RequestBody final ServiceKeyRequest serviceKeyRequest) {
+		try {
+			final AppConfig result = brokerService.createMobileServicesSettingsConfig(appId, serviceKeyRequest);
+			return ResponseEntity.ok(result);
+		} catch (NoSuchServiceInstanceException e) {
+			log.error("Handle exception while creating configuration", e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		} catch (Exception e) {
+			log.error("Handle unknown exception while creating configuration", e);
+			return ResponseEntity.internalServerError().body("An unknown error occurred while creating the configuration");
+		}
+	}
+
 	@Operation(summary = "Delete a Mobile Services application")
 	@ApiResponses({
 			@ApiResponse(responseCode = "204", description = "Mobile Application deleted", content = {
-					@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ServiceKey.class))
+					@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ServiceKeyOpenApiModel.class))
 			}),
 			@ApiResponse(responseCode = "404", description = "Mobile Application not found", content = {
 					@Content(mediaType = MediaType.TEXT_PLAIN_VALUE)
