@@ -14,10 +14,19 @@ async function run() {
         const xsuaaKey =
             core.getInput("broker-xsuaa-key");
         const serviceKeyPath = core.getInput('service-key-path');
+        const configurations = JSON.parse(core.getInput('configurations') || '[]');
 
         if (serviceKeyPath) {
             try {
                 await fs.rm(serviceKeyPath);
+            } catch (e) {
+                //ignore
+            }
+        }
+
+        for (const config of configurations) {
+            try {
+                await fs.rm(config.configPath);
             } catch (e) {
                 //ignore
             }

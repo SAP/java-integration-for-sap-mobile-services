@@ -16,6 +16,21 @@ async function createMobileApplication(config, features) {
     return response;
 }
 
+async function createMobileServicesConfiguration(config, appId, serviceKeyRequest) {
+    const brokerEndpoint = config.brokerEndpoint;
+    const xsuaaConfig = convertXsuaaConfig(config);
+
+    const token = await fetchToken(xsuaaConfig);
+    const response = await got.post(`${brokerEndpoint}/api/broker/v1/apps/${appId}/configurations`, {
+        json: serviceKeyRequest,
+        headers: {
+            'authorization': `bearer ${token}`
+        }
+    }).json();
+
+    return response;
+}
+
 async function deleteMobileApplication(config, appId) {
     const brokerEndpoint = config.brokerEndpoint;
     const xsuaaConfig = convertXsuaaConfig(config);
@@ -84,5 +99,6 @@ async function fetchToken(config) {
 
 module.exports = {
     createMobileApplication: createMobileApplication,
+    createMobileServicesConfiguration: createMobileServicesConfiguration,
     deleteMobileApplication: deleteMobileApplication
 }
