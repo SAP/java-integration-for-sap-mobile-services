@@ -43,10 +43,18 @@ interface Constants {
 						+ "/notifications/{notificationId}/status";
 
 				String GET_LOCALIZATIONS = Constants.Backend.V2.Paths.ROOT_PATH + "/localizations";
+
+				String GET_REGISTRATIONS = Constants.Backend.V2.Paths.ROOT_PATH + "/registrations";
+
+				String GET_REGISTRATION = Constants.Backend.V2.Paths.GET_REGISTRATIONS + "/{registrationId}";
 			}
 
 			interface Params {
 				String GET_LOCALIZATIONS_USER_PARAM = "usernames";
+
+				String GET_REGISTRATIONS_USERNAME_PARAM = "username";
+
+				String GET_REGISTRATIONS_GROUP_PARAM = "pushGroup";
 			}
 		}
 	}
