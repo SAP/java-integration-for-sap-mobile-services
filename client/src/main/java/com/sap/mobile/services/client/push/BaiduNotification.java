@@ -41,12 +41,12 @@ public interface BaiduNotification {
 		/**
 		 * The Baidu msgType is optional:
 		 * <ul>
-		 * <li>0: Transparent
-		 * <li>1: (visible) Notification - default
+		 * <li>TRANSPARENT
+		 * <li>NOTIFICATION visible - default
 		 * </ul>
 		 */
-		public Builder msgType(Integer msgType) {
-			return new Builder(this.android, this.ios, msgType);
+		public Builder msgType(BaiduMsgType msgType) {
+			return new Builder(this.android, this.ios, Integer.valueOf(msgType.ordinal()));
 		}
 
 		public BaiduNotification build() {
