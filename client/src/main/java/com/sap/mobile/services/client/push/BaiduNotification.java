@@ -7,15 +7,17 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 public interface BaiduNotification {
-	
+
 	static Builder builder() {
 		return new Builder();
 	}
-	
+
 	BaiduNotificationAndroid getAndroid();
-	
+
 	BaiduNotificationIos getIos();
-	
+
+	Integer getMsgType();
+
 	/**
 	 * Baidu notification properties
 	 */
@@ -24,19 +26,31 @@ public interface BaiduNotification {
 	final class Builder {
 		private BaiduNotificationAndroid android;
 		private BaiduNotificationIos ios;
-		
+		private Integer msgType;
+
 		/** Android specific notification settings */
 		public Builder android(BaiduNotificationAndroid android) {
-			return new Builder(android, this.ios);
+			return new Builder(android, this.ios, this.msgType);
 		}
-		
+
 		/** APNS specific notification settings */
 		public Builder ios(BaiduNotificationIos ios) {
-			return new Builder(this.android, ios);
+			return new Builder(this.android, ios, this.msgType);
+		}
+
+		/**
+		 * The Baidu msgType is optional:
+		 * <ul>
+		 * <li>0: Transparent
+		 * <li>1: (visible) Notification - default
+		 * </ul>
+		 */
+		public Builder msgType(Integer msgType) {
+			return new Builder(this.android, this.ios, msgType);
 		}
 
 		public BaiduNotification build() {
-			return new BaiduNotificationObject(this.android, this.ios);
+			return new BaiduNotificationObject(this.android, this.ios, this.msgType);
 		}
 
 		@Getter
@@ -44,6 +58,8 @@ public interface BaiduNotification {
 		private static class BaiduNotificationObject implements BaiduNotification {
 			private final BaiduNotificationAndroid android;
 			private final BaiduNotificationIos ios;
+			private final Integer msgType;
 		}
 	}
+
 }

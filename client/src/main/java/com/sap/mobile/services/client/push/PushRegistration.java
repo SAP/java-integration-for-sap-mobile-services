@@ -27,7 +27,7 @@ public interface PushRegistration {
 	String getDeviceModel();
 
 	/**
-	 * The device's form facotr: phone, tablet or browser
+	 * The device's form factor: phone, tablet or browser
 	 *
 	 * @return form factor
 	 */
