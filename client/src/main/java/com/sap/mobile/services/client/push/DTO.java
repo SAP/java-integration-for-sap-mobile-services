@@ -108,7 +108,8 @@ class DTOBaiduNotification {
 		this.android = Optional.ofNullable(baiduNotification.getAndroid()).map(DTOBaiduNotificationAndroid::new)
 				.orElse(null);
 		this.ios = Optional.ofNullable(baiduNotification.getIos()).map(DTOBaiduNotificationIos::new).orElse(null);
-		this.msgType = Optional.ofNullable(baiduNotification.getMsgType()).map(Integer::new).orElse(null);
+		this.msgType = Optional.ofNullable(baiduNotification.getMsgType()).map(BaiduMsgType::ordinal)
+				.orElse(null);
 	}
 }
 

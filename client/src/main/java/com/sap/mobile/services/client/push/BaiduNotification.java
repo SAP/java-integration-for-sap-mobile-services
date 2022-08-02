@@ -1,5 +1,7 @@
 package com.sap.mobile.services.client.push;
 
+import java.util.Optional;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +18,7 @@ public interface BaiduNotification {
 
 	BaiduNotificationIos getIos();
 
-	Integer getMsgType();
+	BaiduMsgType getMsgType();
 
 	/**
 	 * Baidu notification properties
@@ -26,7 +28,7 @@ public interface BaiduNotification {
 	final class Builder {
 		private BaiduNotificationAndroid android;
 		private BaiduNotificationIos ios;
-		private Integer msgType;
+		private BaiduMsgType msgType;
 
 		/** Android specific notification settings */
 		public Builder android(BaiduNotificationAndroid android) {
@@ -46,7 +48,7 @@ public interface BaiduNotification {
 		 * </ul>
 		 */
 		public Builder msgType(BaiduMsgType msgType) {
-			return new Builder(this.android, this.ios, Integer.valueOf(msgType.ordinal()));
+			return new Builder(this.android, this.ios, msgType);
 		}
 
 		public BaiduNotification build() {
@@ -58,7 +60,7 @@ public interface BaiduNotification {
 		private static class BaiduNotificationObject implements BaiduNotification {
 			private final BaiduNotificationAndroid android;
 			private final BaiduNotificationIos ios;
-			private final Integer msgType;
+			private final BaiduMsgType msgType;
 		}
 	}
 
