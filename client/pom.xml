@@ -19,7 +19,7 @@
 		<spring-boot.version>2.7.4</spring-boot.version>
 		<token-client.version>2.13.3</token-client.version>
 		<lombok.version>1.18.24</lombok.version>
-		<jackson-databind.version>2.13.4</jackson-databind.version>
+		<jackson-databind.version>2.13.4.1</jackson-databind.version>
 		<slf4j-api.version>2.0.3</slf4j-api.version>
 		<httpclient.version>4.5.13</httpclient.version>
 		<junit.version>4.13.2</junit.version>
