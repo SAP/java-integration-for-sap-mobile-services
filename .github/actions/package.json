@@ -8,7 +8,7 @@
   "devDependencies": {
     "@vercel/ncc": "^0.34.0",
     "js-yaml": "^4.1.0",
-    "lerna": "^5.1.6"
+    "lerna": "^6.0.1"
   },
   "overrides": {
     "parse-url@6": "6.0.1"
