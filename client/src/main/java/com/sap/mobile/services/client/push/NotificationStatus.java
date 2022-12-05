@@ -17,6 +17,9 @@ public interface NotificationStatus {
 	/** The target type, like ios, android ... */
 	String getNotificationType();
 
+	/** List of matching topic subscriptions on {@link PushClient#pushToTopics(java.util.Collection, java.util.Collection, LocalizedPushPayload)} */
+	Topics getTopics();
+
 	/**
 	 * The current notification status.
 	 * <p>

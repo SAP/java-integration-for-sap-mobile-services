@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -141,7 +142,8 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public PushResponse pushToTopics(Collection<String> userIds, Collection<String> topics,
 			LocalizedPushPayload pushPayload) {
-		DTOLocalizedPushToTopicPayload payload = new DTOLocalizedPushToTopicPayload(new ArrayList<>(userIds),
+		DTOLocalizedPushToTopicPayload payload = new DTOLocalizedPushToTopicPayload(
+				CollectionUtils.isEmpty(userIds) ? null : new ArrayList<>(userIds),
 				new ArrayList<>(topics), pushPayload);
 		RequestEntity<DTOLocalizedPushToTopicPayload> request = RequestEntity
 				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_TOPIC_PATH,

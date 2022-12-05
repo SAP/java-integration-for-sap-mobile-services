@@ -342,6 +342,15 @@ class DTONotificationStatus implements NotificationStatus {
 	private Status status;
 	private String caller;
 	private String notificationType;
+	private DTOTopics topics;
+}
+
+@Getter
+@Setter
+@NoArgsConstructor
+class DTOTopics implements Topics{
+	private Integer count;
+	private List<String> value;
 }
 
 @Getter
