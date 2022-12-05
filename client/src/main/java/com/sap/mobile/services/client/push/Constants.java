@@ -11,7 +11,7 @@ interface Constants {
 		interface V2 {
 			interface Paths {
 				/**
-				 * Root path of mobile services puch backend services v2.
+				 * Root path of mobile services push backend services v2.
 				 */
 				String ROOT_PATH = Constants.ROOT_PATH + "/v2/backend";
 
@@ -39,8 +39,7 @@ interface Constants {
 				String PUSH_TO_CAPABILITY_PATH = Constants.Backend.V2.Paths.ROOT_PATH
 						+ "/capabilities/{capabilityName}/notifications";
 
-				String GET_NOTIFICATION_STATUS = Constants.Backend.V2.Paths.ROOT_PATH
-						+ "/notifications/{notificationId}/status";
+				String GET_NOTIFICATION_STATUS = Constants.Backend.V1.Paths.GET_NOTIFICATION_STATUS;
 
 				String GET_LOCALIZATIONS = Constants.Backend.V2.Paths.ROOT_PATH + "/localizations";
 
@@ -57,5 +56,18 @@ interface Constants {
 				String GET_REGISTRATIONS_GROUP_PARAM = "pushGroup";
 			}
 		}
+
+		interface V1 {
+			interface Paths {
+				/**
+				 * Root path of mobile services puch backend services v2.
+				 */
+				String ROOT_PATH = Constants.ROOT_PATH + "/v1/backend";
+
+				String GET_NOTIFICATION_STATUS = Constants.Backend.V1.Paths.ROOT_PATH
+						+ "/notifications/{notificationId}/status";
+			}
+		}
+
 	}
 }
