@@ -9,6 +9,11 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "org.springframework:*"
+        versions: [">= 6.x"]
+      - dependency-name: "org.springframework.boot:*"
+        versions: [">= 3.x"]
   - package-ecosystem: npm
     directory: "/.github/actions"
     schedule:
