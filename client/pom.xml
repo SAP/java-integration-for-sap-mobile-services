@@ -20,7 +20,7 @@
 		<token-client.version>2.13.4</token-client.version>
 		<lombok.version>1.18.24</lombok.version>
 		<jackson-databind.version>2.14.1</jackson-databind.version>
-		<slf4j-api.version>2.0.5</slf4j-api.version>
+		<slf4j-api.version>2.0.6</slf4j-api.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<junit.version>4.13.2</junit.version>
 		<hamcrest-core.version>2.2</hamcrest-core.version>
