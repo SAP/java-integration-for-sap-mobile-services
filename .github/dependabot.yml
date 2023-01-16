@@ -14,6 +14,8 @@ updates:
         versions: [">= 6.x"]
       - dependency-name: "org.springframework.boot:*"
         versions: [">= 3.x"]
+      - dependency-name: "org.mockito:*"
+        versions: [">= 5.x"]
   - package-ecosystem: npm
     directory: "/.github/actions"
     schedule:
