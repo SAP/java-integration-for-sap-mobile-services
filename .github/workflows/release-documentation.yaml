@@ -74,6 +74,7 @@ jobs:
   publish-documentation:
     runs-on: ubuntu-latest
     name: Publish Documentation to GH-Pages
+    concurrency: 'publish_docs'
     needs:
       - 'build-documentation'
       - 'build-javadoc'
