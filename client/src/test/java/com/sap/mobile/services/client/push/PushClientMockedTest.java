@@ -155,7 +155,7 @@ public class PushClientMockedTest {
 
 	@Test
 	public void testWithServiceBinding() throws Exception {
-		final MobileServicesBinding binding = MobileServicesBinding.fromResource("mobileservices-binding.json");
+		final MobileServicesBinding binding = MobileServicesBinding.fromResource("mobileservices-binding-shared.json");
 		final XsuaaTokenFlowFactory factory = Mockito.mock(XsuaaTokenFlowFactory.class);
 		final ClientCredentialsTokenFlow flow = Mockito.mock(ClientCredentialsTokenFlow.class);
 
@@ -199,8 +199,8 @@ public class PushClientMockedTest {
 	}
 
 	@Test
-	public void testWithServiceBindingAndTenantResolver() throws Exception {
-		final MobileServicesBinding binding = MobileServicesBinding.fromResource("mobileservices-binding.json");
+	public void testWithServiceBindingAndTenantResolverTenantModeShared() throws Exception {
+		final MobileServicesBinding binding = MobileServicesBinding.fromResource("mobileservices-binding-shared.json");
 		final XsuaaTokenFlowFactory factory = Mockito.mock(XsuaaTokenFlowFactory.class);
 		final ClientCredentialsTokenFlow flow = Mockito.mock(ClientCredentialsTokenFlow.class);
 
@@ -224,5 +224,32 @@ public class PushClientMockedTest {
 
 		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 		Mockito.verify(flow).zoneId("49ed9cfd-1e52-431e-8a9a-5dbe880ab9fb");
+	}
+
+	@Test
+	public void testWithServiceBindingAndTenantResolverTenantModeDedicated() throws Exception {
+		final MobileServicesBinding binding = MobileServicesBinding.fromResource("mobileservices-binding-dedicated.json");
+		final XsuaaTokenFlowFactory factory = Mockito.mock(XsuaaTokenFlowFactory.class);
+		final ClientCredentialsTokenFlow flow = Mockito.mock(ClientCredentialsTokenFlow.class);
+
+		Mockito.when(factory.createClientCredentialsTokenFlow(binding)).thenReturn(flow);
+		this.testee = (RestTemplatePushClient) new PushClientBuilder()
+				.withTokenFlowFactory(factory)
+				.withTenantSupplier(() -> Optional.of("49ed9cfd-1e52-431e-8a9a-5dbe880ab9fb"))
+				.build(binding);
+		this.mockPushServer = new MockPushServer(testee.getRestTemplate(), binding);
+		mockPushServer.expectPushToApplication()
+				.withJsonBodyFromResource("payloads/request-push-to-application-alert.json")
+				.withBearerToken("my-secret-jwt");
+
+		final OAuth2TokenResponse response = new OAuth2TokenResponse("my-secret-jwt", 60, "refresh-me");
+		Mockito.when(flow.execute()).thenReturn(response);
+
+		testee.pushToApplication(PushPayload.builder()
+				.alert("Hello World")
+				.build());
+
+		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
+		Mockito.verify(flow, Mockito.never()).zoneId("49ed9cfd-1e52-431e-8a9a-5dbe880ab9fb");
 	}
 }
