@@ -1,0 +1,28 @@
+{
+  "url": "instanceUrl",
+  "endpoints": {
+    "mobileservices": {
+      "url": "https://anyUrl",
+      "timeout": 160000
+    }
+  },
+  "saasregistryenabled": true,
+  "sap.cloud.service": "appName",
+  "uaa": {
+    "clientid": "clientId",
+    "clientsecret": "clientSecret",
+    "url": "uaaUrl",
+    "identityzone": "identityZone",
+    "identityzoneid": "identityZoneId",
+    "tenantid": "tenantId",
+    "tenantmode": "invalidmode",
+    "sburl": "sbUrl",
+    "apiurl": "apiUrl",
+    "verificationkey": "publicKey",
+    "xsappname": "xsAppName",
+    "subaccountid": "subaccountId",
+    "uaadomain": "uaaDomain",
+    "zoneid": "zonId",
+    "credential-type": "credType"
+  }
+}

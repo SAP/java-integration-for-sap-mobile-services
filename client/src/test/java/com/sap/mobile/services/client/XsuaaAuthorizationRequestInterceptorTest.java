@@ -51,11 +51,13 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 		expectedResponse = new MockClientHttpResponse("Hello World".getBytes(StandardCharsets.UTF_8), HttpStatus.OK);
 		oAuth2TokenResponse = new OAuth2TokenResponse("my-secret-jwt", 60, "refresh-me");
 
-		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier);
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
 	}
 
 	@Test
-	public void testIntercept() throws Exception {
+	public void testInterceptTenantModeShared() throws Exception {
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
+
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
 		Mockito.when(execution.execute(any(), any())).thenAnswer(invocation -> {
 			final HttpRequest request = invocation.getArgument(0);
@@ -79,7 +81,9 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 	}
 
 	@Test
-	public void testInterceptForTenant() throws Exception {
+	public void testInterceptForTenantTenantModeShared() throws Exception {
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
+
 		final String tenantZoneId = UUID.randomUUID().toString();
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
 		Mockito.when(execution.execute(any(), any())).thenAnswer(invocation -> {
@@ -102,6 +106,61 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 		final ClientHttpResponse response = testee.intercept(initialRequest, new byte[0], execution);
 		assertThat(response, is(expectedResponse));
 		Mockito.verify(tokenFlow).zoneId(tenantZoneId);
+		Mockito.verify(execution).execute(any(), any());
+	}
+
+	@Test
+	public void testInterceptTenantModeDedicated() throws Exception {
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.DEDICATED);
+
+		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
+		Mockito.when(execution.execute(any(), any())).thenAnswer(invocation -> {
+			final HttpRequest request = invocation.getArgument(0);
+			final byte[] body = invocation.getArgument(1);
+
+			assertThat(body, is(new byte[0]));
+			assertThat(request.getMethod(), is(initialRequest.getMethod()));
+			assertThat(request.getURI(), is(initialRequest.getURI()));
+			assertThat(request.getHeaders().getFirst("x-dummy-header"), is("x-dummy-value"));
+			assertThat(request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION), is("bearer my-secret-jwt"));
+
+			return expectedResponse;
+		});
+
+		Mockito.when(tenantSupplier.get()).thenReturn(Optional.empty());
+		Mockito.when(tokenFlow.execute()).thenReturn(oAuth2TokenResponse);
+
+		final ClientHttpResponse response = testee.intercept(initialRequest, new byte[0], execution);
+		assertThat(response, is(expectedResponse));
+		Mockito.verify(execution).execute(any(), any());
+	}
+
+	@Test
+	public void testInterceptForTenantTenantModeDedicated() throws Exception {
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.DEDICATED);
+
+		final String tenantZoneId = UUID.randomUUID().toString();
+		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
+		Mockito.when(execution.execute(any(), any())).thenAnswer(invocation -> {
+			final HttpRequest request = invocation.getArgument(0);
+			final byte[] body = invocation.getArgument(1);
+
+			assertThat(body, is(new byte[0]));
+			assertThat(request.getMethod(), is(initialRequest.getMethod()));
+			assertThat(request.getURI(), is(initialRequest.getURI()));
+			assertThat(request.getHeaders().getFirst("x-dummy-header"), is("x-dummy-value"));
+			assertThat(request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION), is("bearer my-secret-jwt"));
+			assertThat(request.getHeaders().getFirst("x-tenant-id"), is(tenantZoneId));
+
+			return expectedResponse;
+		});
+
+		Mockito.when(tenantSupplier.get()).thenReturn(Optional.of(tenantZoneId));
+		Mockito.when(tokenFlow.execute()).thenReturn(oAuth2TokenResponse);
+
+		final ClientHttpResponse response = testee.intercept(initialRequest, new byte[0], execution);
+		assertThat(response, is(expectedResponse));
+		Mockito.verify(tokenFlow, Mockito.never()).zoneId(tenantZoneId);
 		Mockito.verify(execution).execute(any(), any());
 	}
 

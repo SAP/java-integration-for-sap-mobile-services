@@ -25,6 +25,7 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 
 	private final ClientCredentialsTokenFlow tokenFlow;
 	private final TenantSupplier tenantSupplier;
+	private final XsuaaClientConfiguration.TenantMode tenantMode;
 
 	@Override
 	public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
@@ -33,7 +34,7 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 		final OAuth2TokenResponse tokenResponse;
 		final String tenantId = this.tenantSupplier.get().orElse(null);
 		try {
-			if (tenantId != null) {
+			if (tenantId != null && tenantMode == XsuaaClientConfiguration.TenantMode.SHARED) {
 				tokenResponse = tokenFlow.zoneId(tenantId).execute();
 			} else {
 				tokenResponse = tokenFlow.execute();
@@ -50,6 +51,11 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 
 		request.getHeaders().set(HttpHeaders.AUTHORIZATION,
 				String.format("%s %s", tokenResponse.getTokenType(), tokenResponse.getAccessToken()));
+
+		if (tenantId != null && tenantMode != XsuaaClientConfiguration.TenantMode.SHARED) {
+			request.getHeaders().set(Constants.Headers.TENANT_ID_HEADER, tenantId);
+		}
+
 		return execution.execute(request, body);
 	}
 

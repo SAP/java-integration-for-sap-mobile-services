@@ -1,8 +1,10 @@
 package com.sap.mobile.services.client;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThrows;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -26,8 +28,8 @@ public class MobileServicesBindingTest {
 	}
 
 	@Test
-	public void testBinding() throws Exception {
-		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding.json");
+	public void testBindingTenantModeShared() throws Exception {
+		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-shared.json");
 		assertThat(settings.getAppName(), is("appName"));
 		assertThat(settings.getEndpoints(), hasKey("mobileservices"));
 		assertThat(settings.getEndpoints().get("mobileservices").getTimeout(), is(160000));
@@ -39,6 +41,40 @@ public class MobileServicesBindingTest {
 		assertThat(settings.getClientConfiguration().getIdentityZone(), is("identityZone"));
 		assertThat(settings.getClientConfiguration().getUrl(),
 				is("uaaUrl"));
+		assertThat(settings.getClientConfiguration().getTenantMode(), is(XsuaaClientConfiguration.TenantMode.SHARED));
+	}
+
+	@Test
+	public void testBindingTenantModeDedicated() throws Exception {
+		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-dedicated.json");
+		assertThat(settings.getAppName(), is("appName"));
+		assertThat(settings.getEndpoints(), hasKey("mobileservices"));
+		assertThat(settings.getEndpoints().get("mobileservices").getTimeout(), is(160000));
+		assertThat(settings.getEndpoints().get("mobileservices").getUrl(),
+				is("https://anyUrl"));
+		assertThat(settings.getClientConfiguration().getClientId(),
+				is("clientId"));
+		assertThat(settings.getClientConfiguration().getClientSecret(), is("clientSecret"));
+		assertThat(settings.getClientConfiguration().getIdentityZone(), is("identityZone"));
+		assertThat(settings.getClientConfiguration().getUrl(),
+				is("uaaUrl"));
+		assertThat(settings.getClientConfiguration().getTenantMode(), is(XsuaaClientConfiguration.TenantMode.DEDICATED));
+	}
+
+	@Test
+	public void testBindingMissingTenantMode() throws Exception {
+		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-missing-tenant-mode.json");
+		assertThat(settings.getClientConfiguration().getTenantMode(), is(XsuaaClientConfiguration.TenantMode.DEDICATED));
+	}
+
+	@Test
+	public void testBindingInvalidTenantMode() throws Exception {
+		MobileServicesBinding settings = MobileServicesBinding.fromResource("mobileservices-binding-invalid-tenant-mode.json");
+		IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
+			settings.getClientConfiguration().getTenantMode();
+		});
+
+		assertThat(e.getMessage(), containsString("Invalid tenant-mode 'invalidmode', supported types are SHARED, DEDICATED, EXTERNAL"));
 	}
 
 	@Test

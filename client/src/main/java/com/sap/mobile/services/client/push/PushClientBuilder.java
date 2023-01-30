@@ -122,6 +122,7 @@ public final class PushClientBuilder {
 				.tenantSupplier(this.tenantSupplier)
 				.rootUri(endpoint.getUrl())
 				.xsuaaTokenFlow(tokenFlow)
+				.tenantMode(binding.getClientConfiguration().getTenantMode())
 				.build();
 
 		return new RestTemplatePushClient(clientConfiguration);

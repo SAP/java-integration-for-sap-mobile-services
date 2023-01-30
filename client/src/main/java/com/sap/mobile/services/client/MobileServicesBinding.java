@@ -126,7 +126,21 @@ public final class MobileServicesBinding {
 		private String privateKey;
 		@JsonProperty("verificationkey")
 		private String verificationKey;
+		@JsonProperty("tenantmode")
+		private String tenantMode;
 
+		public XsuaaClientConfiguration.TenantMode getTenantMode() {
+			if (tenantMode == null) {
+				// if absent, default to DEDICATED to prevent a breaking change
+				// see https://github.com/SAP/java-integration-for-sap-mobile-services/issues/191
+				return XsuaaClientConfiguration.TenantMode.DEDICATED;
+			} else {
+				return XsuaaClientConfiguration.TenantMode.parse(tenantMode)
+						.orElseThrow(() -> new IllegalStateException(String.format(
+								"Invalid tenant-mode '%s', supported types are %s", tenantMode,
+								XsuaaClientConfiguration.TenantMode.acceptedTypes())));
+			}
+		}
 	}
 
 	@JsonIgnoreProperties(ignoreUnknown = true)
