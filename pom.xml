@@ -51,7 +51,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<ossrh.stagingProfileId>9eb14049834f35</ossrh.stagingProfileId>
+		<ossrh.stagingProfileId>5fe347a16a21</ossrh.stagingProfileId>
 		<gpg.keyname>F3C55620</gpg.keyname>
 	</properties>
 
