@@ -29,17 +29,17 @@ jobs:
           VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "artifactVersion=$VERSION" >> $GITHUB_ENV
         working-directory: client
-      - uses: jacobtomlinson/gha-find-replace@v2
+      - uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "//ENTER GROUP ID//"
           replace: ${{ env.groupId }}
           regex: false
-      - uses: jacobtomlinson/gha-find-replace@v2
+      - uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "//ENTER ARTIFACT ID//"
           replace: ${{ env.artifactId }}
           regex: false
-      - uses: jacobtomlinson/gha-find-replace@v2
+      - uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "//ENTER LATEST BUILD VERSION//"
           replace: ${{ env.artifactVersion }}
