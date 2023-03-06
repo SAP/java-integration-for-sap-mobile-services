@@ -17,7 +17,7 @@
 	<properties>
 		<spring.version>5.3.25</spring.version>
 		<spring-boot.version>2.7.9</spring-boot.version>
-		<token-client.version>2.13.5</token-client.version>
+		<token-client.version>2.13.7</token-client.version>
 		<lombok.version>1.18.26</lombok.version>
 		<jackson-databind.version>2.14.2</jackson-databind.version>
 		<slf4j-api.version>2.0.6</slf4j-api.version>
