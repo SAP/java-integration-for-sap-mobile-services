@@ -16,6 +16,8 @@ updates:
         versions: [">= 3.x"]
       - dependency-name: "org.mockito:*"
         versions: [">= 5.x"]
+      - dependency-name: "org.apache.maven.plugins:maven-surefire-plugin"
+        versions: [">= 2.22.x"]
   - package-ecosystem: npm
     directory: "/.github/actions"
     schedule:
