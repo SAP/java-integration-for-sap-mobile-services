@@ -6,6 +6,16 @@ Only for patch releases of previous versions, a temporary release branch is used
 
 ## Trigger a Release
 
+0. Check for dependency updates
+
+    Before performing a release, you should ensure that there are no dependencies updates available.
+
+    You can navigate to the [Dependecy Dashboard](https://github.com/SAP/java-integration-for-sap-mobile-services/network/updates) and check when the last Dependabot run had been executed (it happens once a day).
+
+    If recent enough, you can continue with the release procedure. Otherwise, click on the `Last checked x ago` link and then on the `Check for Updates` button. This will trigger the lookup for dependency updates.
+
+    Wait for the check to be finished. If no new updates are available via pull-request, you are good to go for the actual release.
+
 1. In order to perform a new release, first navigate to the branch you want to release (`main` for regular major/minor release - `rel/*` for a patch release):
 
     Open the `pom.xml` and verify that the version is correct. The version in the pom is the one of the upcoming release with the `-dev` suffix. In this example, the `0.1.0-dev` version results in the `0.1.0` release.  
@@ -48,7 +58,7 @@ Only for patch releases of previous versions, a temporary release branch is used
 
     ![Approve Deployment](img/approve-release.jpg)
    
-    - After the release job is finished, the artifact should be availabel in maven central. However, it might take a couple of
+    - After the release job is finished, the artifact should be available in maven central. However, it might take a couple of
       minutes for the search to pick it up.
 
 5. *Only for releases from the `main` branch:* Bump the version on the `main` branch for the next release:
