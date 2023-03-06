@@ -47,15 +47,11 @@ Only for patch releases of previous versions, a temporary release branch is used
     - Open the link and follow the instructions to approve the deployment to maven central.
 
     ![Approve Deployment](img/approve-release.jpg)
+   
+    - After the release job is finished, the artifact should be availabel in maven central. However, it might take a couple of
+      minutes for the search to pick it up.
 
-5. Promote the artifacts
-
-    By default, the artifacts are only uploaded to a staging repository.  
-    From there, they need to be promoted to the release repository to make them accessible.
-
-    Open the [nexus repository manager](https://oss.sonatype.org/#welcome) and follow [this guide](https://central.sonatype.org/publish/release/#close-and-drop-or-release-your-staging-repository) to finish the release procedure.
-
-6. *Only for releases from the `main` branch:* Bump the version on the `main` branch for the next release:
+5. *Only for releases from the `main` branch:* Bump the version on the `main` branch for the next release:
 
     - Navigate to the `Pull requests` tab
     - A pull-request has been created automatically to bump the version in the `main` branch, open it.
