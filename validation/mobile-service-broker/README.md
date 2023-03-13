@@ -11,7 +11,7 @@ Reason is to reduce the scope of the platform user to the testing pipelines, by 
 ## Setup Guide
 
 1. Run `mvn clean install`
-2. Optionally, tweak the configuration environments (see [Configuration Parameters](#configuration-parameters]))
+2. Optionally, tweak the configuration environments (see [Configuration Parameters](#configuration-parameters))
 3. Deploy the application with `cf deploy --no-start`
    * Note, you'll need the [multiapps-cli-plugin](https://github.com/cloudfoundry/multiapps-cli-plugin)
 4. Add the platform-user credentials
@@ -23,8 +23,40 @@ Reason is to reduce the scope of the platform user to the testing pipelines, by 
         * password: the platform-user password
    2. Use the credstore CF plugin
       * `cf credstore-create credstore-mobile-services-broker default password platform-user --value '<password>' --username '<username>'`
-6. Deploy the application again and let it start: `cf deploy`
-   * Note, once the credentials are stored in the credstore, you can don't need to use the `--no-start` option anymore.
+5. Deploy the application again and let it start: `cf deploy`
+   * Note, once the credentials are stored in the credstore, you don't need to use the `--no-start` option anymore.
+
+## Create / Update Credentials
+
+A service-key for the `xsuaa-mobile-services-broker` service-instance needs to be created for the GitHub Actions pipeline in order to execute the system-tests.
+
+1. Create a service-key for `xsuaa-mobile-services-broker` with mTLS authentication:
+
+   ```bash
+   cf create-service-key xsuaa-mobile-services-broker github-service-key-q4-2022 -c '{"credential-type":"x509","x509":{"key-length":2048,"validity":3,"validity-type":"MONTHS"}}'
+   ```
+
+2. Retrieve the service-key
+
+   ```bash
+   cf service-key xsuaa-mobile-services-broker github-service-key-q4-2022
+   ```
+
+3. Create / Update the GitHub Actions secrets
+   1. Take the `certurl` of the service-key and provide it for the [BROKER_XSUAA_URL](https://github.com/SAP/java-integration-for-sap-mobile-services/settings/secrets/actions/BROKER_XSUAA_URL) secret.
+   2. Take the `certificate` of the service-key and provide it for the [BROKER_XSUAA_CERT](https://github.com/SAP/java-integration-for-sap-mobile-services/settings/secrets/actions/BROKER_XSUAA_CERT) secret. **Make sure to unescape the JSON string (e.g. quotes and newlines)**
+   3. Take the `key` of the service-key and provide it for the [BROKER_XSUAA_KEY](https://github.com/SAP/java-integration-for-sap-mobile-services/settings/secrets/actions/BROKER_XSUAA_KEY) secret. **Make sure to unescape the JSON string (e.g. quotes and newlines)**
+   4. Take the `clientid` of the service-key and provide it for the [BROKER_XSUAA_CLIENT_ID](https://github.com/SAP/java-integration-for-sap-mobile-services/settings/secrets/actions/BROKER_XSUAA_CLIENT_ID) secret.
+   5. Only required on first setup:
+      Take the URL of the deployed service and provide it as [BROKER_ENDPOINT](https://github.com/SAP/java-integration-for-sap-mobile-services/settings/secrets/actions/BROKER_ENDPOINT) secret.
+
+   **Note that the certificate expires after three months. Make sure to repeat this procedure to renew the credentials.**
+
+4. Redeploy the broker to rotate it's credentials
+   1. Run `mvn clean install`
+   2. Optionally, tweak the configuration environments (see [Configuration Parameters](#configuration-parameters))
+   3. Deploy the application: `cf deploy`
+      * Note, you'll need the [multiapps-cli-plugin](https://github.com/cloudfoundry/multiapps-cli-plugin)
 
 ## Configuration Parameters
 
