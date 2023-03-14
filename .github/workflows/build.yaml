@@ -79,4 +79,4 @@ jobs:
           SERVICE_BINDING_LOCATION: ${{ github.workspace }}/validation/system-tests/service-key.json
           SETTINGS_APIKEY_LOCATION: ${{ github.workspace }}/validation/system-tests/service-config-api-key.json
           SETTINGS_X509_LOCATION: ${{ github.workspace }}/validation/system-tests/service-config-x509.json
-        run: mvn -B test --file pom.xml -pl :system-tests -Psystem-tests -DskipTests=true -am
+        run: mvn -B test --file pom.xml -pl :system-tests -Psystem-tests -am
