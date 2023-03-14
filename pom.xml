@@ -5,7 +5,7 @@
 
 	<groupId>com.sap.cloud.platform.mobile.services</groupId>
 	<artifactId>java-integration-parent</artifactId>
-	<version>0.5.0-dev</version>
+	<version>0.5.0</version>
 	<packaging>pom</packaging>
 
 	<name>Java integration for SAP Mobile Services</name>
