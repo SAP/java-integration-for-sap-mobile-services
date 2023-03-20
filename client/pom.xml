@@ -15,7 +15,7 @@
 	<name>Java integration for SAP Mobile Services - Client</name>
 
 	<properties>
-		<spring.version>5.3.25</spring.version>
+		<spring.version>5.3.26</spring.version>
 		<spring-boot.version>2.7.9</spring-boot.version>
 		<token-client.version>2.13.7</token-client.version>
 		<lombok.version>1.18.26</lombok.version>
