@@ -69,7 +69,7 @@ jobs:
           branch: ${{ env.pr_branch }}
           delete-branch: true
       - name: Enable Automerge
-        uses: peter-evans/enable-pull-request-automerge@v2
+        uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.create-pr.outputs.pull-request-number }}
