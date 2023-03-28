@@ -4,17 +4,41 @@ import java.io.IOException;
 
 import org.springframework.http.client.ClientHttpResponse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sap.mobile.services.client.RestTemplateResponseErrorHandler;
 
 class PushRestTemplateResponseErrorHandler extends RestTemplateResponseErrorHandler {
+	private ObjectMapper mapper = new ObjectMapper();
 
 	@Override
-	protected void handleServiceSpecificErrors(ClientHttpResponse response) throws IOException {
+	protected void handleServiceSpecificErrors(ClientHttpResponse response, String responseBodyText) throws IOException {
 		switch (response.getStatusCode()) {
+			case NOT_FOUND:
+				try {
+					PushResponse pushResponse = mapper.readValue(responseBodyText, DTOPushResponse.class);
+					throw new NoMessageSentException(pushResponse.getStatus().getMessage(), responseBodyText,
+							response.getHeaders(), pushResponse);
+				} catch (JsonProcessingException e) {
+					// NOOP
+				}
+				throw new NoMessageSentException(responseBodyText, response.getHeaders());
 			case UNPROCESSABLE_ENTITY:
-				throw new NoMessageSentException();
-				// TODO more error handling
+				try {
+					PushResponse pushResponse = mapper.readValue(responseBodyText, DTOPushResponse.class);
+					throw new MessageErrorException(responseBodyText, response.getHeaders(), pushResponse);
+				} catch (JsonProcessingException e) {
+					// NOOP
+				}
+				throw new MessageErrorException(responseBodyText, response.getHeaders());
 			default:
+				try {
+					PushResponse pushResponse = mapper.readValue(responseBodyText, DTOPushResponse.class);
+					throw new PushClientException(response.getStatusCode().name(), responseBodyText,
+							response.getHeaders(), pushResponse);
+				} catch (JsonProcessingException e) {
+					// NOOP
+				}
 		}
 	}
 }

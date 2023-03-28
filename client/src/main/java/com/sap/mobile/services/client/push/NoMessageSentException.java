@@ -1,9 +1,17 @@
 package com.sap.mobile.services.client.push;
 
-import com.sap.mobile.services.client.ClientException;
+import org.springframework.http.HttpHeaders;
 
-public class NoMessageSentException extends ClientException {
-	NoMessageSentException() {
-		super("No message was sent or queued. This is likely, because there is no push configuration.");
+/**
+ * No registered device was found for the request or the service URL is incorrect, see message.
+ */
+public class NoMessageSentException extends PushClientException {
+	NoMessageSentException(String responseBodyText, HttpHeaders httpHeaders) {
+		super("Push Service Instance not found.",
+				responseBodyText, httpHeaders);
+	}
+
+	NoMessageSentException(String msg, String responseBodyText, HttpHeaders responseHeaders, PushResponse pushResponse) {
+		super(msg, responseBodyText, responseHeaders, pushResponse);
 	}
 }
