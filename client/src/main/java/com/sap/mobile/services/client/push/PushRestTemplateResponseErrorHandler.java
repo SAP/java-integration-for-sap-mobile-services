@@ -18,24 +18,24 @@ class PushRestTemplateResponseErrorHandler extends RestTemplateResponseErrorHand
 				try {
 					PushResponse pushResponse = mapper.readValue(responseBodyText, DTOPushResponse.class);
 					throw new NoMessageSentException(pushResponse.getStatus().getMessage(), responseBodyText,
-							response.getHeaders(), pushResponse);
+							map(response.getHeaders()), pushResponse);
 				} catch (JsonProcessingException e) {
 					// NOOP
 				}
-				throw new NoMessageSentException(responseBodyText, response.getHeaders());
+				throw new NoMessageSentException(responseBodyText, map(response.getHeaders()));
 			case UNPROCESSABLE_ENTITY:
 				try {
 					PushResponse pushResponse = mapper.readValue(responseBodyText, DTOPushResponse.class);
-					throw new MessageErrorException(responseBodyText, response.getHeaders(), pushResponse);
+					throw new MessageErrorException(responseBodyText, map(response.getHeaders()), pushResponse);
 				} catch (JsonProcessingException e) {
 					// NOOP
 				}
-				throw new MessageErrorException(responseBodyText, response.getHeaders());
+				throw new MessageErrorException(responseBodyText, map(response.getHeaders()));
 			default:
 				try {
 					PushResponse pushResponse = mapper.readValue(responseBodyText, DTOPushResponse.class);
 					throw new PushClientException(response.getStatusCode().name(), responseBodyText,
-							response.getHeaders(), pushResponse);
+							map(response.getHeaders()), pushResponse);
 				} catch (JsonProcessingException e) {
 					// NOOP
 				}

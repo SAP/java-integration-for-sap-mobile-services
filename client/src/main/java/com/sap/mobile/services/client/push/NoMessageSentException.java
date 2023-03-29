@@ -1,6 +1,6 @@
 package com.sap.mobile.services.client.push;
 
-import org.springframework.http.HttpHeaders;
+import com.sap.mobile.services.client.HttpHeaders;
 
 /**
  * No registered device was found for the request or the service URL is incorrect, see message.
@@ -11,7 +11,7 @@ public class NoMessageSentException extends PushClientException {
 				responseBodyText, httpHeaders);
 	}
 
-	NoMessageSentException(String msg, String responseBodyText, HttpHeaders responseHeaders, PushResponse pushResponse) {
-		super(msg, responseBodyText, responseHeaders, pushResponse);
+	NoMessageSentException(String msg, String responseBodyText, HttpHeaders httpHeaders, PushResponse pushResponse) {
+		super(msg, responseBodyText, httpHeaders, pushResponse);
 	}
 }

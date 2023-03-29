@@ -1,8 +1,7 @@
 package com.sap.mobile.services.client.push;
 
-import org.springframework.http.HttpHeaders;
-
 import com.sap.mobile.services.client.ClientException;
+import com.sap.mobile.services.client.HttpHeaders;
 
 import lombok.Getter;
 /**
@@ -25,5 +24,6 @@ public class PushClientException extends ClientException {
         super(msg, responseBodyText, httpHeaders);
         this.response = response;
     }
+    
 
 }

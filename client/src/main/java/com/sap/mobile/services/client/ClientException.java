@@ -1,9 +1,5 @@
 package com.sap.mobile.services.client;
 
-import java.util.List;
-
-import org.springframework.http.HttpHeaders;
-
 import lombok.Getter;
 
 @Getter
@@ -37,9 +33,6 @@ public class ClientException extends RuntimeException {
 		super(msg);
 		this.responseBodyText = responseBodyText;
 		this.responseHeaders = responseHeaders;
-		List<String> correlationIds = responseHeaders.getOrEmpty("x-correlationID");
-		if (!correlationIds.isEmpty()){
-			this.correlationId = correlationIds.get(0);
-		}
+		this.correlationId = responseHeaders.getFirst("x-correlationID");
 	}
 }
