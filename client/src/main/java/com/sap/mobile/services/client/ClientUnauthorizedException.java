@@ -5,7 +5,7 @@ package com.sap.mobile.services.client;
  */
 public class ClientUnauthorizedException extends ClientException {
 
-	ClientUnauthorizedException() {
-		super("Authorization failed.");
+	ClientUnauthorizedException(String responseBodyText, com.sap.mobile.services.client.HttpHeaders httpHeaders) {
+		super("Authorization failed.", responseBodyText, httpHeaders);
 	}
 }

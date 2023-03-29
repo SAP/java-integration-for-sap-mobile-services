@@ -18,13 +18,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.sap.mobile.services.client.ClientErrorException;
+import com.sap.cloud.security.xsuaa.client.OAuth2TokenResponse;
+import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
 import com.sap.mobile.services.client.MobileServicesBinding;
 import com.sap.mobile.services.client.MobileServicesSettings;
 import com.sap.mobile.services.client.XsuaaTokenFlowFactory;
 import com.sap.mobile.services.client.push.mock.MockPushServer;
-import com.sap.cloud.security.xsuaa.client.OAuth2TokenResponse;
-import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
 
 public class PushClientMockedTest {
 
@@ -94,7 +93,7 @@ public class PushClientMockedTest {
 		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 	}
 
-	@Test(expected = ClientErrorException.class)
+	@Test(expected = NoMessageSentException.class)
 	public void testPushToUserNoSuchRegistration() throws Exception {
 		mockPushServer.expectPushToUser(DEFAULT_USER_ID, DEFAULT_DEVICE_ID)
 				.andRespond().withNoSuchRegistrationError();
@@ -141,7 +140,7 @@ public class PushClientMockedTest {
 		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 	}
 
-	@Test(expected = ClientErrorException.class)
+	@Test(expected = NoMessageSentException.class)
 	public void testPushToUsersNoSuchRegistration() throws Exception {
 		mockPushServer.expectPushToUsers()
 				.withJsonBodyFromResource("payloads/request-push-to-users-alert.json")
