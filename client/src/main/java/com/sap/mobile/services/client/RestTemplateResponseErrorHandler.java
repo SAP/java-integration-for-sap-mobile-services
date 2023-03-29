@@ -3,6 +3,7 @@ package com.sap.mobile.services.client;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,8 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 	protected com.sap.mobile.services.client.HttpHeaders map(HttpHeaders headers) {
 		com.sap.mobile.services.client.HttpHeaders bean = new com.sap.mobile.services.client.HttpHeaders();
 		Map<String, List<String>> headersMap = new HashMap<>();
-		headers.forEach((key, value) -> headersMap.put(key, new ArrayList<>(value)));
-		bean.setHeaders(headers);
+		headers.forEach((key, value) -> headersMap.put(key, Collections.unmodifiableList(new ArrayList<>(value))));
+		bean.setHeaders(Collections.unmodifiableMap(headers));
 		return bean;
 	}
 }
