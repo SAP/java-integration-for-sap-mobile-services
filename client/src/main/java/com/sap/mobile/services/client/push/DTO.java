@@ -236,7 +236,7 @@ class DTOGcmNotification {
 	 * @param duration duration to be formatted
 	 * @return formatted string or null, if param was null.
 	 * @see <a target="_top" href=
-	 * "https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages/#androidconfig">https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages/#androidconfig</a>
+	 *      "https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages/#androidconfig">https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages/#androidconfig</a>
 	 */
 	static String ttlFormat(Duration duration) {
 		if (duration == null) {
@@ -348,7 +348,7 @@ class DTONotificationStatus implements NotificationStatus {
 @Getter
 @Setter
 @NoArgsConstructor
-class DTOTopics implements Topics{
+class DTOTopics implements Topics {
 	private Integer count;
 	private List<String> value;
 }
@@ -509,8 +509,8 @@ class DTOLocalizedPushPayload {
 
 	DTOLocalizedPushPayload(LocalizedPushPayload localizedPushPayload) {
 		this.notification = Utils.safeMap(localizedPushPayload.getNotification(), DTOPushPayload::new);
-		this.notifications =
-				Utils.safeMapMap(localizedPushPayload.getNotifications(), Function.identity(), DTOPushPayload::new);
+		this.notifications = Utils.safeMapMap(localizedPushPayload.getNotifications(), Function.identity(),
+				DTOPushPayload::new);
 	}
 
 	DTOLocalizedPushPayload(PushPayload pushPayload) {
@@ -523,27 +523,32 @@ class DTOLocalizedPushPayload {
 @JsonInclude(Include.NON_NULL)
 class DTOLocalizedPushToUsersPayload {
 	private final List<String> users;
+	private final List<String> userUUIDs;
 	private final DTOLocalizedPushPayload notification;
 
-	DTOLocalizedPushToUsersPayload(List<String> users, LocalizedPushPayload notification) {
+	DTOLocalizedPushToUsersPayload(List<String> users, List<String> userUUIDs, LocalizedPushPayload notification) {
 		this.users = users;
+		this.userUUIDs = userUUIDs;
 		this.notification = new DTOLocalizedPushPayload(notification);
 	}
 }
 
-@Getter @JsonInclude(Include.NON_NULL)
+@Getter
+@JsonInclude(Include.NON_NULL)
 class DTOLocalizedPushToTopicPayload {
-		private final List<String> users;
-		private final List<String> topics;
-		private final DTOLocalizedPushPayload notification;
+	private final List<String> users;
+	private final List<String> userUUIDs;
+	private final List<String> topics;
+	private final DTOLocalizedPushPayload notification;
 
-	DTOLocalizedPushToTopicPayload(List<String> users, List<String> topics,LocalizedPushPayload notification ) {
+	DTOLocalizedPushToTopicPayload(List<String> users, List<String> userUUIDs, List<String> topics,
+			LocalizedPushPayload notification) {
 		this.users = users;
+		this.userUUIDs = userUUIDs;
 		this.topics = topics;
 		this.notification = new DTOLocalizedPushPayload(notification);
-    }
+	}
 }
-
 
 @Getter
 @JsonInclude(Include.NON_NULL)
@@ -566,8 +571,8 @@ class DTOLocalizedPushToCapabilitiesPayload {
 	DTOLocalizedPushToCapabilitiesPayload(LocalizedPushToCapabilitiesPayload localizedPushToCapabilitiesPayload) {
 		this.users = Utils.safeMapCollection(localizedPushToCapabilitiesPayload.getUsers(), DTOCapabilityUser::new,
 				Collectors.toSet());
-		this.notification =
-				Utils.safeMap(localizedPushToCapabilitiesPayload.getNotification(), DTOLocalizedPushPayload::new);
+		this.notification = Utils.safeMap(localizedPushToCapabilitiesPayload.getNotification(),
+				DTOLocalizedPushPayload::new);
 	}
 }
 
@@ -575,10 +580,12 @@ class DTOLocalizedPushToCapabilitiesPayload {
 @JsonInclude(Include.NON_NULL)
 class DTOLocalizedUserNotification {
 	private final String user;
+	private final String userUUID;
 	private final DTOLocalizedPushPayload notification;
 
 	DTOLocalizedUserNotification(LocalizedUserNotification userNotification) {
 		this.user = userNotification.getUser();
+		this.userUUID = userNotification.getUserUUID();
 		this.notification = Utils.safeMap(userNotification.getNotification(), DTOLocalizedPushPayload::new);
 	}
 }

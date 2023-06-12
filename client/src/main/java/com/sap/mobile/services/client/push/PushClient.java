@@ -74,6 +74,19 @@ public interface PushClient {
 	PushResponse pushToUsers(Collection<String> userIds, LocalizedPushPayload pushPayload) throws ClientException;
 
 	/**
+	 * Triggers a notification to a defined set of users, identified by their
+	 * userId or global user ID. If a single user has multiple
+	 * devices registered, all devices will receive the notification.
+	 *
+	 * @param userIds     userIds
+	 * @param userUUIDs   userUUIDs
+	 * @param pushPayload payload
+	 * @return response
+	 */
+	PushResponse pushToUsers(Collection<String> userIds, Collection<String> userUUIDs, LocalizedPushPayload pushPayload)
+			throws ClientException;
+
+	/**
 	 * Triggers a notification to a group with the same payload for all recipients.
 	 *
 	 * @param group       group
@@ -142,6 +155,19 @@ public interface PushClient {
 	 * @return
 	 */
 	PushResponse pushToTopics(Collection<String> userIds, Collection<String> topics, LocalizedPushPayload pushPayload);
+
+	/**
+	 * Triggers notifications to devices that have an active subscription for any
+	 * of the given topic
+	 * 
+	 * @param userIds     optional filter on userIds
+	 * @param userUUIDs   optional filter on global user IDs
+	 * @param topics      List of topics
+	 * @param pushPayload payload
+	 * @return
+	 */
+	PushResponse pushToTopics(Collection<String> userIds, Collection<String> userUUIDs, Collection<String> topics,
+			LocalizedPushPayload pushPayload);
 
 	/**
 	 * Retrieve the notification status by its ID.
