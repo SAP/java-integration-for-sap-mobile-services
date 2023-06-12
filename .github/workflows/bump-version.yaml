@@ -55,7 +55,7 @@ jobs:
           echo "pr_branch=create-pull-request/bump-$NEXT_VERSION" >> $GITHUB_ENV
       - name: Create Pull Request
         id: create-pr
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           commit-message: 'Bump version to ${{ steps.bump-version.outputs.target-version }}'
           committer: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
