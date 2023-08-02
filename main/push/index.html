@@ -13,7 +13,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.21">
     
     
       
@@ -835,7 +835,7 @@ PushPayload builder:</p>
 <table>
 <thead>
 <tr>
-<th align="center">Property</th>
+<th style="text-align: center;">Property</th>
 <th>Description</th>
 <th>APNs Mapping/Notes</th>
 <th>FCM Mapping/Notes</th>
@@ -844,28 +844,28 @@ PushPayload builder:</p>
 </thead>
 <tbody>
 <tr>
-<td align="center"><code>alert</code></td>
+<td style="text-align: center;"><code>alert</code></td>
 <td>Single message shown on the device</td>
 <td><code>alert.title</code></td>
 <td><code>alert</code></td>
 <td>Supported by W3C and WNS</td>
 </tr>
 <tr>
-<td align="center"><code>badge</code></td>
+<td style="text-align: center;"><code>badge</code></td>
 <td>Number shown at the app icon on the device screen</td>
 <td>Directly set by the notification manager when app is idle or inactive</td>
 <td>Handled by notification callback</td>
 <td>not supported by W3C</td>
 </tr>
 <tr>
-<td align="center"><code>sound</code></td>
+<td style="text-align: center;"><code>sound</code></td>
 <td>Sound played back when notification is shown</td>
 <td>References sound file in '/Library/Sounds'</td>
 <td>References sound file in app resource folder <code>res/raw</code></td>
 <td>not supported by W3C</td>
 </tr>
 <tr>
-<td align="center"><code>data</code></td>
+<td style="text-align: center;"><code>data</code></td>
 <td>Dictionary (key/value map)</td>
 <td>Handed over to notification callback, implemented by device</td>
 <td>Handled by notification callback</td>
@@ -877,7 +877,7 @@ PushPayload builder:</p>
 <table>
 <thead>
 <tr>
-<th align="center">Property</th>
+<th style="text-align: center;">Property</th>
 <th>Description</th>
 <th>APNs Mapping/Notes</th>
 <th>FCM Mapping/Notes</th>
@@ -886,7 +886,7 @@ PushPayload builder:</p>
 </thead>
 <tbody>
 <tr>
-<td align="center"><code>priority</code></td>
+<td style="text-align: center;"><code>priority</code></td>
 <td>Notification delivery priority <code>high</code> or <code>normal</code></td>
 <td>Translated to integer value</td>
 <td>Used directly</td>
