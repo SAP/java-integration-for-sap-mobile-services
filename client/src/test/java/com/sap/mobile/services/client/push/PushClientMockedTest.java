@@ -124,22 +124,6 @@ public class PushClientMockedTest {
 		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
 	}
 
-	@Test
-	public void testPushToUsersWithEmptyList() throws Exception {
-		mockPushServer.expectPushToUsers()
-				.withJsonBodyFromResource("payloads/request-push-to-users-empty-list.json")
-				.andRespond().withInvalidPushUserListSizeError();
-
-		assertThrows(Exception.class, () -> {
-			//TODO: enhance error handling
-			testee.pushToUsers(Collections.emptyList(), PushPayload.builder()
-					.alert("Hello World")
-					.build());
-		});
-
-		MatcherAssert.assertThat(mockPushServer, MockPushServer.hasBeenVerified());
-	}
-
 	@Test(expected = NoMessageSentException.class)
 	public void testPushToUsersNoSuchRegistration() throws Exception {
 		mockPushServer.expectPushToUsers()

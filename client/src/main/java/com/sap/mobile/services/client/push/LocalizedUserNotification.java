@@ -21,6 +21,8 @@ public interface LocalizedUserNotification {
 
 	String getUser();
 
+	String getUserUUID();
+
 	LocalizedPushPayload getNotification();
 
 	/**
@@ -30,6 +32,7 @@ public interface LocalizedUserNotification {
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	final class Builder {
 		private String user;
+		private String userUUID;
 		private LocalizedPushPayload notification;
 
 		/**
@@ -39,7 +42,17 @@ public interface LocalizedUserNotification {
 		 * @return
 		 */
 		public Builder user(String user) {
-			return new Builder(user, this.notification);
+			return new Builder(user, this.userUUID, this.notification);
+		}
+
+		/**
+		 * Specifies the global user ID
+		 * 
+		 * @param userUUID
+		 * @return
+		 */
+		public Builder userUUID(String userUUID) {
+			return new Builder(this.user, userUUID, this.notification);
 		}
 
 		/**
@@ -49,7 +62,7 @@ public interface LocalizedUserNotification {
 		 * @return
 		 */
 		public Builder notification(LocalizedPushPayload notification) {
-			return new Builder(this.user, notification);
+			return new Builder(this.user, this.userUUID, notification);
 		}
 
 		/**
@@ -58,13 +71,14 @@ public interface LocalizedUserNotification {
 		 * @return
 		 */
 		public LocalizedUserNotification build() {
-			return new LocalizedUserNotificationObject(this.user, this.notification);
+			return new LocalizedUserNotificationObject(this.user, this.userUUID, this.notification);
 		}
 
 		@Getter
 		@RequiredArgsConstructor
 		private static class LocalizedUserNotificationObject implements LocalizedUserNotification {
 			private final String user;
+			private final String userUUID;
 			private final LocalizedPushPayload notification;
 		}
 	}
