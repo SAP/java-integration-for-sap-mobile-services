@@ -25,7 +25,7 @@ jobs:
           PACKAGE_NAME: ${{ inputs.name }}
         run: |
           npm i
-          ./node_modules/.bin/lerna bootstrap --scope ${PACKAGE_NAME}
+          ./node_modules/.bin/lerna exec --scope ${PACKAGE_NAME} -- npm ci
           ./node_modules/.bin/lerna exec --scope ${PACKAGE_NAME} -- npm run-script build
         working-directory: .github/actions
         if: ${{ inputs.type == 'javascript' }}
