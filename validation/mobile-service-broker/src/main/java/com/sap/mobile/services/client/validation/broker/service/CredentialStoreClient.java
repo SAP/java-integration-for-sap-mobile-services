@@ -4,26 +4,19 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.security.KeyFactory;
-import java.security.spec.X509EncodedKeySpec;
 import java.text.ParseException;
-import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -37,7 +30,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.util.IOUtils;
 import com.sap.mobile.services.client.validation.broker.misc.OAuthTokenProvider;
 
-import io.netty.handler.codec.http.ReadOnlyHttpHeaders;
 import io.pivotal.cfenv.core.CfEnv;
 import lombok.Getter;
 import lombok.SneakyThrows;

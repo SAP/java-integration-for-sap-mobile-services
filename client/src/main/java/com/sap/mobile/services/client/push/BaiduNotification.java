@@ -1,7 +1,5 @@
 package com.sap.mobile.services.client.push;
 
-import java.util.Optional;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

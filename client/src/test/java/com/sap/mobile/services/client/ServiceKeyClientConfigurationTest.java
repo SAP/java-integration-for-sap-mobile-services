@@ -7,11 +7,6 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sap.mobile.services.client.ApiKeyAuthorizationRequestInterceptor;
-import com.sap.mobile.services.client.BuildProperties;
-import com.sap.mobile.services.client.MobileServicesSettings;
-import com.sap.mobile.services.client.ServiceKeyClientConfiguration;
-
 public class ServiceKeyClientConfigurationTest {
 
 	private ServiceKeyClientConfiguration testee;

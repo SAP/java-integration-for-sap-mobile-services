@@ -10,6 +10,9 @@ Reason is to reduce the scope of the platform user to the testing pipelines, by 
 
 ## Setup Guide
 
+The broker requires a compatible CF Java Build Pack. As of July 2023, JDK 17 and Spring Boot 3 / Spring Framework 6 is not supported.
+Please don't update the Spring Library versions to 3.x and use the Java 11 build options.
+
 1. Run `mvn clean install`
 2. Optionally, tweak the configuration environments (see [Configuration Parameters](#configuration-parameters))
 3. Deploy the application with `cf deploy --no-start`

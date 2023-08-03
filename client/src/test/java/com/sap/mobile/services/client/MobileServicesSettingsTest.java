@@ -3,8 +3,6 @@ package com.sap.mobile.services.client;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.sap.mobile.services.client.MobileServicesSettings;
-
 public class MobileServicesSettingsTest {
 
 	@Test

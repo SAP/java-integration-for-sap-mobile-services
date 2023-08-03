@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
@@ -24,20 +25,20 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 	public void handleError(ClientHttpResponse response) throws IOException {
 		String responseBodyText = IOUtils.toString(response.getBody(), StandardCharsets.UTF_8);
 		this.handleServiceSpecificErrors(response, responseBodyText);
-		final HttpStatus status = response.getStatusCode();
-		switch (status) {
-			case UNAUTHORIZED:
+		final HttpStatusCode status = response.getStatusCode();
+		switch (status.value()) {
+			case HttpStatus.SC_UNAUTHORIZED:
 				throw new ClientUnauthorizedException(responseBodyText, map(response.getHeaders()));
-			case TOO_MANY_REQUESTS:
+			case HttpStatus.SC_TOO_MANY_REQUESTS:
 				throw new TrialLimitExceededException(responseBodyText, map(response.getHeaders()));
 			default:
 		}
 		// Generic error handlers for undefined 4** and 5**
 		if (status.is4xxClientError()) {
-			throw new ClientErrorException(status.name(), responseBodyText, map(response.getHeaders()));
+			throw new ClientErrorException(status.toString(), responseBodyText, map(response.getHeaders()));
 		}
 		if (status.is5xxServerError()) {
-			throw new ServerErrorException(status.name(), responseBodyText, map(response.getHeaders()));
+			throw new ServerErrorException(status.toString(), responseBodyText, map(response.getHeaders()));
 		}
 	}
 
