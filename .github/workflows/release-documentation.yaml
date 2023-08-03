@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
           cache: maven
       - run: |
           GROUP_ID=$( mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout )
@@ -62,7 +62,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
           cache: maven
       - name: Build JavaDoc
         run: mvn -B javadoc:javadoc --file pom.xml
