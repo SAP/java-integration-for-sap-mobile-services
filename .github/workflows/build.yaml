@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
           cache: maven
       - run: |
           VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
@@ -44,7 +44,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
           cache: maven
       - uses: SAP/java-integration-for-sap-mobile-services@actions_prepare-mobile-services-app
         with:

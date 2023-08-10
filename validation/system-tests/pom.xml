@@ -11,6 +11,12 @@
 
     <artifactId>system-tests</artifactId>
 
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.sap.cloud.platform.mobile.services</groupId>

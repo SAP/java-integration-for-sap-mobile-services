@@ -9,9 +9,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
-import com.sap.mobile.services.client.BuildProperties;
-import com.sap.mobile.services.client.XsuaaAuthorizationRequestInterceptor;
-import com.sap.mobile.services.client.XsuaaClientConfiguration;
 
 public class XsuaaClientConfigurationTest {
 

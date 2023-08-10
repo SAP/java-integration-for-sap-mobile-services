@@ -17,6 +17,7 @@
     <name>Java integration for SAP Mobile Services - Mobile Services Broker for Validation</name>
 
     <properties>
+        <java.version>11</java.version>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
     </properties>

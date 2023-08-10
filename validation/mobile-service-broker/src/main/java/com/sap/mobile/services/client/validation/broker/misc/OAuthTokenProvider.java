@@ -2,7 +2,6 @@ package com.sap.mobile.services.client.validation.broker.misc;
 
 import java.net.URI;
 
-import com.sap.cloud.security.client.DefaultHttpClientFactory;
 import com.sap.cloud.security.client.HttpClientFactory;
 import com.sap.cloud.security.config.ClientIdentity;
 import com.sap.cloud.security.config.CredentialType;
@@ -11,7 +10,6 @@ import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
 import com.sap.cloud.security.xsuaa.XsuaaServiceConfigurationCustom;
 import com.sap.cloud.security.xsuaa.client.DefaultOAuth2TokenService;
 import com.sap.cloud.security.xsuaa.client.OAuth2ServiceEndpointsProvider;
-import com.sap.cloud.security.xsuaa.client.XsuaaDefaultEndpoints;
 import com.sap.cloud.security.xsuaa.tokenflows.TokenCacheConfiguration;
 import com.sap.cloud.security.xsuaa.tokenflows.TokenFlowException;
 import com.sap.cloud.security.xsuaa.tokenflows.XsuaaTokenFlows;
