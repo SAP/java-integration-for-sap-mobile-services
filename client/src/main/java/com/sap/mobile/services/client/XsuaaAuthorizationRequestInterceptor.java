@@ -4,11 +4,13 @@ import java.io.IOException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestClientException;
 
+import com.sap.cloud.security.xsuaa.client.OAuth2ServiceException;
 import com.sap.cloud.security.xsuaa.client.OAuth2TokenResponse;
 import com.sap.cloud.security.xsuaa.tokenflows.ClientCredentialsTokenFlow;
 import com.sap.cloud.security.xsuaa.tokenflows.TokenFlowException;
@@ -39,6 +41,11 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 			}
 		} catch (IllegalArgumentException | TokenFlowException e) {
 			log.error("Failed to fetch XSUAA token", e);
+
+			if (tenantId != null && isMissingTenantError(e)) {
+				throw new NoSuchTenantException(tenantId);
+			}
+
 			throw new RestClientException("Failed to fetch XSUAA token", e);
 		}
 
@@ -52,4 +59,13 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 		return execution.execute(request, body);
 	}
 
+	private boolean isMissingTenantError(final Exception e) {
+		final Throwable cause = e.getCause();
+		if (cause instanceof OAuth2ServiceException) {
+			final Integer statusCode = ((OAuth2ServiceException) cause).getHttpStatusCode();
+			return statusCode != null && statusCode.equals(HttpStatus.NOT_FOUND.value());
+		}
+
+		return false;
+	}
 }
