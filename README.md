@@ -9,6 +9,13 @@
 
 ## Requirements and Setup
 
+| Release | Minimum JDK Version | Spring Boot Version |
+|:-------:|:-------------------:|:-------------------:|
+| 0.7     | JDK 8  | 2.7 |
+| 1.x     | JDK 17 | 3.1 |
+
+See [Spring Boot Support](https://spring.io/projects/spring-boot#support) for support time frames.
+
 <!--
 The Java integration for SAP Mobile Services can simply be included as a Maven dependency:
 
