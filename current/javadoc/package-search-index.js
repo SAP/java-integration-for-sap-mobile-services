@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.sap.mobile.services.client"},{"l":"com.sap.mobile.services.client.push"}];updateSearchResults();
