@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ssh-key: ${{ secrets.GIT_SSH_KEY }}
@@ -37,7 +37,7 @@ jobs:
           mvn -B --file pom.xml -DnewVersion="${NEXT_VERSION}" -DgroupId=\* -DartifactId=\* -DoldVersion=\* -DgenerateBackupPoms=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn org.codehaus.mojo:versions-maven-plugin:2.7:set
         working-directory: 'rel-branch'
       - name: Checkout Main
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ssh-key: ${{ secrets.GIT_SSH_KEY }}
