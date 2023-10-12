@@ -6,7 +6,7 @@
   "author": "SAP SE",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@vercel/ncc": "^0.36.0",
+    "@vercel/ncc": "^0.38.0",
     "js-yaml": "^4.1.0",
     "lerna": "^7.1.4"
   },
