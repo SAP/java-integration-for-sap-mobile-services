@@ -1,8 +1,11 @@
 package com.sap.mobile.services.client.validation.broker.configuration;
 
+import com.sap.cloud.security.spring.config.IdentityServicesPropertySourceFactory;
+import com.sap.cloud.security.spring.config.XsuaaServiceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -12,15 +15,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
-import com.sap.cloud.security.xsuaa.token.TokenAuthenticationConverter;
 
 @Configuration
 @EnableWebSecurity
+@PropertySource(factory = IdentityServicesPropertySourceFactory.class, ignoreResourceNotFound = true, value = { "" })
 public class SecurityConfiguration {
 
 	@Autowired
 	XsuaaServiceConfiguration xsuaaServiceConfiguration;
+	
+	@Autowired
+	Converter<Jwt, AbstractAuthenticationToken> authConverter;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,16 +38,10 @@ public class SecurityConfiguration {
                     .anyRequest().authenticated();
         }).oauth2ResourceServer((oauth2ResourceServer) -> {
             oauth2ResourceServer.jwt(jwt -> {
-                jwt.jwtAuthenticationConverter(getJwtAuthenticationConverter());
+                jwt.jwtAuthenticationConverter(authConverter);
             });
         });
         return http.build();
-	}
-
-	private Converter<Jwt, ? extends AbstractAuthenticationToken> getJwtAuthenticationConverter() {
-		TokenAuthenticationConverter converter = new TokenAuthenticationConverter(xsuaaServiceConfiguration);
-        converter.setLocalScopeAsAuthorities(true);
-        return converter;
 	}
 	
 }

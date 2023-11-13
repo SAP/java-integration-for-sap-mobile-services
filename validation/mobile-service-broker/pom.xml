@@ -28,6 +28,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
@@ -80,7 +84,7 @@
         </dependency>
         <dependency>
             <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>spring-xsuaa</artifactId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
             <version>2.16.0</version>
         </dependency>
         <dependency>
@@ -90,13 +94,18 @@
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>2.2.0</version>
         </dependency>
         <dependency>
-            <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>xsuaa-spring-boot-starter</artifactId>
-            <version>2.16.0</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sap.cloud.security</groupId>
+            <artifactId>resourceserver-security-spring-boot-starter</artifactId>
+            <version>3.2.1</version>
         </dependency>
     </dependencies>
 
