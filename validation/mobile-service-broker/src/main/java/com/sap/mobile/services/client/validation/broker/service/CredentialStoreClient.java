@@ -122,7 +122,7 @@ public class CredentialStoreClient {
 
 		@Override
 		public HttpStatus getStatusCode() throws IOException {
-			return delegate.getStatusCode();
+			return HttpStatus.valueOf(delegate.getStatusCode().value());
 		}
 
 		@Override

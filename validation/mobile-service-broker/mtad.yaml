@@ -18,6 +18,7 @@ modules:
       JBP_CONFIG_COMPONENTS: '{jres: ["JavaBuildpack::Jre::SapMachineJRE"]}'
       JBP_CONFIG_SAPJVM: '[memory_calculator: {memory_settings: {directmemory:50M}}]'
       JBP_CONFIG_JAVA_OPTS: '[ java_opts: ''-XX:MaxDirectMemorySize=50M'']'
+      JBP_CONFIG_SAP_MACHINE_JRE: '{ jre: { version: "17.+" } }'
       MEMORY_CALCULATOR_V1: 'true'
       BROKER_TEMPLATES_0_KEEPNUMBER: 3
       BROKER_TEMPLATES_0_FEATURES_0: 'push'
