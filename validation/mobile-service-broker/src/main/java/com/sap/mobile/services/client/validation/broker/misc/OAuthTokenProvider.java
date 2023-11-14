@@ -5,9 +5,7 @@ import java.net.URI;
 import com.sap.cloud.security.client.HttpClientFactory;
 import com.sap.cloud.security.config.ClientIdentity;
 import com.sap.cloud.security.config.CredentialType;
-import com.sap.cloud.security.xsuaa.XsuaaCredentials;
-import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
-import com.sap.cloud.security.xsuaa.XsuaaServiceConfigurationCustom;
+import com.sap.cloud.security.spring.config.XsuaaServiceConfiguration;
 import com.sap.cloud.security.xsuaa.client.DefaultOAuth2TokenService;
 import com.sap.cloud.security.xsuaa.client.OAuth2ServiceEndpointsProvider;
 import com.sap.cloud.security.xsuaa.tokenflows.TokenCacheConfiguration;
@@ -33,13 +31,11 @@ public class OAuthTokenProvider {
 	}
 
 	private XsuaaTokenFlows buildTokenFlows() {
-		final XsuaaCredentials credentials = new XsuaaCredentials();
-		credentials.setCredentialType(CredentialType.X509);
-		credentials.setClientId(clientId);
-		credentials.setKey(key);
-		credentials.setCertificate(certificate);
-
-		final XsuaaServiceConfiguration configuration = new XsuaaServiceConfigurationCustom(credentials);
+		final XsuaaServiceConfiguration configuration = new XsuaaServiceConfiguration();
+		configuration.setCredentialType(CredentialType.X509.toString());
+		configuration.setClientId(clientId);
+		configuration.setKey(key);
+		configuration.setCertificate(certificate);
 		final ClientIdentity clientIdentity = configuration.getClientIdentity();
 
 		return new XsuaaTokenFlows(

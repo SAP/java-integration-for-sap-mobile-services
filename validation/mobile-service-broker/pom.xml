@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.17</version>
+        <version>3.1.5</version>
         <relativePath/>
     </parent>
 
@@ -17,15 +17,19 @@
     <name>Java integration for SAP Mobile Services - Mobile Services Broker for Validation</name>
 
     <properties>
-        <java.version>11</java.version>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
+        <java.version>17</java.version>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -70,17 +74,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>token-client</artifactId>
-            <version>2.16.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>spring-xsuaa</artifactId>
-            <version>2.16.0</version>
+            <version>4.5.14</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -89,13 +83,18 @@
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>2.2.0</version>
         </dependency>
         <dependency>
-            <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>xsuaa-spring-boot-starter</artifactId>
-            <version>2.16.0</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sap.cloud.security</groupId>
+            <artifactId>resourceserver-security-spring-boot-starter</artifactId>
+            <version>3.2.1</version>
         </dependency>
     </dependencies>
 
