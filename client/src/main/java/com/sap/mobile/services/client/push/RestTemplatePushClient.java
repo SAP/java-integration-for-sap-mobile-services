@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -58,6 +60,7 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushPayload> request = RequestEntity
 				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_APPLICATION_PATH,
 						this.basicPathVariables().build())
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
 				.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -76,6 +79,7 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushPayload> request = RequestEntity
 				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_USER_PATH,
 						this.basicPathVariables().put("userId", userId).putAndBuild("deviceId", deviceId))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
 				.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -97,6 +101,7 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushToUsersPayload> request = RequestEntity
 				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_USERS_PATH,
 						this.basicPathVariables().build())
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
 				.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -105,7 +110,7 @@ class RestTemplatePushClient implements PushClient {
 	@Override
 	public PushResponse pushToUsers(Collection<String> userIds, LocalizedPushPayload pushPayload)
 			throws ClientException {
-		return pushToUsers(userIds, null , pushPayload);
+		return pushToUsers(userIds, null, pushPayload);
 	}
 
 	@Override
@@ -119,6 +124,7 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushPayload> request = RequestEntity
 				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_GROUP_PATH,
 						this.basicPathVariables().putAndBuild("group", group))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
 				.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
@@ -141,24 +147,26 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedPushToCapabilitiesPayload> request = RequestEntity
 				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_CAPABILITY_PATH,
 						this.basicPathVariables().putAndBuild("capabilityName", capability))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
 				.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
 	}
-	
+
 	@Override
 	public PushResponse pushToTopics(Collection<String> userIds, Collection<String> userUUIDs,
 			Collection<String> topics, LocalizedPushPayload pushPayload) {
-				DTOLocalizedPushToTopicPayload payload = new DTOLocalizedPushToTopicPayload(
-						CollectionUtils.isEmpty(userIds) ? null : new ArrayList<>(userIds),
-						CollectionUtils.isEmpty(userUUIDs) ? null : new ArrayList<>(userUUIDs),
-						new ArrayList<>(topics), pushPayload);
-				RequestEntity<DTOLocalizedPushToTopicPayload> request = RequestEntity
-						.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_TOPIC_PATH,
-								this.basicPathVariables().build())
-						.body(payload);
-				ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
-				return response.getBody();
+		DTOLocalizedPushToTopicPayload payload = new DTOLocalizedPushToTopicPayload(
+				CollectionUtils.isEmpty(userIds) ? null : new ArrayList<>(userIds),
+				CollectionUtils.isEmpty(userUUIDs) ? null : new ArrayList<>(userUUIDs),
+				new ArrayList<>(topics), pushPayload);
+		RequestEntity<DTOLocalizedPushToTopicPayload> request = RequestEntity
+				.method(HttpMethod.POST, Constants.Backend.V2.Paths.PUSH_TO_TOPIC_PATH,
+						this.basicPathVariables().build())
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
+				.body(payload);
+		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
+		return response.getBody();
 	}
 
 	@Override
@@ -183,6 +191,7 @@ class RestTemplatePushClient implements PushClient {
 		RequestEntity<DTOLocalizedBulkPush> request = RequestEntity
 				.method(HttpMethod.POST, Constants.Backend.V2.Paths.BULK_PUSH_PATH,
 						this.basicPathVariables().build())
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
 				.body(payload);
 		ResponseEntity<DTOPushResponse> response = this.restTemplate.exchange(request, DTOPushResponse.class);
 		return response.getBody();
