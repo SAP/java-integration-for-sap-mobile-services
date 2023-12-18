@@ -46,7 +46,7 @@ jobs:
           regex: false
       - name: Build Documentation
         uses: SAP/java-integration-for-sap-mobile-services@actions_build-mkdocs
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: documentation-build
           path: site/**
@@ -67,7 +67,7 @@ jobs:
       - name: Build JavaDoc
         run: mvn -B javadoc:javadoc --file pom.xml
         working-directory: client
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: javadoc-build
           path: client/target/site/apidocs/**
