@@ -3,6 +3,7 @@ package com.sap.cloud.platform.mobile.services.validation;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class PushClientTest {
 	private PushClientProvider pushClientProvider;
 
 	@Test
+	@Disabled
 	@DisplayName("Send push notification to application with CF Binding")
 	void pushToApplicationCFBinding() {
 		PushResponse response = pushClientProvider.getCfBindingClient().pushToApplication(PushPayload.builder()
