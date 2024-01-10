@@ -3,8 +3,10 @@ package com.sap.mobile.services.client.push;
 import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
- * Notification status detail response element of {@link NotificationStatusResponse}
+ * Notification status detail response element of
+ * {@link NotificationStatusResponse}
  */
 public interface NotificationStatus {
 
@@ -17,8 +19,17 @@ public interface NotificationStatus {
 	/** The target type, like ios, android ... */
 	String getNotificationType();
 
-	/** List of matching topic subscriptions on {@link PushClient#pushToTopics(java.util.Collection, java.util.Collection, LocalizedPushPayload)} */
+	/**
+	 * List of matching topic subscriptions on
+	 * {@link PushClient#pushToTopics(java.util.Collection, java.util.Collection, LocalizedPushPayload)}
+	 */
 	Topics getTopics();
+
+	/**
+	 * Native notification ID from channel, like APNs or FCM.
+	 * APNs apns-unique-id is used on development target.
+	 */
+	String getNotificationId();
 
 	/**
 	 * The current notification status.

@@ -343,6 +343,7 @@ class DTONotificationStatus implements NotificationStatus {
 	private String caller;
 	private String notificationType;
 	private DTOTopics topics;
+	private String notificationId;
 }
 
 @Getter
