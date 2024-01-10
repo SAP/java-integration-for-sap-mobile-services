@@ -26,10 +26,15 @@ public interface NotificationStatus {
 	Topics getTopics();
 
 	/**
+	 * Notification ID
+	 */
+	String getNotificationId();
+
+	/**
 	 * Native notification ID from channel, like APNs or FCM.
 	 * APNs apns-unique-id is used on development target.
 	 */
-	String getNotificationId();
+	String getProviderReference();
 
 	/**
 	 * The current notification status.

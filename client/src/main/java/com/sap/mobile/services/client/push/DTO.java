@@ -344,6 +344,7 @@ class DTONotificationStatus implements NotificationStatus {
 	private String notificationType;
 	private DTOTopics topics;
 	private String notificationId;
+	private String providerReference;
 }
 
 @Getter
