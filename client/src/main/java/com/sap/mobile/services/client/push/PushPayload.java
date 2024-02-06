@@ -2,6 +2,9 @@ package com.sap.mobile.services.client.push;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -102,11 +105,25 @@ public interface PushPayload {
 		/**
 		 * The data property is a serialized / escape JSON key/value map. The object is
 		 * not shown in the notification, but can be used by the mobile app notification
-		 * handler. Android only support maps/key value pairs and other JSON objects are
-		 * ignored.
+		 * handler. Android only support maps/key String value pairs. Other JSON objects
+		 * will be rejected.
 		 */
 		public Builder data(String data) {
 			return new Builder(this.alert, this.badge, this.sound, this.priority, data, this.sendAsSms, this.apns,
+					this.gcm, this.wns, this.baidu, this.w3c, this.custom);
+		}
+
+		/**
+		 * The data is a key/value map. The object is not shown in the notification, but
+		 * can be used by the mobile app notification handler. Android only support
+		 * maps/key String value pairs. Other JSON objects will be rejected.
+		 * 
+		 * @throws JsonProcessingException
+		 */
+		public Builder data(Object data) throws JsonProcessingException {
+			ObjectMapper mapper = new ObjectMapper();
+			return new Builder(this.alert, this.badge, this.sound, this.priority, mapper.writeValueAsString(data),
+					this.sendAsSms, this.apns,
 					this.gcm, this.wns, this.baidu, this.w3c, this.custom);
 		}
 
