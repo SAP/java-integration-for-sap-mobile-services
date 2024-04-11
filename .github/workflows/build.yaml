@@ -26,10 +26,10 @@ jobs:
           echo "artifactVersion=$VERSION" >> $GITHUB_ENV
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: client/target/java-integration-${{ env.artifactVersion }}.jar
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: client/target/java-integration-${{ env.artifactVersion }}-javadoc.jar
   system-tests:
