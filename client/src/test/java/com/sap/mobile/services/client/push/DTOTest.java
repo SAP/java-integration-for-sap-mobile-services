@@ -27,4 +27,18 @@ public class DTOTest {
 				DTOGetNotificationStatusResponse.class);
 		Assert.assertNotNull(response.getStatusDetails().getCaller());
 	}
+
+	@Test
+	public void testDTOApnsNotificationInterruptionLevel() throws Exception {
+		ApnsNotification apnsNotification = ApnsNotification.builder().interruptionLevel(InterruptionLevel.CRITICAL).build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertEquals("critical", dtoApnsNotification.getInterruptionLevel());
+	}
+
+	@Test
+	public void testDTOApnsNotificationInterruptionLevelNull() throws Exception {
+		ApnsNotification apnsNotification = ApnsNotification.builder().build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertNull(dtoApnsNotification.getInterruptionLevel());
+	}
 }

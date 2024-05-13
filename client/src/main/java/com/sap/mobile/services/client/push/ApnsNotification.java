@@ -67,6 +67,8 @@ public interface ApnsNotification {
 
 	Boolean getMutableContent();
 
+	InterruptionLevel getInterruptionLevel();
+
 	/**
 	 * APNS specific notification properties. See
 	 * 
@@ -101,6 +103,7 @@ public interface ApnsNotification {
 		private List<String> urlArguments;
 		private String threadId;
 		private Boolean mutableContent;
+		private InterruptionLevel interruptionLevel;
 
 		/**
 		 * expire notification at given timestamp
@@ -112,7 +115,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -127,7 +130,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -140,7 +143,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -157,7 +160,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -170,7 +173,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -185,7 +188,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -199,7 +202,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -213,7 +216,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -229,7 +232,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -243,7 +246,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -256,7 +259,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -272,7 +275,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -286,7 +289,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -299,7 +302,7 @@ public interface ApnsNotification {
 					localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -315,7 +318,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -330,7 +333,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -343,7 +346,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -357,7 +360,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -370,7 +373,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -384,7 +387,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -398,7 +401,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -412,7 +415,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -425,7 +428,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		/**
@@ -439,7 +442,21 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					mutableContent);
+					mutableContent, this.interruptionLevel);
+		}
+
+		/**
+		 * The interruption-level is optional and defines the importance and delivery
+		 * timing of a notification
+		 */
+		public Builder interruptionLevel(InterruptionLevel interruptionLevel) {
+			return new Builder(this.expiration, this.category, this.contentAvailable, this.pushType, this.customValues,
+					this.sound, this.customSound, this.topic, this.alertBody, this.localizedAlertKey,
+					this.localizedAlertArguments, this.alertTitle, this.localizedAlertTitleKey,
+					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
+					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
+					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
+					this.mutableContent, interruptionLevel);
 		}
 
 		public ApnsNotification build() {
@@ -450,7 +467,7 @@ public interface ApnsNotification {
 					this.localizedAlertTitleArguments, this.alertSubtitle, this.localizedAlertSubtitleKey,
 					this.localizedAlertSubtitleArguments, this.launchImageFileName, this.showActionButton,
 					this.actionButtonLabel, this.localizedActionButtonKey, this.urlArguments, this.threadId,
-					this.mutableContent);
+					this.mutableContent, this.interruptionLevel);
 		}
 
 		@Getter
@@ -480,6 +497,7 @@ public interface ApnsNotification {
 			private final List<String> urlArguments;
 			private final String threadId;
 			private final Boolean mutableContent;
+			private final InterruptionLevel interruptionLevel;
 		}
 	}
 }
