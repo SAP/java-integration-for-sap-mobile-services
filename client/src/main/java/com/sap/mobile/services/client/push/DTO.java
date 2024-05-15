@@ -69,6 +69,9 @@ class DTOApnsNotification {
 	private final String threadId;
 	private final Boolean mutableContent;
 	private final String interruptionLevel;
+	private final String targetContentId;
+	private final Float relevanceScore;
+
 
 	DTOApnsNotification(ApnsNotification apnsNotification) {
 		this.expiration = apnsNotification.getExpiration();
@@ -96,6 +99,9 @@ class DTOApnsNotification {
 		this.threadId = apnsNotification.getThreadId();
 		this.mutableContent = apnsNotification.getMutableContent();
 		this.interruptionLevel = apnsNotification.getInterruptionLevel() != null ? apnsNotification.getInterruptionLevel().toString() : null;
+		this.targetContentId = apnsNotification.getTargetContentId();
+		this.relevanceScore = apnsNotification.getRelevanceScore();
+
 	}
 }
 
