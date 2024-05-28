@@ -46,12 +46,18 @@ async function deleteMobileApplication(config, appId) {
 }
 
 function convertXsuaaConfig(config) {
+    const uaadomain = new URL(config.xsuaaUrl).hostname
+        .split('\.')
+        .filter((v, i) => i > 0 && v !== 'cert')
+        .join('.');
     return {
         clientid: config.xsuaaClientId,
         url: config.xsuaaUrl,
         certurl: config.xsuaaUrl,
         certificate: formatPem(config.xsuaaCert),
-        key: formatPem(config.xsuaaKey)
+        key: formatPem(config.xsuaaKey),
+        xsappname: 'dummy',
+        uaadomain: uaadomain
     }
 }
 
