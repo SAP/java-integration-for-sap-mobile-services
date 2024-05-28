@@ -80,21 +80,9 @@ function formatPem(pem) {
 }
 
 async function fetchToken(config) {
-    return new Promise((resolve, reject) => {
-        xssec.requests.requestClientCredentialsToken(undefined, config, undefined, undefined, (error, token) => {
-                if (error) {
-                    reject(error);
-                }
-                if (!token) {
-                    reject(
-                        new Error("Failed to fetch token, no error details have been provided")
-                    );
-                } else {
-                    resolve(token);
-                }
-            }
-        );
-    });
+    const client = new xssec.XsuaaService(config);
+    const tokenResponse = await client.fetchClientCredentialsToken();
+    return tokenResponse.access_token
 }
 
 module.exports = {
