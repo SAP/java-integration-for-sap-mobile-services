@@ -27,4 +27,47 @@ public class DTOTest {
 				DTOGetNotificationStatusResponse.class);
 		Assert.assertNotNull(response.getStatusDetails().getCaller());
 	}
+
+	@Test
+	public void testDTOApnsNotificationInterruptionLevel() throws Exception {
+		ApnsNotification apnsNotification = ApnsNotification.builder().interruptionLevel(InterruptionLevel.CRITICAL)
+				.build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertEquals("critical", dtoApnsNotification.getInterruptionLevel());
+	}
+
+	@Test
+	public void testDTOApnsNotificationInterruptionLevelNull() throws Exception {
+		ApnsNotification apnsNotification = ApnsNotification.builder().build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertNull(dtoApnsNotification.getInterruptionLevel());
+	}
+
+	@Test
+	public void testDTOApnsNotificationRelevanceScoreWhenSetNotNull() {
+		ApnsNotification apnsNotification = ApnsNotification.builder().relevanceScore(1.0F).build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertEquals(1.0F, dtoApnsNotification.getRelevanceScore().floatValue(), 0.01F);
+	}
+
+	@Test
+	public void testDTOApnsNotificationRelevanceScoreWhenNotSetExpectNull() {
+		ApnsNotification apnsNotification = ApnsNotification.builder().build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertNull(dtoApnsNotification.getRelevanceScore());
+	}
+
+	@Test
+	public void testDTOApnsNotificationTargetContentIdWhenSetTargetContentIdIsNotNull() {
+		ApnsNotification apnsNotification = ApnsNotification.builder().targetContentId("some value").build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertEquals("some value", dtoApnsNotification.getTargetContentId());
+	}
+
+	@Test
+	public void testDTOApnsNotificationTargetContentIdWhenNotSetExpectNull() {
+		ApnsNotification apnsNotification = ApnsNotification.builder().build();
+		DTOApnsNotification dtoApnsNotification = new DTOApnsNotification(apnsNotification);
+		Assert.assertNull(dtoApnsNotification.getTargetContentId());
+	}
 }
