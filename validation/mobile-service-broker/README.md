@@ -4,7 +4,7 @@ This application allows to dynamically provision Mobile Services instances by ca
 The endpoint is protected by XSUAA and requires a client-credential token.
 
 The application needs to be deployed on a CF space which has entitlement and quote for Mobile Services.  
-In addition, BTP platform user credentials have to be stored in a bound credstore instance.
+In addition, BTP platform user credentials have to be stored in a bound credential store instance.
 
 Reason is to reduce the scope of the platform user to the testing pipelines, by only allowing to provision Mobile Services instances.
 
@@ -31,6 +31,13 @@ The broker requires a compatible CF Java Build Pack. As of November 2023, JDK 17
 ## Create / Update Credentials
 
 A service-key for the `xsuaa-mobile-services-broker` service-instance needs to be created for the GitHub Actions pipeline in order to execute the system-tests.
+This key is valid for 3 month from its creation.
+The system tests will fail early when the certificate is expired:
+```
+Run SAP/java-integration-for-sap-mobile-services@actions_prepare-mobile-services-app
+...
+Error: HTTP request to ***/oauth/token could not be sent.
+```
 
 1. Create a service-key for `xsuaa-mobile-services-broker` with mTLS authentication:
 
