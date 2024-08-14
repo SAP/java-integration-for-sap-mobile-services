@@ -1,0 +1,14 @@
+{
+    "value": [
+        {
+            "id": "BCC7A74A-57FF-4FE7-8EA5-2C90251DB2F6",
+            "device": "541075356",
+            "deviceModel": null,
+            "formFactor": null,
+            "pushGroup": null,
+            "pushProvider": "w3cpushapi",
+            "userLocale": null,
+            "username": "john.doe@acme.abc"
+        }
+    ]
+}

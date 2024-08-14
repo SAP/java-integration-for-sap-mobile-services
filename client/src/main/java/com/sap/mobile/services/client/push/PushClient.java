@@ -199,7 +199,7 @@ public interface PushClient {
 	 *
 	 * @return List of registrations.
 	 */
-	default List<? extends PushRegistration> getRegistrations() {
+	default PushRegistrationsResponse getRegistrations() {
 		return this.getRegistrations(Optional.empty(), Optional.empty());
 	}
 
@@ -209,7 +209,7 @@ public interface PushClient {
 	 * @param username username to search registrations for.
 	 * @return List of registrations.
 	 */
-	default List<? extends PushRegistration> getRegistrationsByUsername(String username) {
+	default PushRegistrationsResponse getRegistrationsByUsername(String username) {
 		return this.getRegistrations(Optional.of(username), Optional.empty());
 	}
 
@@ -219,7 +219,7 @@ public interface PushClient {
 	 * @param group group to search registrations for.
 	 * @return List of registrations.
 	 */
-	default List<? extends PushRegistration> getRegistrationsByGroup(String group) {
+	default PushRegistrationsResponse getRegistrationsByGroup(String group) {
 		return this.getRegistrations(Optional.empty(), Optional.of(group));
 	}
 
@@ -230,5 +230,5 @@ public interface PushClient {
 	 * @param groupOpt    otpional group
 	 * @return List of registrations.
 	 */
-	List<? extends PushRegistration> getRegistrations(Optional<String> usernameOpt, Optional<String> groupOpt);
+	PushRegistrationsResponse getRegistrations(Optional<String> usernameOpt, Optional<String> groupOpt);
 }
