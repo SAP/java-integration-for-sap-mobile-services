@@ -29,6 +29,15 @@ public class DTOTest {
 	}
 
 	@Test
+	public void testDTOPushRegistrationsResponse() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		DTOPushRegistrationsResponse response = mapper.readValue(
+				DTOTest.class.getResourceAsStream("/payloads/response-get-registrations-with-single-registration.json"),
+				DTOPushRegistrationsResponse.class);
+		Assert.assertNotNull(response.getValue().get(0).getUsername());
+	}
+
+	@Test
 	public void testDTOApnsNotificationInterruptionLevel() throws Exception {
 		ApnsNotification apnsNotification = ApnsNotification.builder().interruptionLevel(InterruptionLevel.CRITICAL)
 				.build();

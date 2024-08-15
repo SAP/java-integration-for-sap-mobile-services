@@ -45,7 +45,7 @@ interface Constants {
 
 				String GET_REGISTRATIONS = Constants.Backend.V2.Paths.ROOT_PATH + "/registrations";
 
-				String GET_REGISTRATION = Constants.Backend.V2.Paths.GET_REGISTRATIONS + "/{registrationId}";
+				String GET_REGISTRATION = Constants.Backend.V2.Paths.ROOT_PATH+ "/registrations/{registrationId}";
 			}
 
 			interface Params {

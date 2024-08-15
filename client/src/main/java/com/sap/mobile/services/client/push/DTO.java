@@ -1,6 +1,7 @@
 package com.sap.mobile.services.client.push;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +73,6 @@ class DTOApnsNotification {
 	private final String targetContentId;
 	private final Float relevanceScore;
 
-
 	DTOApnsNotification(ApnsNotification apnsNotification) {
 		this.expiration = apnsNotification.getExpiration();
 		this.category = apnsNotification.getCategory();
@@ -98,7 +98,9 @@ class DTOApnsNotification {
 		this.urlArguments = apnsNotification.getUrlArguments();
 		this.threadId = apnsNotification.getThreadId();
 		this.mutableContent = apnsNotification.getMutableContent();
-		this.interruptionLevel = apnsNotification.getInterruptionLevel() != null ? apnsNotification.getInterruptionLevel().toString() : null;
+		this.interruptionLevel = apnsNotification.getInterruptionLevel() != null
+				? apnsNotification.getInterruptionLevel().toString()
+				: null;
 		this.targetContentId = apnsNotification.getTargetContentId();
 		this.relevanceScore = apnsNotification.getRelevanceScore();
 
@@ -631,5 +633,18 @@ class DTOPushRegistration implements PushRegistration {
 	@Override
 	public String getLocale() {
 		return this.getLocale();
+	}
+}
+
+@Setter
+@NoArgsConstructor
+class DTOPushRegistrationsResponse implements PushRegistrationsResponse {
+
+	private List<DTOPushRegistration> value;
+
+	@Override
+	public List<PushRegistration> getValue() {
+
+		return new ArrayList(this.value);
 	}
 }
