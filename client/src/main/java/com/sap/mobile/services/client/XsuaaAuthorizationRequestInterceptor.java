@@ -39,7 +39,7 @@ class XsuaaAuthorizationRequestInterceptor implements ClientHttpRequestIntercept
 			} else {
 				tokenResponse = tokenFlow.execute();
 			}
-		} catch (IllegalArgumentException | TokenFlowException e) {
+		} catch (IllegalArgumentException | TokenFlowException | NullPointerException e) {
 			log.error("Failed to fetch XSUAA token", e);
 
 			if (tenantId != null && isMissingTenantError(e)) {
