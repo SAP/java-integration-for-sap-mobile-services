@@ -48,12 +48,14 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 		expectedResponse = new MockClientHttpResponse("Hello World".getBytes(StandardCharsets.UTF_8), HttpStatus.OK);
 		oAuth2TokenResponse = new OAuth2TokenResponse("my-secret-jwt", 60, "refresh-me");
 
-		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier,
+				XsuaaClientConfiguration.TenantMode.SHARED);
 	}
 
 	@Test
 	public void testInterceptTenantModeShared() throws Exception {
-		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier,
+				XsuaaClientConfiguration.TenantMode.SHARED);
 
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
 		Mockito.when(execution.execute(any(), any())).thenAnswer(invocation -> {
@@ -79,7 +81,8 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 
 	@Test
 	public void testInterceptForTenantTenantModeShared() throws Exception {
-		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.SHARED);
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier,
+				XsuaaClientConfiguration.TenantMode.SHARED);
 
 		final String tenantZoneId = UUID.randomUUID().toString();
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
@@ -108,7 +111,8 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 
 	@Test
 	public void testInterceptTenantModeDedicated() throws Exception {
-		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.DEDICATED);
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier,
+				XsuaaClientConfiguration.TenantMode.DEDICATED);
 
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
 		Mockito.when(execution.execute(any(), any())).thenAnswer(invocation -> {
@@ -134,7 +138,8 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 
 	@Test
 	public void testInterceptForTenantTenantModeDedicated() throws Exception {
-		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier, XsuaaClientConfiguration.TenantMode.DEDICATED);
+		testee = new XsuaaAuthorizationRequestInterceptor(tokenFlow, tenantSupplier,
+				XsuaaClientConfiguration.TenantMode.DEDICATED);
 
 		final String tenantZoneId = UUID.randomUUID().toString();
 		final ClientHttpRequestExecution execution = Mockito.mock(ClientHttpRequestExecution.class);
@@ -173,7 +178,12 @@ public class XsuaaAuthorizationRequestInterceptorTest {
 				.thenThrow(new TokenFlowException("Error retrieving JWT token. " +
 						"Received status code 401 UNAUTHORIZED. Call to XSUAA was not successful"))
 				.thenThrow(new IllegalArgumentException("Client credentials flow request is not valid. " +
-						"Make sure all mandatory fields are set."));
+						"Make sure all mandatory fields are set."))
+				.thenThrow(new NullPointerException("httpHost is null"));
+
+		assertThrows(RestClientException.class, () -> {
+			testee.intercept(initialRequest, new byte[0], execution);
+		});
 
 		assertThrows(RestClientException.class, () -> {
 			testee.intercept(initialRequest, new byte[0], execution);
