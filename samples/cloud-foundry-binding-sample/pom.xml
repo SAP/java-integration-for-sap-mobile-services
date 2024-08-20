@@ -13,7 +13,7 @@
 
     <groupId>com.sap.cloud.platform.mobile.services</groupId>
     <artifactId>cloud-foundry-binding-sample</artifactId>
-    <version>1.3.0-dev</version>
+    <version>1.3.0</version>
     <name>Java integration for SAP Mobile Services - Cloud Foundry Binding Sample</name>
 
     <properties>
