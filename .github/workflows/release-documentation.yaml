@@ -18,7 +18,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: 'sapmachine'
           java-version: '17'
           cache: maven
       - run: |
@@ -61,7 +61,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: 'sapmachine'
           java-version: '17'
           cache: maven
       - name: Build JavaDoc
