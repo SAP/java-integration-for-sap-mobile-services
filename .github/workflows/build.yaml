@@ -28,9 +28,11 @@ jobs:
         run: mvn -B package --file pom.xml
       - uses: actions/upload-artifact@v4
         with:
+          name: java-integration-${{ env.artifactVersion }}-${{ github.run_id }}.jar
           path: client/target/java-integration-${{ env.artifactVersion }}.jar
       - uses: actions/upload-artifact@v4
         with:
+          name: java-integration-${{ env.artifactVersion }}-javadoc-${{ github.run_id }}.jar
           path: client/target/java-integration-${{ env.artifactVersion }}-javadoc.jar
   system-tests:
     name: Execute system-tests
