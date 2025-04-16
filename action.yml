@@ -1,0 +1,39 @@
+name: 'Prepare Mobile Services App'
+description: 'Creates a new Mobile Services application for tessting'
+inputs:
+  broker-endpoint:
+    description: 'The broker endpoint URL'
+    required: true
+  broker-xsuaa-client-id:
+    description: 'The broker XSUAA client-id'
+    required: true
+  broker-xsuaa-url:
+    description: 'The broker XSUAA cert URL'
+    required: true
+  broker-xsuaa-cert:
+    description: 'The broker XSUAA mTLS certificate'
+    required: true
+  broker-xsuaa-key:
+    description: 'The broker XSUAA mTLS key'
+    required: true
+  mobile-features:
+    description: 'The comma separated list of features assigned to the mobile app'
+    required: false
+  service-key-path:
+    description: 'The path to write the service-key to'
+    required: false
+  configurations:
+    description: 'Additional mobile services configuration files. Example {"serviceName": "push", "x509": true, "scopes": ["push_all"], "configPath": "./config.json"}'
+    required: false
+    default: '[]'
+outputs:
+  service-key:
+    description: 'The service-key document as JSON'
+  uaa-client-id:
+    description: 'The UAA client-id'
+  uaa-client-secret:
+    description: 'The UAA client-secret'
+runs:
+  using: 'node16'
+  main: 'index.js'
+  post: 'cleanup.js'
