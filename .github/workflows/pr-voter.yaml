@@ -31,7 +31,7 @@ jobs:
     needs:
       - rebase
     steps:
-      - uses: actions/download-artifact@v4.2.1
+      - uses: actions/download-artifact@v4.3.0
         with:
           name: rebased-project
       - name: Setup Java
@@ -48,7 +48,7 @@ jobs:
     needs:
       - rebase
     steps:
-      - uses: actions/download-artifact@v4.2.1
+      - uses: actions/download-artifact@v4.3.0
         with:
           name: rebased-project
       - name: Build Documentation
