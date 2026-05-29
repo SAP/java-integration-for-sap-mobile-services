@@ -2,17 +2,25 @@ name: Perform release
 on:
   push:
     tags:  [ "v*" ]
+permissions:
+  contents: read
 jobs:
   build-client:
+    permissions:
+      contents: read
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/build.yaml@main
     secrets: inherit
   release-docs:
+    permissions:
+      contents: write
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-documentation.yaml@main
     secrets: inherit
   deploy-client:
     name: Deploy client to staging repo
     runs-on: ubuntu-latest
     environment: 'release'
+    permissions:
+      contents: read
     needs:
       - build-client
       - release-docs

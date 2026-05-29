@@ -2,10 +2,14 @@ name: Prepare branch for a patch release
 on:
   workflow_dispatch:
     {}
+permissions:
+  contents: read
 jobs:
   prepare-patch-release:
     name: Create a release for a patch release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6

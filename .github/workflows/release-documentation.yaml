@@ -6,10 +6,14 @@ on:
       - main
   workflow_call:
     {}
+permissions:
+  contents: read
 jobs:
   build-documentation:
     runs-on: ubuntu-latest
     name: Build Documentation
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -53,6 +57,8 @@ jobs:
   build-javadoc:
     runs-on: ubuntu-latest
     name: Build JavaDoc
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -75,6 +81,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish Documentation to GH-Pages
     concurrency: 'publish_docs'
+    permissions:
+      contents: write
     needs:
       - 'build-documentation'
       - 'build-javadoc'

@@ -10,9 +10,13 @@ on:
         required: true
         description: The type of action (javascript, docker)
         type: string
+permissions:
+  contents: read
 jobs:
   build-action:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
         with:
@@ -40,6 +44,8 @@ jobs:
             !.github/actions/packages/${{ inputs.name }}/node_modules
   release-action:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs:
       - 'build-action'
     steps:

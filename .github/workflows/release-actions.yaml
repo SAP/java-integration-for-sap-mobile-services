@@ -6,23 +6,33 @@ on:
       - 'main'
     paths:
       - '.github/actions/**/*'
+permissions:
+  contents: read
 jobs:
   publish-bump-version-action:
+    permissions:
+      contents: write
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'bump-version'
       type: 'javascript'
   publish-build-mkdocs-action:
+    permissions:
+      contents: write
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'build-mkdocs'
       type: 'docker'
   publish-is-latest-release-action:
+    permissions:
+      contents: write
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'is-latest-release'
       type: 'javascript'
   publish-prepare-mobile-services-app-action:
+    permissions:
+      contents: write
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/release-action.yaml@main
     with:
       name: 'prepare-mobile-services-app'

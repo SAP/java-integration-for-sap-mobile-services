@@ -4,10 +4,14 @@ on:
     types: [ opened, reopened, synchronize ]
     branches:
       - main
+permissions:
+  contents: read
 jobs:
   rebase:
     name: (PR-Voter) Rebase project
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
         with:
@@ -28,6 +32,8 @@ jobs:
   build-maven:
     runs-on: ubuntu-latest
     name: (PR-Voter) Build Maven Project
+    permissions:
+      contents: read
     needs:
       - rebase
     steps:
@@ -45,6 +51,8 @@ jobs:
   build-docs:
     runs-on: ubuntu-latest
     name: (PR-Voter) Build Documentation
+    permissions:
+      contents: read
     needs:
       - rebase
     steps:

@@ -2,10 +2,14 @@ name: Trigger release procedure
 on:
   workflow_dispatch:
     {}
+permissions:
+  contents: read
 jobs:
   create-release-tag:
     name: Create a Release Tag
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -51,8 +55,10 @@ jobs:
     needs:
       - create-release-tag
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+      pull-requests: write
     uses: SAP/java-integration-for-sap-mobile-services/.github/workflows/bump-version.yaml@main
     with:
       type: minor
     secrets: inherit
-
