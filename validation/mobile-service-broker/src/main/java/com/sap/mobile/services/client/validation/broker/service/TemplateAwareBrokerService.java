@@ -15,6 +15,7 @@ import org.cloudfoundry.client.v3.serviceinstances.UpdateServiceInstanceRequest;
 import org.cloudfoundry.client.v3.serviceplans.ServicePlanResource;
 import org.cloudfoundry.client.v3.spaces.SpaceResource;
 import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -29,21 +30,34 @@ import com.sap.mobile.services.client.validation.broker.model.AppConfig;
 import com.sap.mobile.services.client.validation.broker.model.ServiceKeyRequest;
 import com.sap.mobile.services.client.validation.broker.service.api.BrokerService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Primary
-@RequiredArgsConstructor
 @Slf4j
 public class TemplateAwareBrokerService implements BrokerService {
 
 	private final BrokerServiceImpl delegate;
 	private final MobileServicesConfig config;
 	private final CloudFoundryClient cfClient;
+	@Qualifier("applicationTaskExecutor")
 	private final TaskExecutor taskExecutor;
 	private final SpaceResource spaceResource;
 	private final ServicePlanResource servicePlanResource;
+
+	public TemplateAwareBrokerService(final BrokerServiceImpl delegate,
+			final MobileServicesConfig config,
+			final CloudFoundryClient cfClient,
+			@Qualifier("applicationTaskExecutor") final TaskExecutor taskExecutor,
+			final SpaceResource spaceResource,
+			final ServicePlanResource servicePlanResource) {
+		this.delegate = delegate;
+		this.config = config;
+		this.cfClient = cfClient;
+		this.taskExecutor = taskExecutor;
+		this.spaceResource = spaceResource;
+		this.servicePlanResource = servicePlanResource;
+	}
 
 	@Override
 	public Map<String, ?> createMobileApplication(final Set<String> requestFeatures) throws MaxConcurrentInstancesReachedException, InstanceCreationFailedException, InstanceCreationTimeoutException {

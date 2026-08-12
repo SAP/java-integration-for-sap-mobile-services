@@ -18,10 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionTimeoutException;
 import org.cloudfoundry.client.CloudFoundryClient;
+import org.cloudfoundry.client.v3.Relationship;
+import org.cloudfoundry.client.v3.ToOneRelationship;
 import org.cloudfoundry.client.v2.routes.ListRoutesRequest;
 import org.cloudfoundry.client.v2.routes.RouteResource;
-import org.cloudfoundry.client.v2.serviceinstances.CreateServiceInstanceRequest;
-import org.cloudfoundry.client.v2.serviceinstances.CreateServiceInstanceResponse;
 import org.cloudfoundry.client.v2.servicekeys.CreateServiceKeyRequest;
 import org.cloudfoundry.client.v2.servicekeys.CreateServiceKeyResponse;
 import org.cloudfoundry.client.v2.servicekeys.ListServiceKeysRequest;
@@ -30,9 +30,13 @@ import org.cloudfoundry.client.v2.servicekeys.ServiceKeyEntity;
 import org.cloudfoundry.client.v2.servicekeys.ServiceKeyResource;
 import org.cloudfoundry.client.v3.Metadata;
 import org.cloudfoundry.client.v3.domains.GetDomainRequest;
+import org.cloudfoundry.client.v3.serviceinstances.CreateServiceInstanceRequest;
+import org.cloudfoundry.client.v3.serviceinstances.CreateServiceInstanceResponse;
 import org.cloudfoundry.client.v3.serviceinstances.ListServiceInstancesRequest;
 import org.cloudfoundry.client.v3.serviceinstances.ListServiceInstancesResponse;
 import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceResource;
+import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceRelationships;
+import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceType;
 import org.cloudfoundry.client.v3.serviceinstances.UpdateServiceInstanceRequest;
 import org.cloudfoundry.client.v3.serviceplans.ServicePlanResource;
 import org.cloudfoundry.client.v3.spaces.SpaceResource;
@@ -95,20 +99,29 @@ public class BrokerServiceImpl implements BrokerService {
 				}).collect(Collectors.toList()))
 				.build();
 
-		final CreateServiceInstanceResponse response = cfClient.serviceInstances()
+		final CreateServiceInstanceResponse response = cfClient.serviceInstancesV3()
 				.create(CreateServiceInstanceRequest.builder()
 						.name(name)
-						.servicePlanId(servicePlanResource.getId())
-						.spaceId(spaceResource.getId())
-						.acceptsIncomplete(true)
+						.type(ServiceInstanceType.MANAGED)
+						.relationships(ServiceInstanceRelationships.builder()
+								.servicePlan(ToOneRelationship.builder()
+										.data(Relationship.builder().id(servicePlanResource.getId()).build())
+										.build())
+								.space(ToOneRelationship.builder()
+										.data(Relationship.builder().id(spaceResource.getId()).build())
+										.build())
+								.build())
 						.parameters(objectMapper.convertValue(params, new TypeReference<>() {
 						}))
 						.build())
 				.block();
 		ServiceInstanceResource instance = waitForServiceInstanceCreation(name);
+		final String serviceInstanceId = response.getServiceInstance()
+				.map(ServiceInstanceResource::getId)
+				.orElse(instance.getId());
 
 		cfClient.serviceInstancesV3().update(UpdateServiceInstanceRequest.builder()
-				.serviceInstanceId(response.getMetadata().getId())
+				.serviceInstanceId(serviceInstanceId)
 				.metadata(Metadata.builder()
 						.labels(labels)
 						.build())
@@ -118,7 +131,7 @@ public class BrokerServiceImpl implements BrokerService {
 
 		final CreateServiceKeyResponse serviceKeyResponse = cfClient.serviceKeys().create(CreateServiceKeyRequest.builder()
 						.name("integration-tests")
-						.serviceInstanceId(response.getMetadata().getId())
+						.serviceInstanceId(serviceInstanceId)
 						.build())
 				.block();
 
