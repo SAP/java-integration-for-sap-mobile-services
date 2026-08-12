@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -235,9 +236,13 @@ public class BrokerServiceImpl implements BrokerService {
 								.map(ListServiceInstancesResponse::getResources)
 								.map(l -> l.get(0))
 								.block();
-					}, (i -> !i.getLastOperation().getState().equals("in progress")));
+					}, (i -> isTerminalState(i.getLastOperation().getState())));
 
-			if (!instance.getLastOperation().getState().equals("succeeded")) {
+			if (!isSucceededState(instance.getLastOperation().getState())) {
+				log.error("Service instance creation ended in non-success state: state='{}', description='{}', instance='{}'",
+						instance.getLastOperation().getState(),
+						instance.getLastOperation().getDescription(),
+						name);
 				throw new InstanceCreationFailedException();
 			}
 
@@ -245,6 +250,20 @@ public class BrokerServiceImpl implements BrokerService {
 		} catch (ConditionTimeoutException e) {
 			throw new InstanceCreationTimeoutException();
 		}
+	}
+
+	private static boolean isTerminalState(final String state) {
+		final String normalized = Optional.ofNullable(state)
+				.map(s -> s.toLowerCase(Locale.ROOT))
+				.orElse("");
+		return normalized.equals("succeeded") || normalized.equals("failed");
+	}
+
+	private static boolean isSucceededState(final String state) {
+		return Optional.ofNullable(state)
+				.map(s -> s.toLowerCase(Locale.ROOT))
+				.filter("succeeded"::equals)
+				.isPresent();
 	}
 
 	private ServiceInstanceResource getMobileApplication(final String appId) throws NoSuchServiceInstanceException {
