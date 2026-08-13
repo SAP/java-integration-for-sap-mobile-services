@@ -47,7 +47,7 @@ public class CredentialStoreClient {
 
 	public Optional<PasswordCredential> findPasswordCredential(final String name) {
 		try {
-			final ResponseEntity<PasswordCredential> response = this.restTemplate.getForEntity("/password/?name={name}", PasswordCredential.class, name);
+			final ResponseEntity<PasswordCredential> response = this.restTemplate.getForEntity("/password?name={name}", PasswordCredential.class, name);
 			return Optional.of(response.getBody());
 		} catch (HttpClientErrorException.NotFound e) {
 			return Optional.empty();
