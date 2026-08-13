@@ -43,7 +43,6 @@ import org.cloudfoundry.reactor.ConnectionContext;
 import org.cloudfoundry.reactor.TokenProvider;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import tools.jackson.core.type.TypeReference;
@@ -133,29 +132,9 @@ public class BrokerServiceImpl implements BrokerService {
 
 		final Map<String, ?> credentials = createServiceKey(instance.getId());
 
-		restoreAppWithRetry(instance);
+		cockpitClient.restoreApp(instance);
 
 		return credentials;
-	}
-
-	/**
-	 * The SAP Mobile Services Cockpit API can transiently fail to restore a just-created app instance,
-	 * since its own record might not be immediately consistent right after the CF service instance's
-	 * last operation is reported as succeeded. Retry with a bounded backoff instead of failing immediately.
-	 */
-	private void restoreAppWithRetry(final ServiceInstanceResource instance) throws InstanceCreationFailedException, InstanceCreationTimeoutException {
-		try {
-			Awaitility.await().atMost(Duration.ofMinutes(1))
-					.with()
-					.pollInterval(Duration.ofSeconds(5))
-					.ignoreExceptionsInstanceOf(HttpServerErrorException.class)
-					.until(() -> {
-						cockpitClient.restoreApp(instance);
-						return true;
-					});
-		} catch (ConditionTimeoutException e) {
-			throw new InstanceCreationFailedException();
-		}
 	}
 
 	private Map<String, Object> createServiceKey(final String serviceInstanceId) throws InstanceCreationTimeoutException, InstanceCreationFailedException {
