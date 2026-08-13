@@ -8,7 +8,7 @@ modules:
     path: target/mobile-services-broker-for-validation.jar
     parameters:
       buildpack: https://github.com/cloudfoundry/java-buildpack.git
-      stack: cflinuxfs3
+      stack: cflinuxfs4
       memory: 1G
       disk-quota: 768M
       health-check-type: http
@@ -20,8 +20,6 @@ modules:
       JBP_CONFIG_JAVA_OPTS: '[ java_opts: ''-XX:MaxDirectMemorySize=50M'']'
       JBP_CONFIG_SAP_MACHINE_JRE: '{ jre: { version: "17.+" } }'
       MEMORY_CALCULATOR_V1: 'true'
-      BROKER_TEMPLATES_0_KEEPNUMBER: 3
-      BROKER_TEMPLATES_0_FEATURES_0: 'push'
       LOGGING_LEVEL_ROOT: WARN
     requires:
       - name: xsuaa
@@ -43,7 +41,7 @@ resources:
     type: org.cloudfoundry.managed-service
     parameters:
       service: credstore
-      service-plan: free
+      service-plan: medium
       service-name: credstore-mobile-services-broker
       config:
         authentication:
