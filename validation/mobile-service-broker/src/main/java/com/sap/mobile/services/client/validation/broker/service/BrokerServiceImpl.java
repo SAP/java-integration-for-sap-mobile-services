@@ -132,11 +132,11 @@ public class BrokerServiceImpl implements BrokerService {
 		).block();
 		instance = waitForServiceInstanceCreation(name);
 
-		final CreateServiceKeyResponse serviceKeyResponse = createIntegrationServiceKeyWithRetry(serviceInstanceId);
+		final Map<String, ?> serviceKeyCredentials = createOrGetIntegrationServiceKeyCredentials(serviceInstanceId);
 
 		cockpitClient.restoreApp(instance);
 
-		return serviceKeyResponse.getEntity().getCredentials();
+		return serviceKeyCredentials;
 	}
 
 
@@ -264,27 +264,31 @@ public class BrokerServiceImpl implements BrokerService {
 				.isPresent();
 	}
 
-	private CreateServiceKeyResponse createIntegrationServiceKeyWithRetry(final String serviceInstanceId) {
+	private Map<String, ?> createOrGetIntegrationServiceKeyCredentials(final String serviceInstanceId) {
 		final Instant deadline = Instant.now().plus(SERVICE_KEY_RETRY_TIMEOUT);
 		RuntimeException lastException = null;
 		int attempt = 1;
 
 		while (Instant.now().isBefore(deadline)) {
+			final Optional<Map<String, Object>> existingCredentials = getIntegrationServiceKeyCredentials(serviceInstanceId);
+			if (existingCredentials.isPresent()) {
+				log.info("Reusing existing integration service key for service instance '{}'", serviceInstanceId);
+				return existingCredentials.get();
+			}
+
 			try {
-				return cfClient.serviceKeys().create(CreateServiceKeyRequest.builder()
+				final CreateServiceKeyResponse response = cfClient.serviceKeys().create(CreateServiceKeyRequest.builder()
 								.name("integration-tests")
 								.serviceInstanceId(serviceInstanceId)
 								.build())
 						.block();
+				return response.getEntity().getCredentials();
 			} catch (RuntimeException e) {
 				lastException = e;
-				if (!isRetryableServiceKeyCreationError(e)) {
-					throw e;
-				}
-
-				log.warn("Service key creation attempt {} failed with retryable error for service instance '{}': {}",
+				log.warn("Service key creation attempt {} failed for service instance '{}' ({}: {}), retrying",
 						attempt,
 						serviceInstanceId,
+						e.getClass().getSimpleName(),
 						e.getMessage());
 				attempt++;
 
@@ -300,15 +304,16 @@ public class BrokerServiceImpl implements BrokerService {
 		throw new IllegalStateException("Timed out while creating integration service key", lastException);
 	}
 
-	private static boolean isRetryableServiceKeyCreationError(final Throwable throwable) {
-		return Optional.ofNullable(throwable.getMessage())
-				.map(message -> message.toLowerCase(Locale.ROOT))
-				.map(message -> message.contains("operation in progress")
-						|| message.contains("serviceinstanceoperationinprogress")
-						|| message.contains("currently being updated")
-						|| message.contains("temporary")
-						|| message.contains("timed out"))
-				.orElse(false);
+	private Optional<Map<String, Object>> getIntegrationServiceKeyCredentials(final String serviceInstanceId) {
+		return cfClient.serviceKeys().list(ListServiceKeysRequest.builder()
+						.name("integration-tests")
+						.serviceInstanceId(serviceInstanceId)
+						.build())
+				.map(ListServiceKeysResponse::getResources)
+				.flatMap(bindings -> bindings.size() > 0 ? Mono.just(bindings.get(0)) : Mono.empty())
+				.map(ServiceKeyResource::getEntity)
+				.map(ServiceKeyEntity::getCredentials)
+				.blockOptional();
 	}
 
 	private ServiceInstanceResource getMobileApplication(final String appId) throws NoSuchServiceInstanceException {
