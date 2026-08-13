@@ -270,13 +270,13 @@ public class BrokerServiceImpl implements BrokerService {
 		int attempt = 1;
 
 		while (Instant.now().isBefore(deadline)) {
-			final Optional<Map<String, Object>> existingCredentials = getIntegrationServiceKeyCredentials(serviceInstanceId);
-			if (existingCredentials.isPresent()) {
-				log.info("Reusing existing integration service key for service instance '{}'", serviceInstanceId);
-				return existingCredentials.get();
-			}
-
 			try {
+				final Optional<Map<String, Object>> existingCredentials = getIntegrationServiceKeyCredentials(serviceInstanceId);
+				if (existingCredentials.isPresent()) {
+					log.info("Reusing existing integration service key for service instance '{}'", serviceInstanceId);
+					return existingCredentials.get();
+				}
+
 				final CreateServiceKeyResponse response = cfClient.serviceKeys().create(CreateServiceKeyRequest.builder()
 								.name("integration-tests")
 								.serviceInstanceId(serviceInstanceId)
