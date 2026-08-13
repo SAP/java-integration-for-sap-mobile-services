@@ -271,12 +271,6 @@ public class BrokerServiceImpl implements BrokerService {
 
 		while (Instant.now().isBefore(deadline)) {
 			try {
-				final Optional<Map<String, Object>> existingCredentials = getIntegrationServiceKeyCredentials(serviceInstanceId);
-				if (existingCredentials.isPresent()) {
-					log.info("Reusing existing integration service key for service instance '{}'", serviceInstanceId);
-					return existingCredentials.get();
-				}
-
 				final CreateServiceKeyResponse response = cfClient.serviceKeys().create(CreateServiceKeyRequest.builder()
 								.name("integration-tests")
 								.serviceInstanceId(serviceInstanceId)
@@ -285,6 +279,15 @@ public class BrokerServiceImpl implements BrokerService {
 				return response.getEntity().getCredentials();
 			} catch (RuntimeException e) {
 				lastException = e;
+
+				if (isServiceKeyAlreadyExistsError(e)) {
+					final Optional<Map<String, Object>> existingCredentials = getIntegrationServiceKeyCredentials(serviceInstanceId);
+					if (existingCredentials.isPresent()) {
+						log.info("Reusing existing integration service key for service instance '{}'", serviceInstanceId);
+						return existingCredentials.get();
+					}
+				}
+
 				if (!isRetryableServiceKeyCreationError(e)) {
 					throw e;
 				}
@@ -306,6 +309,15 @@ public class BrokerServiceImpl implements BrokerService {
 		}
 
 		throw new IllegalStateException("Timed out while creating integration service key", lastException);
+	}
+
+	private static boolean isServiceKeyAlreadyExistsError(final Throwable throwable) {
+		final String details = collectThrowableMessages(throwable).toLowerCase(Locale.ROOT);
+		return details.contains("already exists")
+				|| details.contains("already been taken")
+				|| details.contains("name is taken")
+				|| details.contains("service key name is taken")
+				|| details.contains("service key exists");
 	}
 
 	private static boolean isRetryableServiceKeyCreationError(final Throwable throwable) {
