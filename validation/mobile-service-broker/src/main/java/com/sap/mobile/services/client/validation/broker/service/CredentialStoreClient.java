@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.collections4.MapUtils;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +18,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,9 +40,9 @@ public class CredentialStoreClient {
 
 	private final RestTemplate restTemplate;
 
-	public CredentialStoreClient(final CfEnv cfEnv, final RestTemplateBuilder restTemplateBuilder) {
+	public CredentialStoreClient(final CfEnv cfEnv) {
 		final Map<String, ?> credentials = cfEnv.findCredentialsByLabel("credstore").getMap();
-		this.restTemplate = buildRestTemplate(credentials, restTemplateBuilder);
+		this.restTemplate = buildRestTemplate(credentials);
 	}
 
 	public Optional<PasswordCredential> findPasswordCredential(final String name) {
@@ -54,7 +55,7 @@ public class CredentialStoreClient {
 	}
 
 	@SneakyThrows
-	private static RestTemplate buildRestTemplate(final Map<String, ?> credentialMap, final RestTemplateBuilder restTemplateBuilder) {
+	private static RestTemplate buildRestTemplate(final Map<String, ?> credentialMap) {
 		final URI baseUri = URI.create(MapUtils.getString(credentialMap, "url"));
 		final URI tokenUri = URI.create(MapUtils.getString(credentialMap, "oauth_token_url"));
 		final String certificate = MapUtils.getString(credentialMap, "certificate");
@@ -73,21 +74,22 @@ public class CredentialStoreClient {
 		final JWK jwk = JWK.parseFromPEMEncodedObjects("-----BEGIN PRIVATE KEY-----\n" + decryptionKey + "\n-----END PRIVATE KEY-----");
 		final JWEDecrypter jweDecrypter = new RSADecrypter((RSAKey) jwk);
 
-		return restTemplateBuilder
-				.rootUri(baseUri.toString())
-				.defaultHeader("sapcp-credstore-namespace", "default")
-				.additionalInterceptors((request, body, execution) -> {
+		final RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(baseUri.toString()));
+		restTemplate.setInterceptors(List.of((request, body, execution) -> {
+					request.getHeaders().add("sapcp-credstore-namespace", "default");
 					final String token = tokenProvider.getAccessToken();
 					request.getHeaders().add(HttpHeaders.AUTHORIZATION, String.format("bearer %s", token));
 					return execution.execute(request, body);
-				}).additionalInterceptors((request, body, execution) -> {
+				}, (request, body, execution) -> {
 					final ClientHttpResponse response = execution.execute(request, body);
 					if (response.getHeaders().getContentType().includes(MediaType.parseMediaType("application/jose"))) {
 						return new DecryptionClientHttpResponseWrapper(response, jweDecrypter);
 					} else {
 						return response;
 					}
-				}).build();
+				}));
+		return restTemplate;
 	}
 
 	@JsonIgnoreProperties(ignoreUnknown = true)
@@ -123,11 +125,6 @@ public class CredentialStoreClient {
 		@Override
 		public HttpStatus getStatusCode() throws IOException {
 			return HttpStatus.valueOf(delegate.getStatusCode().value());
-		}
-
-		@Override
-		public int getRawStatusCode() throws IOException {
-			return delegate.getRawStatusCode();
 		}
 
 		@Override
