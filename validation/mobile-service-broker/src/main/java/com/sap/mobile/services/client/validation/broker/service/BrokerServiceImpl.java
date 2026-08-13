@@ -74,6 +74,8 @@ public class BrokerServiceImpl implements BrokerService {
 	private final ServicePlanResource servicePlanResource;
 	private final MobileServicesCockpitClient cockpitClient;
 	private final ObjectMapper objectMapper;
+	private static final Duration SERVICE_KEY_RETRY_DELAY = Duration.ofSeconds(5);
+	private static final Duration SERVICE_KEY_RETRY_TIMEOUT = Duration.ofMinutes(2);
 
 	@Override
 	public Map<String, ?> createMobileApplication(final Set<String> requestFeatures) throws MaxConcurrentInstancesReachedException, InstanceCreationFailedException, InstanceCreationTimeoutException {
@@ -130,11 +132,7 @@ public class BrokerServiceImpl implements BrokerService {
 		).block();
 		instance = waitForServiceInstanceCreation(name);
 
-		final CreateServiceKeyResponse serviceKeyResponse = cfClient.serviceKeys().create(CreateServiceKeyRequest.builder()
-						.name("integration-tests")
-						.serviceInstanceId(serviceInstanceId)
-						.build())
-				.block();
+		final CreateServiceKeyResponse serviceKeyResponse = createIntegrationServiceKeyWithRetry(serviceInstanceId);
 
 		cockpitClient.restoreApp(instance);
 
@@ -264,6 +262,53 @@ public class BrokerServiceImpl implements BrokerService {
 				.map(s -> s.toLowerCase(Locale.ROOT))
 				.filter("succeeded"::equals)
 				.isPresent();
+	}
+
+	private CreateServiceKeyResponse createIntegrationServiceKeyWithRetry(final String serviceInstanceId) {
+		final Instant deadline = Instant.now().plus(SERVICE_KEY_RETRY_TIMEOUT);
+		RuntimeException lastException = null;
+		int attempt = 1;
+
+		while (Instant.now().isBefore(deadline)) {
+			try {
+				return cfClient.serviceKeys().create(CreateServiceKeyRequest.builder()
+								.name("integration-tests")
+								.serviceInstanceId(serviceInstanceId)
+								.build())
+						.block();
+			} catch (RuntimeException e) {
+				lastException = e;
+				if (!isRetryableServiceKeyCreationError(e)) {
+					throw e;
+				}
+
+				log.warn("Service key creation attempt {} failed with retryable error for service instance '{}': {}",
+						attempt,
+						serviceInstanceId,
+						e.getMessage());
+				attempt++;
+
+				try {
+					Thread.sleep(SERVICE_KEY_RETRY_DELAY.toMillis());
+				} catch (InterruptedException interruptedException) {
+					Thread.currentThread().interrupt();
+					throw new IllegalStateException("Interrupted while retrying service key creation", interruptedException);
+				}
+			}
+		}
+
+		throw new IllegalStateException("Timed out while creating integration service key", lastException);
+	}
+
+	private static boolean isRetryableServiceKeyCreationError(final Throwable throwable) {
+		return Optional.ofNullable(throwable.getMessage())
+				.map(message -> message.toLowerCase(Locale.ROOT))
+				.map(message -> message.contains("operation in progress")
+						|| message.contains("serviceinstanceoperationinprogress")
+						|| message.contains("currently being updated")
+						|| message.contains("temporary")
+						|| message.contains("timed out"))
+				.orElse(false);
 	}
 
 	private ServiceInstanceResource getMobileApplication(final String appId) throws NoSuchServiceInstanceException {
