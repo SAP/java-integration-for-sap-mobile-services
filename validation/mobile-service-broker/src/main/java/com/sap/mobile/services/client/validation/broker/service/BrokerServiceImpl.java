@@ -40,8 +40,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 import com.sap.mobile.services.client.validation.broker.configuration.bean.MobileServicesConfig;
 import com.sap.mobile.services.client.validation.broker.exception.InstanceCreationFailedException;
 import com.sap.mobile.services.client.validation.broker.exception.InstanceCreationTimeoutException;
