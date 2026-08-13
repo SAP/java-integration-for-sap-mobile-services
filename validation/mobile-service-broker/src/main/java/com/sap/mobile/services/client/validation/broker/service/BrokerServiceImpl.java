@@ -243,6 +243,8 @@ public class BrokerServiceImpl implements BrokerService {
 				.collectList().block();
 	}
 
+	private static final Set<String> NON_TERMINAL_OPERATION_STATES = Collections.unmodifiableSet(Sets.newHashSet("initial", "in progress"));
+
 	private ServiceInstanceResource waitForServiceInstanceCreation(final String name) throws InstanceCreationTimeoutException, InstanceCreationFailedException {
 		try {
 			final ServiceInstanceResource instance = Awaitility.await().atMost(Duration.ofMinutes(3))
@@ -256,7 +258,7 @@ public class BrokerServiceImpl implements BrokerService {
 								.map(ListServiceInstancesResponse::getResources)
 								.map(l -> l.get(0))
 								.block();
-					}, (i -> !i.getLastOperation().getState().equals("in progress")));
+					}, (i -> !NON_TERMINAL_OPERATION_STATES.contains(i.getLastOperation().getState())));
 
 			if (!instance.getLastOperation().getState().equals("succeeded")) {
 				throw new InstanceCreationFailedException();
@@ -282,7 +284,7 @@ public class BrokerServiceImpl implements BrokerService {
 								.map(ListServiceBindingsResponse::getResources)
 								.map(l -> l.get(0))
 								.block();
-					}, (b -> b.getLastOperation() == null || !"in progress".equals(b.getLastOperation().getState())));
+					}, (b -> b.getLastOperation() == null || !NON_TERMINAL_OPERATION_STATES.contains(b.getLastOperation().getState())));
 
 			if (binding.getLastOperation() != null && !"succeeded".equals(binding.getLastOperation().getState())) {
 				throw new InstanceCreationFailedException();
