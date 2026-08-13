@@ -285,6 +285,10 @@ public class BrokerServiceImpl implements BrokerService {
 				return response.getEntity().getCredentials();
 			} catch (RuntimeException e) {
 				lastException = e;
+				if (!isRetryableServiceKeyCreationError(e)) {
+					throw e;
+				}
+
 				log.warn("Service key creation attempt {} failed for service instance '{}' ({}: {}), retrying",
 						attempt,
 						serviceInstanceId,
@@ -302,6 +306,36 @@ public class BrokerServiceImpl implements BrokerService {
 		}
 
 		throw new IllegalStateException("Timed out while creating integration service key", lastException);
+	}
+
+	private static boolean isRetryableServiceKeyCreationError(final Throwable throwable) {
+		final String details = collectThrowableMessages(throwable).toLowerCase(Locale.ROOT);
+		return details.contains("operation in progress")
+				|| details.contains("serviceinstanceoperationinprogress")
+				|| details.contains("currently being updated")
+				|| details.contains("temporary")
+				|| details.contains("timed out")
+				|| details.contains("timeout")
+				|| details.contains("too many requests")
+				|| details.contains("rate limit")
+				|| details.contains("connection reset")
+				|| details.contains("connection refused")
+				|| details.contains("broken pipe")
+				|| details.contains("gateway timeout")
+				|| details.contains("bad gateway")
+				|| details.contains("service unavailable");
+	}
+
+	private static String collectThrowableMessages(final Throwable throwable) {
+		final StringBuilder details = new StringBuilder();
+		Throwable current = throwable;
+		while (current != null) {
+			if (current.getMessage() != null) {
+				details.append(current.getMessage()).append(' ');
+			}
+			current = current.getCause();
+		}
+		return details.toString();
 	}
 
 	private Optional<Map<String, Object>> getIntegrationServiceKeyCredentials(final String serviceInstanceId) {
