@@ -15,8 +15,8 @@ import org.cloudfoundry.client.v3.serviceinstances.UpdateServiceInstanceRequest;
 import org.cloudfoundry.client.v3.serviceplans.ServicePlanResource;
 import org.cloudfoundry.client.v3.spaces.SpaceResource;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.sap.mobile.services.client.validation.broker.configuration.bean.BrokerTemplateConfig;
@@ -41,7 +41,7 @@ public class TemplateAwareBrokerService implements BrokerService {
 	private final BrokerServiceImpl delegate;
 	private final MobileServicesConfig config;
 	private final CloudFoundryClient cfClient;
-	private final TaskExecutor taskExecutor;
+	private final ThreadPoolTaskExecutor taskExecutor;
 	private final SpaceResource spaceResource;
 	private final ServicePlanResource servicePlanResource;
 
