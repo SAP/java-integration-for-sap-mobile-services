@@ -328,11 +328,17 @@ public class BrokerServiceImpl implements BrokerService {
 	private Mono<String> findRouteServiceBindingRouteId(final String serviceInstanceId) {
 		return connectionContext.getRootProvider().getRoot(connectionContext)
 				.zipWith(tokenProvider.getToken(connectionContext))
-				.flatMap(rootAndToken -> connectionContext.getHttpClient()
-						.headers(headers -> headers.add("Authorization", "bearer " + rootAndToken.getT2()))
-						.get()
-						.uri(rootAndToken.getT1() + "v3/service_route_bindings?service_instance_guids=" + serviceInstanceId)
-						.responseSingle((response, body) -> body.asString()))
+				.flatMap(rootAndToken -> {
+					final String uri = UriComponentsBuilder.fromUriString(rootAndToken.getT1())
+							.path("/v3/service_route_bindings")
+							.queryParam("service_instance_guids", serviceInstanceId)
+							.build().toUriString();
+					return connectionContext.getHttpClient()
+							.headers(headers -> headers.add("Authorization", "bearer " + rootAndToken.getT2()))
+							.get()
+							.uri(uri)
+							.responseSingle((response, body) -> body.asString());
+				})
 				.map(objectMapper::readTree)
 				.mapNotNull(json -> {
 					final JsonNode routeId = json.at("/resources/0/relationships/route/data/guid");
