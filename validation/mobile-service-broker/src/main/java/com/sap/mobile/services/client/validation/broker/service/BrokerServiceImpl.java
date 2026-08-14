@@ -97,7 +97,7 @@ public class BrokerServiceImpl implements BrokerService {
 		final ServiceInstanceParams params = ServiceInstanceParams.builder()
 				.name(name)
 				.displayName(name)
-				.security(ServiceInstanceParams.SecurityConfig.builder().name("oauth").build())
+				.security(ServiceInstanceParams.SecurityConfig.builder().name("oauth").oauthSettings(Collections.emptyList()).build())
 				.features(features.stream().map(f -> {
 					return ServiceInstanceParams.Feature.builder().name(f).build();
 				}).collect(Collectors.toList()))

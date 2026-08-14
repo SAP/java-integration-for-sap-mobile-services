@@ -32,6 +32,10 @@ public class ServiceInstanceParams {
 	public static class SecurityConfig {
 		@JsonProperty("name")
 		private String name;
+
+		@JsonProperty("oauth_settings")
+		@Builder.Default
+		private List<Object> oauthSettings = new ArrayList<>();
 	}
 
 	@Builder
