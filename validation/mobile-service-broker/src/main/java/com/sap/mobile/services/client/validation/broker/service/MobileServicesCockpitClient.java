@@ -2,6 +2,7 @@ package com.sap.mobile.services.client.validation.broker.service;
 
 import java.net.URI;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,7 +10,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceResource;
 import org.cloudfoundry.reactor.ConnectionContext;
 import org.cloudfoundry.reactor.tokenprovider.PasswordGrantTokenProvider;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,12 +29,13 @@ public class MobileServicesCockpitClient {
 	private final RestTemplate restTemplate;
 
 	public MobileServicesCockpitClient(final PasswordGrantTokenProvider tokenProvider,
-			final ConnectionContext context, RestTemplateBuilder restTemplateBuilder) {
-		this.restTemplate = restTemplateBuilder.additionalInterceptors((request, body, execution) -> {
+			final ConnectionContext context) {
+		this.restTemplate = new RestTemplate();
+		this.restTemplate.setInterceptors(List.of((request, body, execution) -> {
 			final String token = tokenProvider.getToken(context).block();
 			request.getHeaders().set(HttpHeaders.AUTHORIZATION, token);
 			return execution.execute(request, body);
-		}).build();
+		}));
 	}
 
 	public void restoreApp(final ServiceInstanceResource instance) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.node.ObjectNode;
 
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +32,10 @@ public class ServiceInstanceParams {
 	public static class SecurityConfig {
 		@JsonProperty("name")
 		private String name;
+
+		@JsonProperty("oauth_settings")
+		@Builder.Default
+		private List<Object> oauthSettings = new ArrayList<>();
 	}
 
 	@Builder
