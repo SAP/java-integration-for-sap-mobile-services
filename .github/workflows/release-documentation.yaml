@@ -102,11 +102,11 @@ jobs:
           git rm -rf $DOC_RELEASE_FOLDER || true
           git clean -fxd || true
           mkdir -p $DOC_RELEASE_FOLDER
-      - uses: actions/download-artifact@v8.0.1
+      - uses: actions/download-artifact@v8.0.2
         with:
           name: documentation-build
           path: ${{ env.tag }}
-      - uses: actions/download-artifact@v8.0.1
+      - uses: actions/download-artifact@v8.0.2
         with:
           name: javadoc-build
           path: ${{ env.tag }}/javadoc
